@@ -284,6 +284,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private Form formLogout;
     private StringItem stringItem;
     private TextField textField1;
+    private StringItem stringItem1;
     private Image image;
     private Image image2;
     private Image image11;
@@ -301,8 +302,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Ticker ticker;
     private Image image19;
+    private Ticker ticker;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -406,24 +407,31 @@ public class StartApp extends MIDlet implements CommandListener {
                 
                 // storage does not yet exist
 			userSaved = new Usuario();
+                        
 		}
 		this.user = userSaved;
+                
                 
 //              Loading Branch
               
                 Sucursal sucursalSaved;
+                
                 try{
                     sucursalSaved = (Sucursal) this.storage.read("sucursal");
                     
                 }catch(IOException e)
                 {
                     sucursalSaved = new Sucursal();
+                    
+                    
                 }
+               
                 sucursal = sucursalSaved;
               
 //              Loading Products
                 
                 Vector productosSaved;
+                
                 try
                 {
                     productosSaved=(Vector) this.storage.read("productos");
@@ -432,28 +440,33 @@ public class StartApp extends MIDlet implements CommandListener {
                 {
                     productosSaved = new Vector();
                 }
+                
                 productos = productosSaved;
                 
 //                Loading Clientes
                 Vector clientesSaved;
+                
                 try{
                     clientesSaved =(Vector) this.storage.read("clientes");
                     
                 }catch(IOException e){
                     clientesSaved = new Vector();
                 }
+                
                 clientes = clientesSaved;
                 
                 Vector facturasSaved;
+                
                 try{
                     facturasSaved = (Vector) this.storage.read("facturas");
                 }catch(IOException e){
                     facturasSaved = new Vector();
                 }
+                
                 facturas = facturasSaved;
                 
         
-        llave= user.getUsuario()+":"+user.getPassword();
+                llave= user.getUsuario()+":"+user.getPassword();
 			
     }
 
@@ -493,75 +506,8 @@ public class StartApp extends MIDlet implements CommandListener {
     public void startMIDlet() {
 //GEN-END:|3-startMIDlet|0|3-preAction
         // write pre-action user code here
-//           imprimir = Printer.getInstance();
-////            DeviceOps deviceOps = DeviceOps.getInstance();
-//            imprimir.printText("Borachon borachon cochinon jeje", 1);
-//            imprimir.printEndLine();
-//           BmpArray ba = new BmpArray();
-//        try {
-////            
-//             Vector v = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
-////            String vec[] =Split("Ley No. 453: Los productos deben suministrarse en condiciones de inocuidad, calidad y seguridad"," "); 
-////            imprimir.printText("hola mundo vector"+vec.length, 1);
-////            String linea="";
-////            String p;
-////            Vector v = new Vector();c
-////            boolean sw=false;
-////            for(int i=0;i<vec.length;i++)
-////            {
-//////               linea = (String) v.elementAt(i);
-////               p = vec[i]+" ";
-////               if((p.length()+linea.length())<60)
-////               {
-////                   linea = linea +p;
-////                   sw =false;
-////               }
-////               else{
-////                   sw = true;
-////               }
-////               if(sw)
-////               {
-////                   imprimir.printText(linea, 1);
-////                   v.addElement(linea);
-////                   linea =p;
-////               }
-////               
-//////               imprimir.printText(vec[i], 1);
-////            }
-////            if(linea.length()>0)
-////            {
-////               imprimir.printText(linea, 1);
-////               v.addElement(linea);
-////            }
-////            for(int j=0;j<v.size();j++)
-////            {
-////                 linea = (String) v.elementAt(j);
-////                 imprimir.printText(linea, 1);
-////            }
-//             BmpArray ba = new BmpArray();
-//        try {
-//            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getLeyenda(v))));
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getLeyenda(TextLine("Ley No. 453: Los productos deben suministrarse en condiciones de inocuidad, calidad y seguridad")))));
-//////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getInvoiceItem("1234","aeoouaeoouaeoouae","12.45","12345678"))));
-////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getInvoiceItemTitulo("CNT.","DETALLE","P.U.","TOTAL"))));
-////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getInvoiceItem("9999","aeoouaeoouaeoou","99.99","99999.99"))));
-////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getInvoiceItem("123","aeoouaeoouaeoou","95.90","250.99"))));
-////            imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(getInvoiceItem("95","aeoouaeoouaeoou","6.95","142.99"))));
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//             byte imagen[] =  ba.readImage(BMPGenerator.encodeBMP(qrCodeImage));
-//           imprimir.printBitmap(imagen);
-//            imprimir.printEndLine();
-//              imprimir.printBitmap(deviceOps.readImage("/LeyendaSFV8.bmp", 0));
-//              imprimir.printBitmap(deviceOps.readImage("/thanks.bmp", 0));
-//        ImprimirImagen();
-//        sd = new switchDisplay(this);
-//        sd.start();
-switchDisplayable(null, getSplashScreen());//GEN-LINE:|3-startMIDlet|1|3-postAction
+
+        switchDisplayable(null, getSplashScreen());//GEN-LINE:|3-startMIDlet|1|3-postAction
         
     }//GEN-BEGIN:|3-startMIDlet|2|
 //</editor-fold>//GEN-END:|3-startMIDlet|2|
@@ -847,8 +793,10 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|34|1414-
  // write pre-action user code here
         if(user.getPassword().equals(getTextField1().getString()))
         {
+            borrarInformacion();
             switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|36|1412-postAction
         // write post-action user code here
+            
         
             LimpiarLogin();
 //            facturas.removeAllElements();
@@ -956,11 +904,11 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
                         clientes.addElement(cli);
                     }
                        try {
-                			storage.save( clientes, "clientes");
-                		} catch (IOException e) {
-                			
-                			System.out.println("Unable to store clientes XD" + e );
-                		}
+                                    storage.save( clientes, "clientes");
+                            } catch (IOException e) {
+
+                                    System.out.println("Unable to store clientes XD" + e );
+                            }
 //                    cambiarPantalla();
                        switchDisplayable(null, getFormSincronizacion());
                     getStrNumClientes().setText(""+clientes.size());
@@ -1115,12 +1063,14 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postActio
     if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|85|24-preAction
                 // write pre-action user code here
     
-       
-        switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|86|24-postAction
+       borrarInformacion();
+        switchDisplayable(null, getFormLogin());                                            
         
         if(!user.getUsuario().equals(""))
-        
         {
+              //si no esta con session borrar toda la informacion para nuevo usuario
+                        
+            
             switchDisplayable(null, getListPrincipal());
              getListPrincipal().setTitle("Usuario:"+user.getUsuario());
              if(cuenta!=null)
@@ -1134,6 +1084,16 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postActio
             
              
         }
+        
+        else{
+//            borrarInformacion();
+        /*/
+            
+            switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|86|24-postAction
+       */
+            }        
+//aqui la validacion del loing 
+       
          
 // write post-action user code here
 }//GEN-BEGIN:|7-commandAction|87|7-postCommandAction
@@ -4794,7 +4754,7 @@ backCommand7 = new Command("Atras", Command.OK, 0);//GEN-LINE:|1413-getter|1|141
         if (formLogout == null) {
 //GEN-END:|1408-getter|0|1408-preInit
  // write pre-init user code here
-formLogout = new Form("Seguridad", new Item[]{getStringItem(), getTextField1()});//GEN-BEGIN:|1408-getter|1|1408-postInit
+formLogout = new Form("Seguridad", new Item[]{getStringItem(), getTextField1(), getStringItem1()});//GEN-BEGIN:|1408-getter|1|1408-postInit
             formLogout.addCommand(getOkCommand26());
             formLogout.addCommand(getBackCommand7());
             formLogout.setCommandListener(this);//GEN-END:|1408-getter|1|1408-postInit
@@ -4831,7 +4791,7 @@ textField1 = new TextField("Contrase\u00F1a:", null, 32, TextField.NUMERIC | Tex
         if (stringItem == null) {
 //GEN-END:|1410-getter|0|1410-preInit
  // write pre-init user code here
-stringItem = new StringItem("Para Cerrar la sesion debe ingresar su contrase\u00F1a, ademas de verificar que no tenga facturas pendientes a ser enviadas.", null);//GEN-LINE:|1410-getter|1|1410-postInit
+stringItem = new StringItem("Para Cerrar la sesion debe ingresar su contrase\u00F1a, ademas de verificar que no tenga facturas pendientes a ser enviadas. Una vez cerrada la session se borraran los productos, cliente y FACTURAS almacenados en el dispositivo.", null);//GEN-LINE:|1410-getter|1|1410-postInit
  // write post-init user code here
 }//GEN-BEGIN:|1410-getter|2|
         return stringItem;
@@ -4858,6 +4818,22 @@ try {//GEN-BEGIN:|1419-getter|1|1419-@java.io.IOException
         return image24;
     }
 //</editor-fold>//GEN-END:|1419-getter|3|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem1 ">//GEN-BEGIN:|1421-getter|0|1421-preInit
+    /**
+     * Returns an initialized instance of stringItem1 component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getStringItem1() {
+        if (stringItem1 == null) {//GEN-END:|1421-getter|0|1421-preInit
+ // write pre-init user code here
+stringItem1 = new StringItem("Nota: Una vez cerrada la sesion se borraran los productos, cliente y FACTURAS almacenados en el dispositivo.", null);//GEN-LINE:|1421-getter|1|1421-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1421-getter|2|
+        return stringItem1;
+    }
+//</editor-fold>//GEN-END:|1421-getter|2|
 
 
 
@@ -6032,6 +6008,25 @@ public TextField getTextNativo()
        }
        
        return r;
+    }
+
+    private void borrarInformacion() {
+        
+        try {
+                            productos.removeAllElements();
+                            clientes.removeAllElements();
+                            facturas.removeAllElements();
+                            System.out.print("productos borrados");
+                            
+                            storage.save( productos,"productos");
+                            System.out.print("productos borrados");
+                            storage.save( clientes, "clientes");
+                            System.out.print("clientes borrados");
+                            storage.save(facturas, "facturas");
+                            System.out.print("facturas borrados");
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
     }
     
     class CustomItemExample extends CustomItem

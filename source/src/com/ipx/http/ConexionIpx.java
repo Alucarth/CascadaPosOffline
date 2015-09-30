@@ -19,71 +19,46 @@ import javax.microedition.io.HttpConnection;
  */
 public class ConexionIpx extends Thread
 {
+    private final String SERVIDOR="sigcfactu.com.bo";
+    private final String PROTOCOLO="http://";
+
     
-//         private final String URL_AUTENTIFICACION="http://recarga.cobra.bo/loginPOS";
-////    private final String URL_AUTENTIFICACION ="http://192.168.1.12/cascadaoffline/public/loginOffline";
-////    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-//    private final String URL_CLIENTE="http://192.168.1.12/cascadaoffline/public/clientes/";
-////    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
-//    private final String URL_GUARDARFACTURA="http://192.168.1.12/cascadaoffline/public/guardarFacturas";
-//    private final String URL_VERSION="http://192.168.1.11/cascada3/public/version";
-//    private final String URL_REGISTRARCLIENTE="http://192.168.1.12/cascada3/public/registrarCliente";
-//    private final String URL_FACTURAS ="http://192.168.1.12/cascada3/public/facturas";
-//    private final String URL_PRINTFACTURA = "http://192.168.1.12/cascada3/public/printFactura/";
-//    private final String URL_GETFACTURA = "http://192.168.1.12/cascada3/public/obtenerFactura/";
-    
-    
-        private final String URL_AUTENTIFICACION ="http://sigcfactu.com.bo/loginOffline";
+    private final String URL_AUTENTIFICACION = "/loginOffline";
+    private final String URL_LOGOUT ="/logoutPOS";
 //    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-    private final String URL_CLIENTE="http://sigcfactu.com.bo/clientes/";
-//    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
-    public static final String URL_GUARDARFACTURA="http://sigcfactu.com.bo/guardarFacturaOffline";
-    private final String URL_VERSION="http://sigcfactu.com.bo/version";
-    private final String URL_REGISTRARCLIENTE="http://sigcfactu.com.bo/registrarCliente";
-    private final String URL_FACTURAS ="http://sigcfactu.com.bo/facturas";
-    private final String URL_PRINTFACTURA = "http://sigcfactu.com.bo/printFactura/";
-    private final String URL_GETFACTURA = "http://sigcfactu.com.bo/obtenerFactura/";
- //localhost   
-//    private final String URL_AUTENTIFICACION ="http://192.168.2.157/sisfactu/public/loginOffline";
-////    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-//    private final String URL_CLIENTE="http://192.168.2.157/sisfactu/public/clientes/";
-////    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
-//    private final String URL_GUARDARFACTURA="http://192.168.2.157/sisfactu/public/guardarFacturaOffline";
-//    private final String URL_VERSION="http://192.168.2.157/sisfactu/public/version";
-//    private final String URL_REGISTRARCLIENTE="http://192.168.2.157/sisfactu/public/registrarCliente";
-//    private final String URL_FACTURAS ="http://192.168.2.157/sisfactu/public/facturas";
-//    private final String URL_PRINTFACTURA = "http://192.168.2.157/sisfactu/public/printFactura/";
-//    private final String URL_GETFACTURA = "http://192.168.2.157/sisfactu/public/obtenerFactura/";
+    private final String URL_CLIENTE="/clientes/";
     
-    private final int AUTENTIFICAZION=0;
-    private final int CLIENTE=1;
-    private final int GUARDARFACTURA=2;
-    private final int VERSION=3;
-    private final int REGISTRARCLIENTE=5;
-    private final int FACTURAS=6;
-    private final int PRINTFACTURA=7;
-    private final int GETFACTURA=8;
+//    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
+    public static final String URL_GUARDARFACTURA="/guardarFacturaOffline";
+    private final String URL_VERSION="/version";
+    private final String URL_REGISTRARCLIENTE="/registrarCliente";
+    private final String URL_FACTURAS ="/facturas";
+    private final String URL_PRINTFACTURA = "/printFactura/";
+    private final String URL_GETFACTURA = "/obtenerFactura/";
+      
+   public static final int AUTENTIFICAZION=0;
+   public static final int CLIENTE=1;
+   public static final int GUARDARFACTURA=2;
+   public static final int VERSION=3;
+   public static final int REGISTRARCLIENTE=5;
+   public static final int FACTURAS=6;
+   public static final int PRINTFACTURA=7;
+   public static final int GETFACTURA=8;
     
     private String Respuesta=null;
     protected int respCode=0;
     private int id;
     private String parametros;
     private boolean disponible = false;
-//    private Form formGauge;
-//    private boolean gauge;
 
     public String llave;
-//    private StartApp midlet;
+
     private boolean corriendo = true;
     private Rest rest;
-//    private switchDisplay sd;
+
     private boolean sw;
     private Thread t;
     
-//    public Conexion(StartApp midlet )
-//    {
-//        this.midlet = midlet;
-//    }
     public ConexionIpx(Rest rest)
     {
         this.rest = rest;
@@ -105,21 +80,7 @@ public class ConexionIpx extends Thread
        this.t = t;
 
     }
-    
-//    public void EnviarGet(int id, String parametros,String parametrosAutentificacion,Form formGauge)
-//    {
-//       this.id = id;
-//       this.parametros = parametros;
-//       this.formGauge = formGauge;
-//       this.llave = parametrosAutentificacion;
-//       gauge=true;
-//       //#style .busyIndicator
-//       Gauge busyIndicator = new Gauge( null, false,Gauge.INDEFINITE, Gauge.CONTINUOUS_RUNNING );
-//       formGauge.append(busyIndicator);
-//       
-//    }
-   
-   
+
      public void EnviarPost(int id,String parametros, String parametrosAutentificacion,Thread t)
     {
         this.id = id;
@@ -129,18 +90,6 @@ public class ConexionIpx extends Thread
 
     }
     
-//      public void EnviarPost(int id,String parametros, String parametrosAutentificacion,Form formGauge)
-//    {
-//        this.id = id;
-//        this.parametros = parametros;
-//        this.llave = parametrosAutentificacion;
-//        this.formGauge = formGauge;
-//        gauge = true;
-//        //#style .busyIndicator
-//        Gauge busyIndicator = new Gauge( null, false,Gauge.INDEFINITE, Gauge.CONTINUOUS_RUNNING );
-//        formGauge.append(busyIndicator);
-//              
-//    }
     public  void run()
     {
                
@@ -163,48 +112,46 @@ public class ConexionIpx extends Thread
              switch(id)
             {
                 case -1:
-                     url="http://dev2.sigcfactu.com.bo/logoutPOS";
+                     url=PROTOCOLO+SERVIDOR+URL_LOGOUT;
                      EnviarRestGet(url);
                     break;
                 case AUTENTIFICAZION:
                     try{
-                    url = URL_AUTENTIFICACION;
+                    url =PROTOCOLO+SERVIDOR+URL_AUTENTIFICACION;
                     EnviarRestGet(url+this.parametros);
-                  
+               
                      
-//                    midlet.setRespuesta(this.Respuesta);
-//                    midlet.cambiarPantalla(this.Respuesta);
-//                    midlet.getFormLogin().delete(midlet.getFormLogin().size());
+
                     }catch(IOException e){
                         System.out.println("Error al tratar  recoger los datos ");
                     }
                     break;
                 case CLIENTE:
-                    url = URL_CLIENTE;
+                    url = PROTOCOLO+SERVIDOR+URL_CLIENTE;
                     EnviarRestGet(url);
                     break;
                 case GUARDARFACTURA:
-                    url = URL_GUARDARFACTURA;
+                    url = PROTOCOLO+SERVIDOR+URL_GUARDARFACTURA;
                     EnviarRestPost(url,parametros);
                     break;
                 case VERSION:
-                    url=URL_VERSION;
+                    url=PROTOCOLO+SERVIDOR+URL_VERSION;
                     EnviarRestGet(url+this.parametros);
                     break;
                 case REGISTRARCLIENTE:
-                    url = URL_REGISTRARCLIENTE;
+                    url = PROTOCOLO+SERVIDOR+URL_REGISTRARCLIENTE;
                     EnviarRestPost(url,parametros);
                     break;
                 case FACTURAS:
-                    url = URL_FACTURAS;
+                    url = PROTOCOLO+SERVIDOR+URL_FACTURAS;
                     EnviarRestGet(url);
                     break;
                 case PRINTFACTURA:
-                    url = URL_PRINTFACTURA;
+                    url = PROTOCOLO+SERVIDOR+URL_PRINTFACTURA;
                     EnviarRestGet(url+this.parametros);
                     break;
                 case GETFACTURA:
-                    url = URL_GETFACTURA;
+                    url =PROTOCOLO+SERVIDOR+ URL_GETFACTURA;
                     EnviarRestGet(url+this.parametros);
                     break;
                     
@@ -220,36 +167,36 @@ public class ConexionIpx extends Thread
     public void EnviarRestGet(String url) throws IOException
     {
 
-    HttpConnection httpConn = null;
-    InputStream is = null;
-//    OutputStream os = null;
-//    String authorizationHeader= );
-//    String authorizationHeader= "Basic " + Base64.encode(llave);
-    try {
-      // Open an HTTP Connection object
-      httpConn = (HttpConnection)Connector.open(url);
+        HttpConnection httpConn = null;
+        InputStream is = null;
 
-      // Setup HTTP Request
-      httpConn.setRequestMethod(HttpConnection.GET);
-      httpConn.setRequestProperty("Authorization",getClave());
-      httpConn.setRequestProperty("User-Agent","Profile/MIDP-1.0 Confirguration/CLDC-1.0");
-      
-      // This function retrieves the information of this connection
-     
-      /** Initiate connection and check for the response code. If the
-        response code is HTTP_OK then get the content from the target
-      **/
-       this.respCode = httpConn.getResponseCode();
-       System.out.println("\nCodigo de Respues ");
-      if (respCode == httpConn.HTTP_OK) {// si se envio correctamente los parametros y la direccion, el servidor responde un codigo 200
-        StringBuffer sb = new StringBuffer();
-//        os = httpConn.openOutputStream();
-        is = httpConn.openDataInputStream();
-        int chr;
-        while ((chr = is.read()) != -1)
-          sb.append((char) chr);
-        
-        Respuesta = convertiraISO(sb.toString());
+        try {
+
+
+          httpConn = (HttpConnection)Connector.open(url);
+
+          // Setup HTTP Request
+          httpConn.setRequestMethod(HttpConnection.GET);
+          httpConn.setRequestProperty("Authorization",getClave());
+          httpConn.setRequestProperty("User-Agent","Profile/MIDP-1.0 Confirguration/CLDC-1.0");
+
+          // This function retrieves the information of this connection
+
+          /** Initiate connection and check for the response code. If the
+            response code is HTTP_OK then get the content from the target
+          **/
+           this.respCode = httpConn.getResponseCode();
+           System.out.println("\nCodigo de Respues ");
+          if (respCode == httpConn.HTTP_OK) {// si se envio correctamente los parametros y la direccion, el servidor responde un codigo 200
+            StringBuffer sb = new StringBuffer();
+
+
+            is = httpConn.openDataInputStream();
+            int chr;
+            while ((chr = is.read()) != -1)
+              sb.append((char) chr);
+
+            Respuesta = convertiraISO(sb.toString());
     
       }
       else {
@@ -268,13 +215,13 @@ public class ConexionIpx extends Thread
     }
     public String getClave()
     {
-        String a = "Basic " + Base64.encode(this.llave);
-        return a;
+        String llave_base64 = "Basic " + Base64.encode(this.llave);
+        return llave_base64;
     }
     public void EnviarRestPost(String url,String parametros)  throws IOException
     {
         HttpConnection httpConn = null;
-//      String url = "http://localhost:8080/examples/servlet/GetBirthday";
+
         InputStream is = null;
         OutputStream os = null;
 //        String authorizationHeader= "Basic " + Base64.encode(rest.getLlave());
@@ -284,24 +231,17 @@ public class ConexionIpx extends Thread
       httpConn = (HttpConnection)Connector.open(url);
       // Setup HTTP Request to POST
       httpConn.setRequestMethod(HttpConnection.POST);
-
       httpConn.setRequestProperty("User-Agent","Profile/MIDP-1.0 Confirguration/CLDC-1.0");
       httpConn.setRequestProperty("Accept_Language","en-US");
+      
       //Content-Type is must to pass parameters in POST Request
       httpConn.setRequestProperty("Authorization",getClave());
       httpConn.setRequestProperty("Content-Type", "application/json");
 
-      // This function retrieves the information of this connection
-//      getConnectionInformation(httpConn);
-
-
       os = httpConn.openOutputStream();
 
-      String params;
-//   parametros 
-      params=parametros;
-
-      os.write(params.getBytes());
+    
+      os.write(this.getParametros().getBytes());
       os.flush();
 
       /**Caution: os.flush() is controversial. It may create unexpected behavior
@@ -321,6 +261,7 @@ public class ConexionIpx extends Thread
         sb.append((char) chr);
 
       // Converitmos la respuesta de utf-8 a ISO-8859-1
+      
        Respuesta = convertiraISO(sb.toString());
       
       }
@@ -337,39 +278,8 @@ public class ConexionIpx extends Thread
            
       }
     }
-//    public String getRespuesta()
-//    {
-//        return this.Respuesta;
-//    }
-//    public int getCodigoRespuesta()
-//    {
-//        return this.respCode;
-//    }
-//
-//    public synchronized String getRespuesta()
-//    {
-//        while(!this.disponible)
-//        {
-//              try{
-//                  wait();
-//                 }catch(InterruptedException ex){}
-//                
-//        }
-//        notify();
-//       return this.Respuesta;
-//    }
-//    public int getCodigoRespuesta()
-//    {
-//        while(!this.disponible)
-//        {
-//              try{
-//                  wait();
-//                 }catch(InterruptedException ex){}
-//                
-//        }
-//        notify();
-//        return this.respCode;
-//    }
+
+    
    
     public static String convertiraISO(String s) {
         String out = null;
@@ -384,20 +294,7 @@ public class ConexionIpx extends Thread
     /*
      *  Funion utilizada para uso de threads 
      */
-//    public boolean getDisponible()
-//    {
-//        return this.disponible;
-//    }
-//     public synchronized void poner(char valor){
-//     while(disponible){
-//        try{
-//            wait();
-//        }catch(InterruptedException ex){}
-//    }
-//    contenido=valor;
-//    disponible=true;
-//    notify();
-//  }
+
     public void setLlave(String llave)
     {
         this.llave = llave;
@@ -406,5 +303,8 @@ public class ConexionIpx extends Thread
     {
         return this.llave; 
     }
-    
+    private String getParametros()
+    {
+        return this.parametros;
+    }
 }
