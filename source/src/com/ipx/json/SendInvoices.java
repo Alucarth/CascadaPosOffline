@@ -17,41 +17,43 @@ import org.json.me.JSONObject;
  */
 public class SendInvoices 
 {
-    private Vector Factura;
+//    private Vector Factura;
     
-     public static String toJSON(SendInvoices solfac)
-    {
-        return toJSONObject(solfac).toString();
-    }
+//     public static String toJSON(SendInvoices solfac)
+//    {
+//        return (solfac).toString();
+//    }
      /**
      * This method should be used by this class only, that's why it is private.
      * Allows to get a JSONObject from the Client passed as parameter
      * @param client Client Object to convert to JSONObject
      * @return JSONObject representation of the Client passed as parameter
      */
-    private static JSONObject toJSONObject(SendInvoices facturas) 
+    public static String toJSONObjects(Vector facturas) 
     {
-        JSONObject json = new JSONObject();
-        try {
+//        JSONObject json = new JSONArra();
+        JSONArray jsonArray = new JSONArray ();
+      
 //            json.put("invoice_items",solfac.getProductos() );
-           
-            json.put("facturas",facturas.getFacturas() );
+            for(int i=0;i<facturas.size();i++)
+            {
+//                JSONObject objeto =;
+                FacturaOffline  factura = (FacturaOffline) facturas.elementAt(i);
+                jsonArray.put(factura.getFactura());
+            }
             
-      } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        return json;
+        return jsonArray.toString();
     }
     
     
-   public JSONArray getFacturas()
-    {
-        return FacturaOffline.toJSONs(this.Factura);
-    }
-
-    public void setFactura(Vector Factura) {
-        this.Factura = Factura;
-    }
+//   public JSONArray getFacturas()
+//    {
+//        return FacturaOffline.toJSONs(this.Factura);
+//    }
+//
+//    public void setFactura(Vector Factura) {
+//        this.Factura = Factura;
+//    }
     
    
 }

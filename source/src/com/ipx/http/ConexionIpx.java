@@ -7,6 +7,7 @@
 package com.ipx.http;
 
 import com.ipx.util.Base64;
+import com.ipx.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -179,6 +180,10 @@ public class ConexionIpx extends Thread
           httpConn.setRequestMethod(HttpConnection.GET);
           httpConn.setRequestProperty("Authorization",getClave());
           httpConn.setRequestProperty("User-Agent","Profile/MIDP-1.0 Confirguration/CLDC-1.0");
+          httpConn.setRequestProperty("Accept_Language","en-US");
+      
+     
+          httpConn.setRequestProperty("Content-Type", "application/json");
 
           // This function retrieves the information of this connection
 
@@ -188,15 +193,19 @@ public class ConexionIpx extends Thread
            this.respCode = httpConn.getResponseCode();
            System.out.println("\nCodigo de Respues ");
           if (respCode == httpConn.HTTP_OK) {// si se envio correctamente los parametros y la direccion, el servidor responde un codigo 200
-            StringBuffer sb = new StringBuffer();
+           
 
 
             is = httpConn.openDataInputStream();
             int chr;
+            String cadena="";
             while ((chr = is.read()) != -1)
-              sb.append((char) chr);
-
-            Respuesta = convertiraISO(sb.toString());
+            {
+                cadena=cadena+""+(char) chr;
+            }
+              
+            Log.i("respuesta ", cadena);
+            Respuesta = convertiraISO(cadena);
     
       }
       else {

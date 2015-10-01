@@ -34,6 +34,7 @@ import com.ipx.json.facturaRespuesta;
 import com.ipx.json.solicitudFactura;
 import com.ipx.util.ByteIpx;
 import com.ipx.util.Converter;
+import com.ipx.util.Log;
 
 import com.ipx.util.Numero_a_Letra;
 import com.ipx.util.Tokenizer;
@@ -302,8 +303,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -1063,7 +1064,7 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postActio
     if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|85|24-preAction
                 // write pre-action user code here
     
-       borrarInformacion();
+
         switchDisplayable(null, getFormLogin());                                            
         
         if(!user.getUsuario().equals(""))
@@ -1081,17 +1082,16 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postActio
              cuenta.setSucursal(sucursal);
              cuenta.setProductos(productos);
              cuenta.setIce(user.getIce());
-            
-             
+                         
         }
         
-        else{
+       
 //            borrarInformacion();
         /*/
             
-            switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|86|24-postAction
+switchDisplayable (null, getFormLogin ());//GEN-LINE:|7-commandAction|86|24-postAction
        */
-            }        
+                    
 //aqui la validacion del loing 
        
          
@@ -1599,6 +1599,14 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
             conexion =null;
         }
         conexion = new ConexionIpx(rest);
+        try {
+            storage.deleteAll();
+            Log.i("storage", "se borro con  exito toda la informacion");
+        } catch (IOException ex) {
+            Log.i("storage", "error "+ex.getMessage());
+            
+            
+        }
        
         Thread t = new Thread()
         {
@@ -1608,26 +1616,25 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                 System.out.println(" thred consumidor activo");
                 if(rest.getCodigoRespuesta()==200)
                 {
+                    Log.i("metho Login", rest.getRespuesta());
                     cuenta = new Cuenta(rest.getRespuesta());
-            /*
-switchDisplayable (null, getListPrincipal ());//GEN-BEGIN:|1049-entry|1|1050-postAction
-//GEN-END:|1049-entry|1|1050-postAction
-            */
-                    
+                        
                     cambiarPantalla();
                     getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
-                    
+                    Log.i("metho Login", rest.getRespuesta());
                     //guardando usuario 
                    user.setUsuario(getTxtUsuario().getText());
                    user.setPassword(getTxtPassword().getString());
                    user.setSesion(true);
                    user.setIce(cuenta.getIce());
                     try {
-                			storage.save( user, "usuario");
-                		} catch (IOException e) {
-                			
-                			System.out.println("Unable to store user XD" + e );
-                		}
+                                storage.save( user, "usuario");
+                                Log.i("metho Login", "usuario guardado");
+                        } catch (IOException e) {
+
+                                
+                                Log.i("metho Login", "Unable to store user XD");
+                        }
                     //guardando sucursal
                     sucursal.setActivity_pri(cuenta.getSucursal().getActivity_pri());
                     sucursal.setAddress1(cuenta.getSucursal().getAddress1());
@@ -1676,6 +1683,12 @@ switchDisplayable (null, getListPrincipal ());//GEN-BEGIN:|1049-entry|1|1050-pos
         
         conexion.EnviarGet(0,"",this.llave,t);
         conexion.start();
+            /*
+switchDisplayable (null, getListPrincipal ());//GEN-BEGIN:|1049-entry|1|1050-postAction
+//GEN-END:|1049-entry|1|1050-postAction
+            */
+                    
+                    
     }//GEN-BEGIN:|1049-entry|2|
 //</editor-fold>//GEN-END:|1049-entry|2|
 
@@ -4826,7 +4839,8 @@ try {//GEN-BEGIN:|1419-getter|1|1419-@java.io.IOException
      * @return the initialized component instance
      */
     public StringItem getStringItem1() {
-        if (stringItem1 == null) {//GEN-END:|1421-getter|0|1421-preInit
+        if (stringItem1 == null) {
+//GEN-END:|1421-getter|0|1421-preInit
  // write pre-init user code here
 stringItem1 = new StringItem("Nota: Una vez cerrada la sesion se borraran los productos, cliente y FACTURAS almacenados en el dispositivo.", null);//GEN-LINE:|1421-getter|1|1421-postInit
  // write post-init user code here
@@ -6391,14 +6405,16 @@ public TextField getTextNativo()
             
             //#style mailAlert
            
-            Form formEnviar = new Form("Enviando Facturas"); 
+            Form formEnviar = new Form("Esta seguro de emitir factura?"); 
                                      
             // write pre-init user code here
-            final Command cancelCommand2 = new Command("Cancelar", Command.CANCEL, 0);                                       
+            final Command cancelCommand2 = new Command("no", Command.CANCEL, 0);
+            final Command okCommandxd = new Command("si", Command.OK, 0);
             // write post-init user code here
 //            final StringItem contenido = new StringItem("Enviadas 0/"+facturas.size(),null);
 //            formEnviar.append(contenido);
             formEnviar.addCommand(cancelCommand2);
+            formEnviar.addCommand(okCommandxd);
             formEnviar.setCommandListener(new CommandListener() {
                     public void commandAction(Command c, Displayable d) {
                             if (c == cancelCommand2)
@@ -6408,201 +6424,199 @@ public TextField getTextNativo()
 //                               RetornarAlerta();
                                 
                                 
-                            }	
+                            }
+                            if(c==okCommandxd)
+                            {
+                                 EnviarFacturasGuardadas();
+                            }
                            
                     }
-            });                                      
+            }); 
+         
             
-            getStr1().setText("Enviados 0/"+facturas.size());
-            formEnviar.append(getStr1());
-            int max = 100;
-            int current = 1;
-            boolean isInteractive = true;
-            //#style gaugeItem
-            this.gauge = new Gauge( "Tiempo:", isInteractive, max, current );
-              
-            formEnviar.append(gauge);
+//            
+//          
             
-//            EnviarFacturasGuardadas();
+           
             
 //                      EliminarFacturas();
-            EnviarFacturas();
+//            EnviarFacturas();
 //            EnviarDebug();
         
         return formEnviar;
     }
-//    public void EnviarFacturasGuardadas()
-//    {
-//        // write pre-action user code here
-//        pantalla=GUARDARFACTURA;
+    public void EnviarFacturasGuardadas()
+    {
+        // write pre-action user code here
+        pantalla=GUARDARFACTURA;
 //        SendInvoices si = new SendInvoices();
 //        si.setFactura(facturas);
-//        
-////        solicitudFactura sf= new solicitudFactura();
-////        sf.setClient_id(cliente.getCliente().getId());
-////        
-////        sf.setProductos(listaProductos);
-////        //guardando datos del cliente
-////        clientId=sf.getClient_id();
-//        
-//        Cargando();
-//        if(conexion !=null)
-//        {
-//            conexion = null;
-//        }
-//        conexion = new ConexionIpx(rest);
-//        Thread t;       
-//        t = new Thread()
-//        {
-//            public void run()
-//            {
-//                
-////                System.out.println(" thred consumidor activo");
-//                if(rest.getCodigoRespuesta()==200)
-//                {
-//                    
-//                     if(rest.getRespuesta().equals("{\"resultado \":\"0\"}"))
-//                        {
-//                            
-//                         getStr1().setText("Se envio la informacion Correctamente");
-//                        }
-//                    
-////                    cambiarPantalla();
-//                }
-//                else
-//                {
-////                    Repinta la pantalla antes de que esta esetes
-////                    switchDisplayable(null, getFormSincronizacion());
-////                    switchDisplayable(getProblemas(), getFormSincronizacion());
-//                }
-////                 cambiarPantalla();
-//                
-//                
-//            }
-//            
-//        };
-//        
-//        conexion.EnviarPost(GUARDARFACTURA,SendInvoices.toJSON(si),this.llave,t);
-////        conexion.Lenvantate();
-//        conexion.start();
-//    }
-    public void EnviarDebug()
-    {
         
-         Thread tprincipal= new Thread()
-          {
-               public void run()
-              {
-//               for(int i=0;i<facturas.size();i++)
-//                {
-//                    
-                                  
-                    of = (FacturaOffline) facturas.elementAt(0);
-                    System.out.println("\nfactura: "+of.getFacturaString());
-                    
-                   ConectorRest cr = new ConectorRest();
-                   try {
-                       cr.EnviarRestPost(ConexionIpx.URL_GUARDARFACTURA,of.getFacturaString(), llave);
-//                    conector= new ConectorRest(2,of.getFacturaString(),llave);
-                   
-//                }
-                   } catch (IOException ex) {
-                       ex.printStackTrace();
-                   }
-                  
-              }
-          };
-        tprincipal.start();
-    }
-    
-    
-    public void EnviarFacturas()
-    {
-        final int incremento;
+//        solicitudFactura sf= new solicitudFactura();
+//        sf.setClient_id(cliente.getCliente().getId());
+//        
+//        sf.setProductos(listaProductos);
+//        //guardando datos del cliente
+//        clientId=sf.getClient_id();
         
-        incremento = (int)(100/this.facturas.size());
-        facturasEliminadas = new Vector();
-       cadena ="";
+        Cargando();
+        if(conexion !=null)
+        {
+            conexion = null;
+        }
+        conexion = new ConexionIpx(rest);
+        Thread t;       
+        t = new Thread()
+        {
+            public void run()
+            {
                 
-          Thread tprincipal= new Thread()
-          {
-              
-              public void run()
-              {
-                   System.out.print("/nThread de envio de facturas activado");
-                   int n=1;
-                  for(int i=0;i<facturas.size();i++)
-                {    
-                     swpz = false;
-                    if(of!=null)
-                    {
-                        of = null;
-                    }
-                  
-                    of = (FacturaOffline) facturas.elementAt(i);
-                   
-                    if(conector!=null)
-                    {
-                        conector= null;
-                    }
-                    conector= new ConectorRest(2,of.getFacturaString(),llave);
-                                        n=n+incremento;
-                                      gauge.setValue(n);
-//                    
-//                        if(conector.getCodigoRespuesta()==200)
-//                        {
-//                        
-//                            if(fr!=null)
-//                            {
-//                                fr=null;
-//                            }
-//                            fr = new facturaRespuesta(conector.getRespuesta());
-                        if(conector.getRespuesta().equals("{\"resultado \":\"0\"}"))
-                        {
-//                                
-//                             
-//                                       puntero++;
-                                     facturasEliminadas.addElement(""+i);
-                                     
-//                            cadena = cadena+"[factura "+i+" ok]";
-                                swpz=false;
-//                            }
-                        }
-                        else
-                        {
-                                    swpz = true; 
-                                    i= facturas.size();
-                        }
-                       try {
-                 
-                           Thread.sleep(1000);
-                       } catch (InterruptedException ex) {
-                           ex.printStackTrace();
-                       }
-                       getStr1().setText("Enviados: "+i+"/"+facturas.size());
-                     
+//                System.out.println(" thred consumidor activo");
+                if(rest.getCodigoRespuesta()==200)
+                {
                     
+                     if(rest.getRespuesta().equals("{\"resultado \":\"0\"}"))
+                        {
+                            
+                         getStr1().setText("Se envio la informacion Correctamente");
+                        }
+                    
+//                    cambiarPantalla();
                 }
-                    if(swpz)
-                    {
-                           //mensaje informando error al enviar la informacion
-                           switchDisplayable(null,getFormSincronizacion());
-                           switchDisplayable(getAlerta("Se cancelo proceso de Sincronizacion","Se produjo un error al enviar las facturas verifique su coneccion de internet",-10), getFormSincronizacion());
-                           
-                    }
-                    else
-                    {
-                          switchDisplayable(null,getFormSincronizacion());
-                           switchDisplayable(getAlerta("Termino la Sincronizacion","Se enviaron las facturas satisfactoriamente",-10), getFormSincronizacion());
-                    }
-                       EliminarFacturas(swpz);
-                       
-                       
+                else
+                {
+//                    Repinta la pantalla antes de que esta esetes
+//                    switchDisplayable(null, getFormSincronizacion());
+//                    switchDisplayable(getProblemas(), getFormSincronizacion());
+                }
+                 cambiarPantalla();
+                
+                
             }
-          };
-          tprincipal.start();
-
+            
+        };
+        
+        conexion.EnviarPost(GUARDARFACTURA,SendInvoices.toJSONObjects(facturas),this.llave,t);
+//        conexion.Lenvantate();
+        conexion.start();
     }
+//    public void EnviarDebug()
+//    {
+//        
+//         Thread tprincipal= new Thread()
+//          {
+//               public void run()
+//              {
+////               for(int i=0;i<facturas.size();i++)
+////                {
+////                    
+//                                  
+//                    of = (FacturaOffline) facturas.elementAt(0);
+//                    System.out.println("\nfactura: "+of.getFacturaString());
+//                    
+//                   ConectorRest cr = new ConectorRest();
+//                   try {
+//                       cr.EnviarRestPost(ConexionIpx.URL_GUARDARFACTURA,of.getFacturaString(), llave);
+////                    conector= new ConectorRest(2,of.getFacturaString(),llave);
+//                   
+////                }
+//                   } catch (IOException ex) {
+//                       ex.printStackTrace();
+//                   }
+//                  
+//              }
+//          };
+//        tprincipal.start();
+//    }
+    
+    
+//    public void EnviarFacturas()
+//    {
+//        final int incremento;
+//        
+//        incremento = (int)(100/this.facturas.size());
+//        facturasEliminadas = new Vector();
+//       cadena ="";
+//                
+//          Thread tprincipal= new Thread()
+//          {
+//              
+//              public void run()
+//              {
+//                   System.out.print("/nThread de envio de facturas activado");
+//                   int n=1;
+//                  for(int i=0;i<facturas.size();i++)
+//                {    
+//                     swpz = false;
+//                    if(of!=null)
+//                    {
+//                        of = null;
+//                    }
+//                  
+//                    of = (FacturaOffline) facturas.elementAt(i);
+//                   
+//                    if(conector!=null)
+//                    {
+//                        conector= null;
+//                    }
+//                    conector= new ConectorRest(2,of.getFacturaString(),llave);
+//                                        n=n+incremento;
+//                                      gauge.setValue(n);
+////                    
+////                        if(conector.getCodigoRespuesta()==200)
+////                        {
+////                        
+////                            if(fr!=null)
+////                            {
+////                                fr=null;
+////                            }
+////                            fr = new facturaRespuesta(conector.getRespuesta());
+//                        if(conector.getRespuesta().equals("{\"resultado \":\"0\"}"))
+//                        {
+////                                
+////                             
+////                                       puntero++;
+//                                     facturasEliminadas.addElement(""+i);
+//                                     
+////                            cadena = cadena+"[factura "+i+" ok]";
+//                                swpz=false;
+////                            }
+//                        }
+//                        else
+//                        {
+//                                    swpz = true; 
+//                                    i= facturas.size();
+//                        }
+//                       try {
+//                 
+//                           Thread.sleep(1000);
+//                       } catch (InterruptedException ex) {
+//                           ex.printStackTrace();
+//                       }
+//                       getStr1().setText("Enviados: "+i+"/"+facturas.size());
+//                     
+//                    
+//                }
+//                    if(swpz)
+//                    {
+//                           //mensaje informando error al enviar la informacion
+//                           switchDisplayable(null,getFormSincronizacion());
+//                           switchDisplayable(getAlerta("Se cancelo proceso de Sincronizacion","Se produjo un error al enviar las facturas verifique su coneccion de internet",-10), getFormSincronizacion());
+//                           
+//                    }
+//                    else
+//                    {
+//                          switchDisplayable(null,getFormSincronizacion());
+//                           switchDisplayable(getAlerta("Termino la Sincronizacion","Se enviaron las facturas satisfactoriamente",-10), getFormSincronizacion());
+//                    }
+//                       EliminarFacturas(swpz);
+//                       
+//                       
+//            }
+//          };
+//          tprincipal.start();
+//
+//    }
     
     public void EliminarFacturas(boolean swpz)
     {

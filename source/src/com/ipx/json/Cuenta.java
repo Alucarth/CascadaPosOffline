@@ -28,6 +28,7 @@
  */
 package com.ipx.json;
 
+import com.ipx.util.Log;
 import java.util.Vector;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
@@ -43,6 +44,8 @@ public class Cuenta
     private String ice;
     private Vector clientes;
     private Sucursal sucursal;
+    public static String TAG  ="cuenta";
+   
     public Cuenta(){}
     public Cuenta(String jsonText)
     {
@@ -52,6 +55,7 @@ public class Cuenta
            if(json.has("productos"))
            {
                this.productos = Products.fromJsonArray(json.getString("productos"));
+               Log.i(TAG, "(\"\",parseado productos size"+this.productos.size());
            }
            if(json.has("ice"))
            {
@@ -60,10 +64,12 @@ public class Cuenta
            if(json.has("clientes"))
            {
                this.clientes = Clients.fromJsonArray(json.getString("clientes"));
+               Log.i(TAG, " clientes size "+this.productos.size());
            }
            if(json.has("sucursal"))
            {
                this.sucursal = new Sucursal(json.getString("sucursal"));
+               Log.i(TAG, " sucursal "+this.productos.size());
            }
         } catch (JSONException ex) {
             ex.printStackTrace();
