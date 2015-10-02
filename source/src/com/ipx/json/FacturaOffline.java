@@ -39,6 +39,7 @@ public class FacturaOffline implements Serializable
     private String nitCliente;
     private String nameCliente;
     private String clienteId;
+    private boolean isInvoice;
     
     //guardar credenciales de la factura
     
@@ -258,6 +259,15 @@ public class FacturaOffline implements Serializable
     public void setClienteId(String clienteId) {
         this.clienteId = clienteId;
     }
+
+    public boolean isInvoice() {
+        return isInvoice;
+    }
+
+    public void setInvoice(boolean isInvoice) {
+        this.isInvoice = isInvoice;
+    }
+    
     
     //armando las facturas para enviarlas
     
