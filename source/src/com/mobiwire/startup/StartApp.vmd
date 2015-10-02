@@ -640,7 +640,7 @@
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VformLoading"/>
                     <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
                     <Property name="commands" typeID="1C#CommandEventSource" value="A1:5_R1244"/>
-                    <Property name="title" typeID="Pjava.lang.String" value="VEnviando Solicitud"/>
+                    <Property name="title" typeID="Pjava.lang.String" value="VPor favor espere"/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
                     <Component componentID="1244" typeID="C#CommandEventSource">
                         <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R1239"/>

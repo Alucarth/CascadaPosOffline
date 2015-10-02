@@ -398,18 +398,14 @@ public class StartApp extends MIDlet implements CommandListener {
                 Usuario userSaved;
 		try {
 			userSaved = (Usuario) this.storage.read("usuario");
-			// populate list:
-//			int size = vector.size();
-//			for (int i = 0; i < size; i++) {
-//				Note note = (Note) vector.elementAt(i);
-//				
-//				getNotesList().append(note.getText(), null);
-//			}
+			Log.i("Base de datos"," usuario guardado "+userSaved.getUsuario());
+                  
 			
 		} catch (IOException e) {
                 
                 // storage does not yet exist
 			userSaved = new Usuario();
+                     Log.i("Base de datos"," usuario nuevo "+userSaved.getUsuario());
                         
 		}
 		this.user = userSaved;
@@ -421,10 +417,12 @@ public class StartApp extends MIDlet implements CommandListener {
                 
                 try{
                     sucursalSaved = (Sucursal) this.storage.read("sucursal");
+                    Log.i("Base de datos"," sucursal "+sucursalSaved.getName());
                     
                 }catch(IOException e)
                 {
                     sucursalSaved = new Sucursal();
+                     Log.i("Base de datos"," sucursal nueva "+sucursalSaved.getName());
                     
                     
                 }
@@ -438,7 +436,7 @@ public class StartApp extends MIDlet implements CommandListener {
                 try
                 {
                     productosSaved=(Vector) this.storage.read("productos");
-                    
+                    Log.i("Base de datos"," productos size "+productosSaved.size());
                 }catch(IOException e)
                 {
                     productosSaved = new Vector();
@@ -451,9 +449,11 @@ public class StartApp extends MIDlet implements CommandListener {
                 
                 try{
                     clientesSaved =(Vector) this.storage.read("clientes");
+                    Log.i("Base de datos"," clientes size "+productosSaved.size());
                     
                 }catch(IOException e){
                     clientesSaved = new Vector();
+                     Log.i("Base de datos"," clientes nuevo size "+productosSaved.size());
                 }
                 
                 clientes = clientesSaved;
@@ -462,8 +462,10 @@ public class StartApp extends MIDlet implements CommandListener {
                 
                 try{
                     facturasSaved = (Vector) this.storage.read("facturas");
+                    Log.i("Base de datos"," facturas size "+facturasSaved.size());
                 }catch(IOException e){
                     facturasSaved = new Vector();
+                    Log.i("Base de datos"," facturas nuevas size "+facturasSaved.size());
                 }
                 
                 facturas = facturasSaved;
@@ -796,7 +798,13 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|34|1414-
  // write pre-action user code here
         if(user.getPassword().equals(getTextField1().getString()))
         {
-            borrarInformacion();
+             try {
+            this.storage.deleteAll();
+                Log.i("storage", "se borro con  exito toda la informacion");
+            } catch (IOException ex) {
+                Log.i("storage", "error "+ex.getMessage());          
+            }
+            
             switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|36|1412-postAction
         // write post-action user code here
             
@@ -1610,12 +1618,10 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
         }
         conexion = new ConexionIpx(rest);
         try {
-            storage.deleteAll();
+            this.storage.deleteAll();
             Log.i("storage", "se borro con  exito toda la informacion");
         } catch (IOException ex) {
-            Log.i("storage", "error "+ex.getMessage());
-            
-            
+            Log.i("storage", "error "+ex.getMessage());          
         }
        
         Thread t = new Thread()
@@ -1626,25 +1632,29 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                 System.out.println(" thred consumidor activo");
                 if(rest.getCodigoRespuesta()==200)
                 {
-                    Log.i("metho Login", rest.getRespuesta());
-                    cuenta = new Cuenta(rest.getRespuesta());
+                   
+                   cuenta = new Cuenta(rest.getRespuesta());
                         
-                    cambiarPantalla();
-                    getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
-                    Log.i("metho Login", rest.getRespuesta());
-                    //guardando usuario 
+                   cambiarPantalla();
+                   getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
+                   Log.i("metho Login", rest.getRespuesta());
+                   
+                   //guardando usuario 
+                   
                    user.setUsuario(getTxtUsuario().getText());
                    user.setPassword(getTxtPassword().getString());
                    user.setSesion(true);
                    user.setIce(cuenta.getIce());
+                   
                     try {
                                 storage.save( user, "usuario");
-                                Log.i("metho Login", "usuario guardado");
+                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
                         } catch (IOException e) {
 
                                 
                                 Log.i("metho Login", "Unable to store user XD");
                         }
+                    
                     //guardando sucursal
                     sucursal.setActivity_pri(cuenta.getSucursal().getActivity_pri());
                     sucursal.setAddress1(cuenta.getSucursal().getAddress1());
@@ -1657,10 +1667,11 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                     sucursal.setNumber_autho(cuenta.getSucursal().getNumber_autho());
                     
                      try {
-                			storage.save( sucursal, "sucursal");
+                                storage.save( sucursal, "sucursal");
+                                Log.i("metho Login", "sucursales sucursal");
                 		} catch (IOException e) {
+                			Log.i("metho Login", "Unable to store sucursal XD");
                 			
-                			System.out.println("Unable to store sucursal XD" + e );
                 		}
                     productos.removeAllElements();
                     for(int i=0;i<cuenta.getProductos().size();i++)
@@ -1670,10 +1681,11 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                     }
                     
                       try {
-                			storage.save( productos, "productos");
+                                storage.save( productos, "productos");
+                                 Log.i("metho Login", "productos guardados");
                 		} catch (IOException e) {
+                			Log.i("metho Login", "Unable to store productos XD");
                 			
-                			System.out.println("Unable to store productos XD" + e );
                 		}
                     
                     //Cargando el titulo de la lista
@@ -2284,7 +2296,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
         
         
         //#style mailAlert
-        Alert alert = new Alert("Exit?", "Do you really want to exit?", null, AlertType.CONFIRMATION);
+        Alert alert = new Alert("Emitir Facturra", "Es seguro de emitir factura?", null, AlertType.CONFIRMATION);
         final Command cmdYes = new Command("Yes", Command.OK, 1);
         final Command cmdNo =   new Command("No", Command.CANCEL, 1);
         alert.addCommand(cmdYes);
@@ -2368,35 +2380,24 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                                                 System.out.println("Unable to store sucursal XD" + e );
                                         }
                  /**************************************************************/
+                 
+                if(isInvoice)
+                {
                  Cargando();
-        //         qweqwe
-
-        //        if(conexion !=null)
-        //        {
-        //            conexion = null;
-        //        }
-        //        conexion = new ConexionIpx(rest);
+                
                 Thread t;       
                 t = new Thread()
                 {
                     public void run()
                     {
 
-
-
-
-
-
-
                             try {
         //                        factura = new Factura(rest.getRespuesta()); se inicializo en el getFormFactura
 
-
+                                
 
                                 String datos =factura.getAccount().getNit()+"|"+factura.getInvoiceNumber()+"|"+factura.getNumAuto()+"|"+factura.getInvoiceDate()+"|"+factura.getAmount()+"|"+factura.getFiscal()+"|"+factura.getControlCode()+"|"+factura.getCliente().getNit()+"|"+factura.getIce()+"|0|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())),6)+"|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())-Double.parseDouble(factura.getIce())),6);
                                 qrCodeImage = encode(datos);
-
-     
 
                                 byte imagen[] =  ba.readImage(BMPGenerator.encodeBMP(qrCodeImage));
         //                        byte imagenActividad[] =ba.readImage(BMPGenerator.encodeBMP(imgActividad));
@@ -2410,25 +2411,21 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                                 ex.printStackTrace();
                             }
 
-        //                    cambiarPantalla();
-
-        //                 cambiarPantalla();
-
 
                     }
 
                 };
+                
                 t.start();
+                }
+                else
+                {
+                    cambiarPantalla();
+                }
             }
         });
+        switchDisplayable (alert, getFormFactura()); 
         
-       
-//        conexion.EnviarPost(GUARDARFACTURA,solicitudFactura.toJSON(sf),this.llave,t);
-////        conexion.Lenvantate();
-//        conexion.start();
-        
-        
-    
         /* Linea deshabilitada debido a funcion optimizada cambiarPantalla.
 switchDisplayable (null, getListMenu ());//GEN-BEGIN:|1142-entry|1|1143-postAction
 //GEN-END:|1142-entry|1|1143-postAction
@@ -3059,7 +3056,7 @@ okCommand9 = new Command("activar gauge", Command.OK, 0);//GEN-LINE:|1237-getter
 //GEN-END:|1239-getter|0|1239-preInit
             // write pre-init user code here
             //#style mailAlert
-formLoading = new Form("Enviando Solicitud");//GEN-BEGIN:|1239-getter|1|1239-postInit
+formLoading = new Form("Por favor espere");//GEN-BEGIN:|1239-getter|1|1239-postInit
             formLoading.addCommand(getCancelCommand2());
             formLoading.setCommandListener(this);//GEN-END:|1239-getter|1|1239-postInit
             // write post-init user code here
@@ -6261,9 +6258,8 @@ public TextField getTextNativo()
             boolean sw=false;
             for(int i=0;i<vec.length;i++)
             {
-//               linea = (String) v.elementAt(i);
+                
                p = vec[i]+" ";
-               //60 es el valor maximo que se deberia imprimir para las letras tipo Small
                
                if((p.length()+linea.length())<60)
                {
@@ -6290,7 +6286,7 @@ public TextField getTextNativo()
 //       
         return v;
     }
-     public Vector  TextLine(String texto,int caracteres)
+    public Vector  TextLine(String texto,int caracteres)
     {
        String vec[] =Split(texto," "); 
 //            imprimir.printText("hola mundo vector"+vec.length, 1);

@@ -57,12 +57,20 @@ public class FacturaOffline implements Serializable
     }
 
     
-    //MODIFICANDO LA PUTA FACTURA xd
+    //MODIFICANDO LA PUTA FACTURA xd jajajaja no renieges ya lo estoy acbando XD
     public JSONObject getFactura() {
         
         
         solicitudFactura sf= new solicitudFactura();
-        sf.setClient_id(this.clienteId);
+        if(this.isInvoice)
+        {
+            sf.setClient_id(this.clienteId+"1");
+        }
+        else
+        {
+            sf.setClient_id(this.clienteId+"0");
+        }
+        
         sf.setCod_control(this.control_code);
         sf.setDate(this.invoice_date);
         sf.setName(this.nameCliente);
