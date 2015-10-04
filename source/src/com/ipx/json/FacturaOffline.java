@@ -272,7 +272,7 @@ public class FacturaOffline implements Serializable
         return isInvoice;
     }
 
-    public void setInvoice(boolean isInvoice) {
+    public void setIsInvoice(boolean isInvoice) {
         this.isInvoice = isInvoice;
     }
     

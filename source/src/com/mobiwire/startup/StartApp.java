@@ -80,6 +80,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int PRINTFACTURA=7;
     private final int GETFACTURA =8;
     private final int SINCRONIZAR =10;
+    private final int LISTMENU=11;
     
     private final int PRODNOTFOUND=9;
      public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
@@ -238,6 +239,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private Command backProducto;
     private Command okCommand26;
     private Command backCommand7;
+    private Command okCommand27;
     private Form formFactura;
     private StringItem strNomCli;
     private StringItem strNitCli;
@@ -305,8 +307,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -798,12 +800,7 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|34|1414-
  // write pre-action user code here
         if(user.getPassword().equals(getTextField1().getString()))
         {
-             try {
-            this.storage.deleteAll();
-                Log.i("storage", "se borro con  exito toda la informacion");
-            } catch (IOException ex) {
-                Log.i("storage", "error "+ex.getMessage());          
-            }
+           borrarInformacion();
             
             switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|36|1412-postAction
         // write post-action user code here
@@ -961,38 +958,43 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
         }
 //GEN-LINE:|7-commandAction|54|1397-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|55|1297-preAction
+} else if (command == okCommand27) {//GEN-LINE:|7-commandAction|55|1423-preAction
+ // write pre-action user code here
+    imprimirReporte();
+//GEN-LINE:|7-commandAction|56|1423-postAction
+ // write post-action user code here
+}//GEN-BEGIN:|7-commandAction|57|1297-preAction
 } else if (displayable == formVistaFactura) {
-    if (command == back) {//GEN-END:|7-commandAction|55|1297-preAction
+    if (command == back) {//GEN-END:|7-commandAction|57|1297-preAction
  // write pre-action user code here
-switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|56|1297-postAction
+switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|58|1297-postAction
  // write post-action user code here
-} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|57|1290-preAction
+} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|59|1290-preAction
  // write pre-action user code here
-methodPrintFactura();//GEN-LINE:|7-commandAction|58|1290-postAction
+methodPrintFactura();//GEN-LINE:|7-commandAction|60|1290-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|59|1155-preAction
+}//GEN-BEGIN:|7-commandAction|61|1155-preAction
 } else if (displayable == listMenu) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|59|1155-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|61|1155-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|60|1155-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|62|1155-postAction
                 // write post-action user code here
-} else if (command == backSalir) {//GEN-LINE:|7-commandAction|61|1166-preAction
+} else if (command == backSalir) {//GEN-LINE:|7-commandAction|63|1166-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|62|1166-postAction
+switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|64|1166-postAction
              
                 // write post-action user code here
-} else if (command == okMenu) {//GEN-LINE:|7-commandAction|63|1161-preAction
+} else if (command == okMenu) {//GEN-LINE:|7-commandAction|65|1161-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|64|1161-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|66|1161-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|65|1216-preAction
+}//GEN-BEGIN:|7-commandAction|67|1216-preAction
 } else if (displayable == listPrincipal) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|65|1216-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|67|1216-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|66|1216-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|68|1216-postAction
                 // write post-action user code here
-} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|67|1228-preAction
+} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|69|1228-preAction
 //                Cargando();
 //        if(conexion!=null)
 //        {
@@ -1004,7 +1006,7 @@ listPrincipalAction();//GEN-LINE:|7-commandAction|66|1216-postAction
 //        {
 //            public void run()
 //            {
-switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|68|1228-postAction
+switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|70|1228-postAction
 //        
 //        }
 //
@@ -1014,19 +1016,19 @@ switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|68|1228-pos
 //        conexion.start();
 
 
-    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|69|1224-preAction
+    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|71|1224-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|70|1224-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|72|1224-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|71|1125-preAction
+}//GEN-BEGIN:|7-commandAction|73|1125-preAction
 } else if (displayable == listProductos) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|71|1125-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|73|1125-preAction
                 // write pre-action user code here
-listProductosAction();//GEN-LINE:|7-commandAction|72|1125-postAction
+listProductosAction();//GEN-LINE:|7-commandAction|74|1125-postAction
                 // write post-action user code here
-} else if (command == backMenu) {//GEN-LINE:|7-commandAction|73|1133-preAction
+} else if (command == backMenu) {//GEN-LINE:|7-commandAction|75|1133-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|74|1133-postAction
+switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|76|1133-postAction
                 
 //                strProductos.setText("entro");
 //                String p="lista de Items:\nCANT CONCEPTO      BS";
@@ -1043,41 +1045,41 @@ switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|74|1133-postA
 //                strTotal.setText(""+total);
                 
                 // write post-action user code here
-} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|75|1192-preAction
+} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|77|1192-preAction
                 // write pre-action user code here
                    Products pro = (Products) listaProductos.elementAt(listProductos.getSelectedIndex());
 //                   seleccionarProducto(pro,false);
                    listaProductos.removeElementAt(listProductos.getSelectedIndex());
                  
                    listProductos.delete(listProductos.getSelectedIndex());
-//GEN-LINE:|7-commandAction|76|1192-postAction
+//GEN-LINE:|7-commandAction|78|1192-postAction
                 // write post-action user code here
-} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|77|1127-preAction
+} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|79|1127-preAction
                 // write pre-action user code here
     //liberar objeto de memoria
 //    lista = null;
-switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|78|1127-postAction
+switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|80|1127-postAction
                 // write post-action user code here
 //Limpiando items para productos
 
         LimpiarItems();
-    }//GEN-BEGIN:|7-commandAction|79|1315-preAction
+    }//GEN-BEGIN:|7-commandAction|81|1315-preAction
 } else if (displayable == notesList) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|79|1315-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|81|1315-preAction
  // write pre-action user code here
-notesListAction();//GEN-LINE:|7-commandAction|80|1315-postAction
+notesListAction();//GEN-LINE:|7-commandAction|82|1315-postAction
  // write post-action user code here
-} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|81|1321-preAction
+} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|83|1321-preAction
  // write pre-action user code here
-//GEN-LINE:|7-commandAction|82|1321-postAction
+//GEN-LINE:|7-commandAction|84|1321-postAction
  // write post-action user code here
-} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|83|1319-preAction
+} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|85|1319-preAction
  // write pre-action user code here
-switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postAction
+switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|86|1319-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|85|24-preAction
+}//GEN-BEGIN:|7-commandAction|87|24-preAction
 } else if (displayable == splashScreen) {
-    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|85|24-preAction
+    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|87|24-preAction
                 // write pre-action user code here
     
 
@@ -1105,19 +1107,19 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|84|1319-postActio
 //            borrarInformacion();
         /*/
             
-switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|86|24-postAction
-//GEN-END:|7-commandAction|86|24-postAction
+switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|88|24-postAction
+//GEN-END:|7-commandAction|88|24-postAction
        */
                     
 //aqui la validacion del loing 
        
          
 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|87|7-postCommandAction
-        }//GEN-END:|7-commandAction|87|7-postCommandAction
+}//GEN-BEGIN:|7-commandAction|89|7-postCommandAction
+        }//GEN-END:|7-commandAction|89|7-postCommandAction
         // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|88|
-//</editor-fold>//GEN-END:|7-commandAction|88|
+}//GEN-BEGIN:|7-commandAction|90|
+//</editor-fold>//GEN-END:|7-commandAction|90|
 
 
 
@@ -1617,12 +1619,8 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
             conexion =null;
         }
         conexion = new ConexionIpx(rest);
-        try {
-            this.storage.deleteAll();
-            Log.i("storage", "se borro con  exito toda la informacion");
-        } catch (IOException ex) {
-            Log.i("storage", "error "+ex.getMessage());          
-        }
+      
+       borrarInformacion();
        
         Thread t = new Thread()
         {
@@ -1632,7 +1630,7 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                 System.out.println(" thred consumidor activo");
                 if(rest.getCodigoRespuesta()==200)
                 {
-                   
+                    
                    cuenta = new Cuenta(rest.getRespuesta());
                         
                    cambiarPantalla();
@@ -2067,29 +2065,27 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
             public void run()
             {
                    
-                System.out.println(" thred consumidor  del cliente");
-                if(buscarCliente(clientes,txtNit.getString()))
+                
+                Log.i("thread cliente ", "thread  cliente consumido");
+                cliente = buscarCliente(clientes,txtNit.getString());
+                if(cliente!=null)
                 {
                     
-                    cliente = new Cliente();
-                    cliente.setCliente((Clients)clientes.elementAt(punteroCliente));
+//                    cliente = new Cliente();
+//                    cliente.setCliente((Clients)clientes.elementAt(punteroCliente));
                   
                         cambiarPantalla();
             
                        txtNitDat.setText(cliente.getCliente().getNit());
                        txtNomDat.setText(cliente.getCliente().getName());
-                       
-             
-                    
-                    
-                    //Cargando el titulo de la lista
                     
                 }
                 else
                 {   
                     //Repinta la pantalla antes de que esta esetes
                     switchDisplayable(null,getFormCliente());
-                    switchDisplayable(getAlerta("No se encontro al cliente","Cliente invalido o no registrado!",CLIENTE), getFormCliente());
+                    switchDisplayable(alerta("Cliente No Encontrado"," No se pudo encontrar al cliente "+txtNit.getString()+", verifique que se encuentre en su grupo de clientes"),getFormCliente());
+//                    switchDisplayable(getAlerta("No se encontro al cliente","Cliente invalido o no registrado!",CLIENTE), getFormCliente());
                 }   
 
             
@@ -2296,7 +2292,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
         
         
         //#style mailAlert
-        Alert alert = new Alert("Emitir Facturra", "Es seguro de emitir factura?", null, AlertType.CONFIRMATION);
+        Alert alert = new Alert("Emitir Factura", "Esta seguro de emitir factura?", null, AlertType.CONFIRMATION);
         final Command cmdYes = new Command("Yes", Command.OK, 1);
         final Command cmdNo =   new Command("No", Command.CANCEL, 1);
         alert.addCommand(cmdYes);
@@ -2354,7 +2350,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                  fac.setNitCliente(factura.getCliente().getNit());
                  fac.setNum_auto(factura.getNumAuto());
                  fac.setSubtotal(factura.getSubtotal());
-                 fac.setInvoice(isInvoice);
+                 fac.setIsInvoice(isInvoice);
                  //llave de usuario 
                  fac.setLlaveUsuario(llave);
                  
@@ -2569,16 +2565,40 @@ switchDisplayable(null, getListProductos());//GEN-LINE:|1154-action|2|1158-postA
                 // write post-action user code here
 } else if (__selectedString.equals("  A\u00F1adir Cliente")) {//GEN-LINE:|1154-action|3|1159-preAction
                 // write pre-action user code here
-switchDisplayable(null, getFormCliente());//GEN-LINE:|1154-action|4|1159-postAction
-    LimpiarCliente();
+    if(cliente==null)
+    {
+        switchDisplayable(null, getFormCliente());//GEN-LINE:|1154-action|4|1159-postAction
+        LimpiarCliente();
+    }else
+    {
+        switchDisplayable(alertaCliente(), getFormCliente());
+    
+    }
 // write post-action user code here
 } else if (__selectedString.equals("  Facturar")) {//GEN-LINE:|1154-action|5|1157-preAction
                 // write pre-action user code here
+               pantalla = LISTMENU;
+              if(cliente!=null&&listaProductos.size()>0)
+              {
                 formFactura = null;
                 switchDisplayable(null, getFormFactura());//GEN-LINE:|1154-action|6|1157-postAction
               strNitCli.setText(cliente.getCliente().getNit());
               strNomCli.setText(cliente.getCliente().getName());
-            
+              }
+              else
+              {
+                  String msg="para facturar necesita: ";
+                  if(cliente==null)
+                  {
+                      msg = msg+"\n -Adicionar Cliente.";
+                  }
+                  if(listaProductos.size()==0)
+                  {
+                      msg= msg+"\n -Adicionar al menos un producto.";
+                  }
+                
+                  switchDisplayable(alerta("Antes de Facturar",msg), getListMenu());
+              }
               
 //              Object[] data;
 //                while ( (data = getNextData()) != null ) {
@@ -4668,6 +4688,7 @@ formSincronizacion = new Form("Reporte de Datos", new Item[]{getStrNumClientes()
             formSincronizacion.addCommand(getOkCommand24());
             formSincronizacion.addCommand(getOkCommand25());
             formSincronizacion.addCommand(getBackCommand5());
+            formSincronizacion.addCommand(getOkCommand27());
             formSincronizacion.setCommandListener(this);//GEN-END:|1393-getter|1|1393-postInit
  // write post-init user code here
 }//GEN-BEGIN:|1393-getter|2|
@@ -4828,7 +4849,7 @@ textField1 = new TextField("Contrase\u00F1a:", null, 32, TextField.NUMERIC | Tex
         if (stringItem == null) {
 //GEN-END:|1410-getter|0|1410-preInit
  // write pre-init user code here
-stringItem = new StringItem("Para Cerrar la sesion debe ingresar su contrase\u00F1a, ademas de verificar que no tenga facturas pendientes a ser enviadas. Una vez cerrada la session se borraran los productos, cliente y FACTURAS almacenados en el dispositivo.", null);//GEN-LINE:|1410-getter|1|1410-postInit
+stringItem = new StringItem("Para Cerrar la sesion debe ingresar su contrase\u00F1a, ademas de verificar que no tenga facturas pendientes a ser enviadas.", null);//GEN-LINE:|1410-getter|1|1410-postInit
  // write post-init user code here
 }//GEN-BEGIN:|1410-getter|2|
         return stringItem;
@@ -4872,6 +4893,23 @@ stringItem1 = new StringItem("Nota: Una vez cerrada la sesion se borraran los pr
         return stringItem1;
     }
 //</editor-fold>//GEN-END:|1421-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand27 ">//GEN-BEGIN:|1422-getter|0|1422-preInit
+    /**
+     * Returns an initialized instance of okCommand27 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand27() {
+        if (okCommand27 == null) {
+//GEN-END:|1422-getter|0|1422-preInit
+ // write pre-init user code here
+okCommand27 = new Command("Imprimir Reporte", Command.OK, 0);//GEN-LINE:|1422-getter|1|1422-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1422-getter|2|
+        return okCommand27;
+    }
+//</editor-fold>//GEN-END:|1422-getter|2|
 
 
 
@@ -5322,6 +5360,10 @@ public TextField getTextNativo()
              case GETFACTURA:
                     switchDisplayable(null,getFormVistaFactura());
                     break;
+             case SINCRONIZAR:
+                 switchDisplayable(null,getFormSincronizacion());
+                 break;
+                 
         }
                     
     }
@@ -5912,6 +5954,11 @@ public TextField getTextNativo()
      
         getListProductos().deleteAll();
         listaProductos.removeAllElements();
+        if(cliente!=null)
+        {
+            cliente =null;
+        }
+        
 //        listProductos.deleteAll();
         
 //        cliente = null;
@@ -6013,6 +6060,10 @@ public TextField getTextNativo()
     public void LimpiarCliente()
     {
         getTxtNit().setText("");
+        if(cliente!=null)
+        {
+            cliente = null;
+        }
     }
     
     public void LimpiarLogin()
@@ -6027,11 +6078,11 @@ public TextField getTextNativo()
         user.setPassword("");
         user.setSesion(false);
                     try {
-                			storage.save( user, "usuario");
-                		} catch (IOException e) {
-                			
-                			System.out.println("Unable to store notes" + e );
-                		}
+                                storage.save( user, "usuario");
+                        } catch (IOException e) {
+
+                                System.out.println("Unable to store notes" + e );
+                        }
     }
     
     public boolean estaVacio(TextField t)
@@ -6048,24 +6099,54 @@ public TextField getTextNativo()
        return r;
     }
 
-    private void borrarInformacion() {
+
+    private void imprimirReporte() {
         
-        try {
-                            productos.removeAllElements();
-                            clientes.removeAllElements();
-                            facturas.removeAllElements();
-                            System.out.print("productos borrados");
-                            
-                            storage.save( productos,"productos");
-                            System.out.print("productos borrados");
-                            storage.save( clientes, "clientes");
-                            System.out.print("clientes borrados");
-                            storage.save(facturas, "facturas");
-                            System.out.print("facturas borrados");
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
+        pantalla = SINCRONIZAR;
+//        Cargando();
+        for(int i=0;i<facturas.size();i++)
+        {
+            ((FacturaOffline)facturas.elementAt(i)).setIsInvoice(true);
+        }
+        imprimir = Printer.getInstance();
+        imprimir.printText("Reporte de facturas Emitidas", 1);
+        
+        for(int i=0;i<facturas.size();i++)
+        {
+            FacturaOffline factura = (FacturaOffline) facturas.elementAt(i);
+            imprimir.printText("\n  Factura Nro. "+factura.getInvoice_number(), 1);
+            imprimir.printText("  Cliente: "+factura.getNameCliente(), 1);
+            imprimir.printText("  Total Bs: "+factura.getAmount(), 1);
+        }
+        imprimir.printEndLine();
+//        cambiarPantalla();
+        
     }
+
+    private Alert alertaCliente() {
+          //#style mailAlert
+        Alert alert = new Alert("Cliente numero  "+cliente.getCliente().getPublic_id(), "Ya selecciono al cliente "+ cliente.getCliente().getName()+", \n desea seleccionar otro cliente?", null, AlertType.CONFIRMATION);
+       final Command cmdYes = new Command("Si", Command.OK, 1);
+       final Command cmdNo = new Command("No", Command.CANCEL, 1);
+        
+        alert.addCommand(cmdYes);
+        alert.addCommand(cmdNo);
+        alert.setCommandListener(new CommandListener() {
+            public void commandAction(Command c, Displayable d) {
+                if (c == cmdYes) {
+                     switchDisplayable(null,getFormCliente());
+                      LimpiarCliente();
+                   
+                }  
+                else{
+                     switchDisplayable(null,getListMenu());
+                }
+            }
+        });
+        return alert;
+    }
+
+ 
     
     class CustomItemExample extends CustomItem
     {
@@ -6384,24 +6465,43 @@ public TextField getTextNativo()
         }catch(Exception e){}
        return vd;
     }
-    public boolean buscarCliente(Vector clientes,String idCliente)
+//    public boolean buscarCliente(Vector clientes,String idCliente)
+//    {
+//        boolean sw= false;
+//        punteroCliente = -1;
+//        for(int i=0;i<clientes.size();i++)
+//        {
+//            Clients cli =(Clients) clientes.elementAt(i);
+//            if(cli.getPublic_id().equals(idCliente))
+//            {
+////                cliente= (Clients) clientes.elementAt(i);
+//                punteroCliente = i;
+//                i=clientes.size();
+//                sw= true;
+//            }
+//        }
+//        
+//        
+//        return sw;
+//    }
+    public Cliente buscarCliente(Vector clientes,String publicId)
     {
-        boolean sw= false;
-        punteroCliente = -1;
+        Cliente cliente= null;
         for(int i=0;i<clientes.size();i++)
         {
-            Clients cli =(Clients) clientes.elementAt(i);
-            if(cli.getPublic_id().equals(idCliente))
+           //si se encuentra al cliente se retorna al objeto cliente
+            if(((Clients ) clientes.elementAt(i)).getPublic_id().equals(publicId))
             {
-//                cliente= (Clients) clientes.elementAt(i);
-                punteroCliente = i;
+                 cliente = new Cliente();
+                 cliente.setCliente((Clients)clientes.elementAt(i));
+             
+//                punteroCliente = i;
                 i=clientes.size();
-                sw= true;
+               
             }
         }
         
-        
-        return sw;
+        return cliente;
     }
     public boolean buscarFactura(Vector facturasGuardadas,String idCliente)
     {
@@ -6515,6 +6615,14 @@ public TextField getTextNativo()
                         case SINCRONIZAR:
                             switchDisplayable(null,getFormSincronizacion());
                             break;
+                        case CLIENTE:
+                            switchDisplayable(null,getFormCliente());
+                            break;
+                        case LISTMENU:
+                             switchDisplayable(null,getListMenu());
+                            break;
+                           
+                       
                        
                     }
                    
@@ -6523,4 +6631,28 @@ public TextField getTextNativo()
         });
         return alert;
     }
+     private void borrarInformacion() {
+        
+        try {
+                           storage.deleteAll();
+                            productos.removeAllElements();
+                            clientes.removeAllElements();
+                            facturas.removeAllElements();
+                         
+                           
+                            System.out.print("productos borrados");
+                            
+                            storage.save( productos,"productos");
+                            System.out.print("productos borrados");
+                            storage.save( clientes, "clientes");
+                            System.out.print("clientes borrados");
+                            storage.save(facturas, "facturas");
+                            System.out.print("facturas borrados");
+                            
+                            
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+    }
+    
 }
