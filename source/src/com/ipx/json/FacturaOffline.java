@@ -115,7 +115,7 @@ public class FacturaOffline implements Serializable
 //        this.invoice = invoice;
 //    }
 //    
-
+    
     public Vector getItems() {
         return items;
     }
