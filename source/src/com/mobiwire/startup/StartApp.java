@@ -1637,7 +1637,7 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                         
                    cambiarPantalla();
                    getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
-                   Log.i("metho Login", rest.getRespuesta());
+//                   Log.i("metho Login", rest.getRespuesta());
                    
                    //guardando usuario 
                    
@@ -1648,11 +1648,11 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                    
                     try {
                                 storage.save( user, "usuario");
-                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
+//                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
                         } catch (IOException e) {
 
                                 
-                                Log.i("metho Login", "Unable to store user XD");
+//                                Log.i("metho Login", "Unable to store user XD");
                         }
                     
                     //guardando sucursal
@@ -1682,9 +1682,9 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                     
                       try {
                                 storage.save( productos, "productos");
-                                 Log.i("metho Login", "productos guardados");
+//                                 Log.i("metho Login", "productos guardados");
                 		} catch (IOException e) {
-                			Log.i("metho Login", "Unable to store productos XD");
+//                			Log.i("metho Login", "Unable to store productos XD");
                 			
                 		}
                     
@@ -6627,19 +6627,24 @@ public TextField getTextNativo()
 
                 if(rest.getCodigoRespuesta()==200)
                 {
+//                      switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
+//                                EliminarFacturas();
                     try {
                         /*{"resultado ":"0","resultado":3}*/
+                      
                         JSONObject json= new JSONObject(rest.getRespuesta());
+                        Log.i("saveoffline ",rest.getRespuesta());
                         if(json.has("resultado"))
                         {
-                            if(json.get("resultado").equals("0"))
+                            if(json.getString("resultado").equals("0"))
                             {
-                                switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
-                                EliminarFacturas();
-                            }                                
-                            if(json.get("resultado").equals("1"))
-                           {
+                                Log.i("saveoffline ",json.getString("resultado"));
 
+                                
+                            }                                
+                            if(json.getString("resultado").equals("1"))
+                           {
+                               Log.i("saveoffline ",json.getString("resultado"));
                                switchDisplayable(alerta("Envio Fallido !!","No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
                            }
                      

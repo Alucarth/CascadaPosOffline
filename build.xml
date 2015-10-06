@@ -62,7 +62,7 @@
 	<target name="setdeploy" 
 		description="Call this target first to set the OTA download-URL, e.g. ant setdeploy j2mepolish"
 		>
-		<property name="deploy-url" value="http://www.company.com/download/" />
+		<property name="deploy-url" value="http://www.davidtorrez.com.bo/download/" />
 	</target>
 	
 	<target name="enableDebug" 

@@ -49,13 +49,17 @@ public class Cuenta
     public Cuenta(){}
     public Cuenta(String jsonText)
     {
+         Log.i(TAG, "entrando respuesta");
        //this.jsonText = jsonText;
         try {
+            
            JSONObject json = new JSONObject(jsonText);
+           Log.i(TAG, "terminio de parsear");
            if(json.has("productos"))
            {
                this.productos = Products.fromJsonArray(json.getString("productos"));
-               Log.i(TAG, "(\"\",parseado productos size"+this.productos.size());
+               Log.i(TAG, "tiene productos size ");
+//               Log.i(TAG, "(\"\",parseado productos size"+this.productos.size());
            }
            if(json.has("ice"))
            {
@@ -64,12 +68,12 @@ public class Cuenta
            if(json.has("clientes"))
            {
                this.clientes = Clients.fromJsonArray(json.getString("clientes"));
-               Log.i(TAG, " clientes size "+this.productos.size());
+               Log.i(TAG, "tiene clientes size");
            }
            if(json.has("sucursal"))
            {
                this.sucursal = new Sucursal(json.getString("sucursal"));
-               Log.i(TAG, " sucursal "+this.productos.size());
+               Log.i(TAG, "tiene  sucursal ");
            }
         } catch (JSONException ex) {
             ex.printStackTrace();

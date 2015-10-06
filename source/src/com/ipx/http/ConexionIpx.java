@@ -20,8 +20,8 @@ import javax.microedition.io.HttpConnection;
  */
 public class ConexionIpx extends Thread
 {
-//    private final String SERVIDOR="sigcfactu.com.bo";
-    private final String SERVIDOR="192.168.100.46/cascadadev/public";
+    private final String SERVIDOR="sigcfactu.com.bo";
+//    private final String SERVIDOR="192.168.100.46/cascadadev/public";
    
     private final String PROTOCOLO="http://";
 
