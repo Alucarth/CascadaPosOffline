@@ -466,17 +466,17 @@
                     <Property name="label" typeID="Pjava.lang.String" value="VOk"/>
                     <Property name="type" typeID="Pint" value="V4"/>
                 </Component>
-                <Component componentID="362" typeID="C#SMSComposerSendCommand">
-                    <Property name="label" typeID="Pjava.lang.String" value="VSend"/>
-                    <Property name="type" typeID="Pint" value="V4"/>
-                    <Property name="priority" typeID="Pint" value="V0"/>
-                    <Property name="ordinary" typeID="Pboolean" value="Vfalse"/>
-                </Component>
                 <Component componentID="1318" typeID="Cjavax.microedition.lcdui.Command">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VokCommand14"/>
                     <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
                     <Property name="label" typeID="Pjava.lang.String" value="VOk"/>
                     <Property name="type" typeID="Pint" value="V4"/>
+                </Component>
+                <Component componentID="362" typeID="C#SMSComposerSendCommand">
+                    <Property name="label" typeID="Pjava.lang.String" value="VSend"/>
+                    <Property name="type" typeID="Pint" value="V4"/>
+                    <Property name="priority" typeID="Pint" value="V0"/>
+                    <Property name="ordinary" typeID="Pboolean" value="Vfalse"/>
                 </Component>
                 <Component componentID="946" typeID="Cjavax.microedition.lcdui.Command">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="VbackProducto"/>
@@ -1262,7 +1262,7 @@
                     <Property name="commands" typeID="1C#CommandEventSource" value="A2:5_R14125_R1414"/>
                     <Property name="title" typeID="Pjava.lang.String" value="VSeguridad"/>
                     <Property name="commandListener" typeID="C#CommandListener" value="R7"/>
-                    <Property name="items" typeID="1Cjavax.microedition.lcdui.Item" value="A3:5_R14105_R14095_R1421"/>
+                    <Property name="items" typeID="1Cjavax.microedition.lcdui.Item" value="A2:5_R14105_R1409"/>
                     <Component componentID="1410" typeID="Cjavax.microedition.lcdui.StringItem">
                         <Property name="instanceName" typeID="Pjava.lang.String" value="VstringItem"/>
                         <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
@@ -1294,12 +1294,6 @@
                             <Property name="eventSource" typeID="C#EventSource" value="R1412"/>
                             <Property name="displayable" typeID="Cjavax.microedition.lcdui.Displayable" value="R797"/>
                         </Component>
-                    </Component>
-                    <Component componentID="1421" typeID="Cjavax.microedition.lcdui.StringItem">
-                        <Property name="instanceName" typeID="Pjava.lang.String" value="VstringItem1"/>
-                        <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
-                        <Property name="label" typeID="Pjava.lang.String" value="VNota: Una vez cerrada la sesion se borraran los productos, cliente y FACTURAS almacenados en el dispositivo."/>
-                        <Property name="itemCommandListener" typeID="C#ItemCommandListener" value="R17"/>
                     </Component>
                 </Component>
             </Component>
@@ -1389,15 +1383,15 @@
                     <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/usuarioipx.png"/>
                 </Component>
-                <Component componentID="780" typeID="Cjavax.microedition.lcdui.Ticker">
-                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vticker"/>
-                    <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
-                    <Property name="string" typeID="Pjava.lang.String" value="VtickerError"/>
-                </Component>
                 <Component componentID="1382" typeID="Cjavax.microedition.lcdui.Image">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="Vimage19"/>
                     <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
                     <Property name="resourcePath" typeID="Pjava.lang.String" value="V/clienteIpx.png"/>
+                </Component>
+                <Component componentID="780" typeID="Cjavax.microedition.lcdui.Ticker">
+                    <Property name="instanceName" typeID="Pjava.lang.String" value="Vticker"/>
+                    <Property name="codeGenerated" typeID="Pboolean" value="Vtrue"/>
+                    <Property name="string" typeID="Pjava.lang.String" value="VtickerError"/>
                 </Component>
                 <Component componentID="1383" typeID="Cjavax.microedition.lcdui.Image">
                     <Property name="instanceName" typeID="Pjava.lang.String" value="Vimage20"/>
@@ -1467,32 +1461,32 @@
         </Component>
     </Document>
     <FlowScene version="1">
-        <Node componentID="1386" descriptorID="componentNode1386" x="785" y="5"/>
         <Node componentID="2" descriptorID="componentNode2" x="606" y="85"/>
-        <Node componentID="1335" descriptorID="componentNode1335" x="129" y="541"/>
-        <Node componentID="1239" descriptorID="componentNode1239" x="22" y="64"/>
-        <Node componentID="1091" descriptorID="componentNode1091" x="785" y="455"/>
-        <Node componentID="1393" descriptorID="componentNode1393" x="1573" y="265"/>
-        <Node componentID="1108" descriptorID="componentNode1108" x="1032" y="589"/>
-        <Node componentID="1124" descriptorID="componentNode1124" x="244" y="393"/>
-        <Node componentID="1292" descriptorID="componentNode1292" x="1604" y="606"/>
-        <Node componentID="1049" descriptorID="componentNode1049" x="1125" y="150"/>
-        <Node componentID="1211" descriptorID="componentNode1211" x="22" y="20"/>
-        <Node componentID="1326" descriptorID="componentNode1326" x="22" y="300"/>
-        <Node componentID="1247" descriptorID="componentNode1247" x="1000" y="766"/>
-        <Node componentID="1283" descriptorID="componentNode1283" x="1286" y="691"/>
-        <Node componentID="22" descriptorID="componentNode22" x="416" y="18"/>
-        <Node componentID="1098" descriptorID="componentNode1098" x="322" y="772"/>
-        <Node componentID="1266" descriptorID="componentNode1266" x="654" y="752"/>
-        <Node componentID="1256" descriptorID="componentNode1256" x="588" y="610"/>
-        <Node componentID="1408" descriptorID="componentNode1408" x="971" y="267"/>
-        <Node componentID="1304" descriptorID="componentNode1304" x="207" y="73"/>
-        <Node componentID="1354" descriptorID="componentNode1354" x="1332" y="529"/>
-        <Node componentID="1142" descriptorID="componentNode1142" x="125" y="691"/>
         <Node componentID="1215" descriptorID="componentNode1215" x="1209" y="294"/>
-        <Node componentID="797" descriptorID="componentNode797" x="908" y="95"/>
+        <Node componentID="1124" descriptorID="componentNode1124" x="244" y="393"/>
+        <Node componentID="1335" descriptorID="componentNode1335" x="129" y="541"/>
         <Node componentID="1272" descriptorID="componentNode1272" x="1566" y="740"/>
+        <Node componentID="1049" descriptorID="componentNode1049" x="1125" y="150"/>
+        <Node componentID="22" descriptorID="componentNode22" x="416" y="18"/>
+        <Node componentID="1304" descriptorID="componentNode1304" x="207" y="73"/>
+        <Node componentID="1393" descriptorID="componentNode1393" x="1573" y="265"/>
+        <Node componentID="1098" descriptorID="componentNode1098" x="322" y="772"/>
+        <Node componentID="797" descriptorID="componentNode797" x="908" y="95"/>
         <Node componentID="1314" descriptorID="componentNode1314" x="390" y="181"/>
+        <Node componentID="1292" descriptorID="componentNode1292" x="1604" y="606"/>
+        <Node componentID="1386" descriptorID="componentNode1386" x="785" y="5"/>
+        <Node componentID="1108" descriptorID="componentNode1108" x="1032" y="589"/>
+        <Node componentID="1256" descriptorID="componentNode1256" x="588" y="610"/>
+        <Node componentID="1247" descriptorID="componentNode1247" x="1000" y="766"/>
+        <Node componentID="1211" descriptorID="componentNode1211" x="22" y="20"/>
+        <Node componentID="1354" descriptorID="componentNode1354" x="1332" y="529"/>
         <Node componentID="1154" descriptorID="componentNode1154" x="467" y="278"/>
+        <Node componentID="1239" descriptorID="componentNode1239" x="22" y="64"/>
+        <Node componentID="1142" descriptorID="componentNode1142" x="125" y="691"/>
+        <Node componentID="1091" descriptorID="componentNode1091" x="785" y="455"/>
+        <Node componentID="1326" descriptorID="componentNode1326" x="22" y="300"/>
+        <Node componentID="1266" descriptorID="componentNode1266" x="654" y="752"/>
+        <Node componentID="1283" descriptorID="componentNode1283" x="1286" y="691"/>
+        <Node componentID="1408" descriptorID="componentNode1408" x="971" y="267"/>
     </FlowScene>
 </VisualDesign>

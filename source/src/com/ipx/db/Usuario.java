@@ -50,6 +50,9 @@ public class Usuario implements Serializable
     public void setIce(String ice) {
         this.ice = ice;
     }
-      
+    public String getllave()
+    {
+        return this.usuario+":"+this.password;
+    }
     
 }

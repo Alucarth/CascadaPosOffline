@@ -36,11 +36,6 @@ public class Rest
     {
         return this.respuesta;
     }
-
-//    public void setThread(Thread t)
-//    {
-//        this.t = t;
-//    }
     public String getLlave() {
         return this.llave;
     }

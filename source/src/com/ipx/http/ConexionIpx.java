@@ -21,7 +21,7 @@ import javax.microedition.io.HttpConnection;
 public class ConexionIpx extends Thread
 {
     private final String SERVIDOR="sigcfactu.com.bo";
-//    private final String SERVIDOR="192.168.100.46/cascadadev/public";
+//    private final String SERVIDOR="192.168.100.38/cascadadev/public";
    
     private final String PROTOCOLO="http://";
 
@@ -54,19 +54,14 @@ public class ConexionIpx extends Thread
     protected int respCode=0;
     private int id;
     private String parametros;
-    private boolean disponible = false;
+
 
     public String llave;
 
-    private boolean corriendo = true;
-    private Rest rest;
-
-    private boolean sw;
     private Thread t;
-    
-    public ConexionIpx(Rest rest)
+    public static final String TAG= "Conexion";
+    public ConexionIpx()
     {
-        this.rest = rest;
     }
 
    
@@ -99,10 +94,6 @@ public class ConexionIpx extends Thread
     {
                
                 Enviar();
-                this.llave ="";
-                rest.setRespuesta(this.Respuesta);
-                rest.setCodigoRespuesta(respCode);
-//                t.notify();
                 t.start();
         
                
@@ -174,7 +165,6 @@ public class ConexionIpx extends Thread
 
         HttpConnection httpConn = null;
         InputStream is = null;
-
         try {
 
 
@@ -195,6 +185,7 @@ public class ConexionIpx extends Thread
             response code is HTTP_OK then get the content from the target
           **/
            this.respCode = httpConn.getResponseCode();
+           Log.i(TAG, "respCode: "+this.respCode);
            System.out.println("\nCodigo de Respues ");
           if (respCode == httpConn.HTTP_OK) {// si se envio correctamente los parametros y la direccion, el servidor responde un codigo 200
            
@@ -208,8 +199,9 @@ public class ConexionIpx extends Thread
                 cadena=cadena+""+(char) chr;
             }
               
-            Log.i("respuesta ", cadena);
-            Respuesta = convertiraISO(cadena);
+            
+             this.Respuesta = Conexion.convertiraISO(cadena);
+             Log.i(TAG, this.Respuesta);
     
       }
       else {
@@ -268,6 +260,7 @@ public class ConexionIpx extends Thread
       StringBuffer sb = new StringBuffer();
       is = httpConn.openDataInputStream();
       this.respCode = httpConn.getResponseCode();
+      Log.i(TAG, "respCode: "+this.respCode);
       if (this.respCode == httpConn.HTTP_OK) {
       int chr;
       while ((chr = is.read()) != -1)
@@ -275,7 +268,8 @@ public class ConexionIpx extends Thread
 
       // Converitmos la respuesta de utf-8 a ISO-8859-1
       
-       Respuesta = convertiraISO(sb.toString());
+      this.Respuesta = Conexion.convertiraISO(sb.toString());
+       Log.i(TAG, this.Respuesta);
       
       }
       
@@ -303,19 +297,29 @@ public class ConexionIpx extends Thread
         }
         return out;
     }
-  
+    
+    public int getCodigoRespuesta()
+    {
+        
+        return this.respCode;
+        
+    }
+    public String getRespuesta()
+    {
+        return this.Respuesta;
+    }
     /*
      *  Funion utilizada para uso de threads 
      */
-
-    public void setLlave(String llave)
-    {
-        this.llave = llave;
-    }
-    public String getLlave()
-    {
-        return this.llave; 
-    }
+    
+//    public void setLlave(String llave)
+//    {
+//        this.llave = llave;
+//    }
+//    public String getLlave()
+//    {
+//        return this.llave; 
+//    }
     private String getParametros()
     {
         return this.parametros;

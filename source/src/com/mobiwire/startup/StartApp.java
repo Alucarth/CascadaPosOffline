@@ -95,7 +95,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private Cliente cliente;
     private Factura factura;
     //datos Cuenta
-    public String llave;
+//    public String llave;
     private Cuenta cuenta;
     private Printer imprimir;
     private Vector listaProductos;
@@ -119,7 +119,7 @@ public class StartApp extends MIDlet implements CommandListener {
  
 
     public static int pantalla;
-    private Rest rest;
+//    private Rest rest;
     private String mensaje;
     private String titulo;
     private boolean estaRegistrado=false;
@@ -291,7 +291,6 @@ public class StartApp extends MIDlet implements CommandListener {
     private Form formLogout;
     private StringItem stringItem;
     private TextField textField1;
-    private StringItem stringItem1;
     private Image image;
     private Image image2;
     private Image image11;
@@ -337,45 +336,8 @@ public class StartApp extends MIDlet implements CommandListener {
         logme.info("Midlet started.");
          listaProductos = new Vector();
           ba = new BmpArray();
-        rest = new Rest();
-//        ConectorRest cr = new ConectorRest();
-//        try {
-//            cr.EnviarGet("http://pos.sigcfactu.com.bo/offline");
-//            if(cr.getCodigoRespuesta()==200)
-//            {
-//                if(!version.equals(cr.getRespuesta()))
-//                {
-//                    //update
-//                    new Thread( new Runnable() { public void run() { try{platformRequest(MIDLET_URL ); exitMIDlet();} catch(Exception e) {} } }).start(); 
-//                }
-//            }
-//            cr.EnviarGet("http://sigcfactu.com.bo/logoutPOS");
-//        }catch(Exception e){}
-//       ConexionIpx con = new ConexionIpx(rest);
-////       
-////        Thread t = new Thread()
-////        {
-////            public void run()
-////            {
-////                //finalizo XD
-////        
-////            }
-////
-////        };       
-////        
-////        con.EnviarGet(-1,"",llave,t);
-////        con.start();  
-//
-//        } catch (IOException ex) {
-//        }
-        
-        //para corregir el bug del point null exptioner
-        
-        
+//        rest = new Rest();
       
-        
-        
-////         
         new Thread(new Runnable()
         {
             public void run()
@@ -383,9 +345,6 @@ public class StartApp extends MIDlet implements CommandListener {
                 //creando leyenda y actividad XD
                 
                 v = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
-                
-                
-                
                 try{
                         leyenda = ba.readImage(BMPGenerator.encodeBMP(getLeyenda(v)));
                                      }catch(IOException e){}
@@ -475,7 +434,7 @@ public class StartApp extends MIDlet implements CommandListener {
                 facturas = facturasSaved;
                 
         
-                llave= user.getUsuario()+":"+user.getPassword();
+//                llave= user.getUsuario()+":"+user.getPassword();
 			
     }
 
@@ -803,6 +762,7 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|34|1414-
         if(user.getPassword().equals(getTextField1().getString()))
         {
            borrarInformacion();
+           getTextField1().setText("");
             
             switchDisplayable(null, getFormLogin());//GEN-LINE:|7-commandAction|36|1412-postAction
         // write post-action user code here
@@ -892,20 +852,20 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
         {
             conexion =null;
         }
-           conexion = new ConexionIpx(rest);
+           conexion = new ConexionIpx();
         Thread t = new Thread()
         {
             public void run()
             {
                    
                 System.out.println(" thred consumidor  del cliente");
-                if(rest.getCodigoRespuesta()==200)
+                if(conexion.getCodigoRespuesta()==200)
                 {
                     if(clientesTemp!=null)
                     {
                         clientesTemp=null;
                     }
-                    clientesTemp = Clients.fromJsonArray(rest.getRespuesta());
+                    clientesTemp = Clients.fromJsonArray(conexion.getRespuesta());
                     
                     clientes.removeAllElements();
                     for(int i=0;i<clientesTemp.size();i++)
@@ -942,7 +902,7 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
       
         };       
         
-        conexion.EnviarGet(CLIENTE,"",this.llave,t);
+        conexion.EnviarGet(ConexionIpx.CLIENTE,"",this.user.getllave(),t);
 //        conexion.Lenvantate();
         conexion.start();
 //GEN-LINE:|7-commandAction|52|1395-postAction
@@ -1608,32 +1568,33 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
     public void methodLogin() {
 //GEN-END:|1049-entry|0|1050-preAction
         // write pre-action user code here
-        if(this.llave!=null)
-        {
-            this.llave =null;
-        }
-        llave= getTxtUsuario().getText()+":"+getTxtPassword().getString();
-//        rest.setLlave(key);
+        
+        //seteando la llave de nuevo
+//        this.llave =getTxtUsuario().getText()+":"+getTxtPassword().getString(); 
+         borrarInformacion();
+        user.setUsuario(getTxtUsuario().getText());
+        user.setPassword(getTxtPassword().getString());
+        
         pantalla = AUTENTIFICACION;
         Cargando();
         if(conexion!=null)
         {
             conexion =null;
         }
-        conexion = new ConexionIpx(rest);
+        conexion = new ConexionIpx();
       
-       borrarInformacion();
+      
        
         Thread t = new Thread()
         {
             public void run()
             {
                    
-                System.out.println(" thred consumidor activo");
-                if(rest.getCodigoRespuesta()==200)
+                Log.i("Login "," thred consumidor activo");
+                if(conexion.getCodigoRespuesta()==200)
                 {
                     
-                   cuenta = new Cuenta(rest.getRespuesta());
+                   cuenta = new Cuenta(conexion.getRespuesta());
                         
                    cambiarPantalla();
                    getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
@@ -1703,7 +1664,7 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
       
         };       
         
-        conexion.EnviarGet(0,"",this.llave,t);
+        conexion.EnviarGet(ConexionIpx.AUTENTIFICAZION,"",this.user.getllave(),t);
         conexion.start();
             /*
 switchDisplayable (null, getListPrincipal ());//GEN-BEGIN:|1049-entry|1|1050-postAction
@@ -2051,30 +2012,25 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
      */
     public void methodCliente() {
 //GEN-END:|1108-entry|0|1109-preAction
-        // write pre-action user code here
+        // Buscador de clientes
         if(!estaVacio(txtNit))
         {
         pantalla = CLIENTE;
         
         Cargando();
-        if(conexion!=null)
-        {
-            conexion =null;
-        }
-           conexion = new ConexionIpx(rest);
+       
         Thread t = new Thread()
         {
             public void run()
             {
                    
                 
-                Log.i("thread cliente ", "thread  cliente consumido");
+                Log.i("cliente ", "thread  cliente consumido");
                 cliente = buscarCliente(clientes,txtNit.getString());
                 if(cliente!=null)
                 {
                     
-//                    cliente = new Cliente();
-//                    cliente.setCliente((Clients)clientes.elementAt(punteroCliente));
+
                   
                         cambiarPantalla();
             
@@ -2090,14 +2046,12 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
 //                    switchDisplayable(getAlerta("No se encontro al cliente","Cliente invalido o no registrado!",CLIENTE), getFormCliente());
                 }   
 
-            
+                
             }
       
         };       
         t.start();
-//        conexion.EnviarGet(CLIENTE,txtNit.getString(),this.llave,t);
-////        conexion.Lenvantate();
-//        conexion.start();
+
         
         }
         else
@@ -2369,7 +2323,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                  fac.setSubtotal(factura.getSubtotal());
                  fac.setIsInvoice(isInvoice);
                  //llave de usuario 
-                 fac.setLlaveUsuario(llave);
+//                 fac.setLlaveUsuario(llave);
                  
 
         //         fac.setInvoice(factura);
@@ -2564,7 +2518,7 @@ backSalir = new Command("Atras", Command.BACK, 0);//GEN-LINE:|1165-getter|1|1165
             listMenu.setSelectedFlags(new boolean[]{false, false, false});//GEN-END:|1154-getter|1|1154-postInit
             // write post-init user code here
             
-            listMenu.setTitle("Menu Factura Usuario:"+TxtUsuario.getText());
+            listMenu.setTitle("Menu Factura Usuario:"+this.user.getUsuario());
         }//GEN-BEGIN:|1154-getter|2|
         return listMenu;
     }
@@ -2974,7 +2928,7 @@ listPrincipal = new List("list", Choice.IMPLICIT);//GEN-BEGIN:|1215-getter|1|121
             listPrincipal.setCommandListener(this);
             listPrincipal.setSelectedFlags(new boolean[]{false, false, false, false});//GEN-END:|1215-getter|1|1215-postInit
             // write post-init user code here
-            listPrincipal.setTitle("Usuario:"+TxtUsuario.getText());
+            listPrincipal.setTitle("Usuario:"+this.user.getUsuario());
         }//GEN-BEGIN:|1215-getter|2|
         return listPrincipal;
     }
@@ -3382,62 +3336,62 @@ backDatos = new Command("Ok", Command.OK, 0);//GEN-LINE:|1262-getter|1|1262-post
      */
     public void methodRegistrarCliente() {
 //GEN-END:|1266-entry|0|1267-preAction
-    pantalla=REGISTRARCLIENTE;
-    RegistroCliente rc = new RegistroCliente();
-    rc.setNit(txtNitCli.getText());
-    rc.setNombre(txtNomCli.getText());
-    rc.setTelefono(txtTelCli.getText());
-    if (txtEmailCli.getString().equals(""))
-    {
-        txtEmailCli.setString("sinemail");
-    }
-    
-    rc.setEmail(txtEmailCli.getText());
-    estaRegistrado =false;    
-    Cargando();
-     if(conexion !=null)
-        {
-            conexion = null;
-        } 
-    conexion = new ConexionIpx(rest);
-        Thread t = new Thread()
-        {
-            public void run()
-            {
-                   
-                System.out.println(" thred consumidor activo");
-                if(rest.getCodigoRespuesta()==200)
-                {
-                    cliente = new Cliente(rest.getRespuesta());
-                    //colocar mensaje de guardado
-                    estaRegistrado = true;
-                    
-           
-                    switchDisplayable (null, getListMenu ());                                         
-                    switchDisplayable(getProblemas(), getListMenu());
-                    
-                    
-//                    cambiarPantalla();
-                
-                    //Cargando el titulo de la lista
-                    
-                }
-                else
-                {   
-                    //Repinta la pantalla antes de que esta esetes
-                    switchDisplayable(null, getFormLogin());
-                    switchDisplayable(getProblemas(), getFormLogin());
-                }   
-
-            
-            }
-      
-        };       
-        
-        conexion.EnviarPost(REGISTRARCLIENTE,RegistroCliente.toJSON(rc),this.llave,t);
-//        conexion.Lenvantate();
-        conexion.start();
-    
+//    pantalla=REGISTRARCLIENTE;
+//    RegistroCliente rc = new RegistroCliente();
+//    rc.setNit(txtNitCli.getText());
+//    rc.setNombre(txtNomCli.getText());
+//    rc.setTelefono(txtTelCli.getText());
+//    if (txtEmailCli.getString().equals(""))
+//    {
+//        txtEmailCli.setString("sinemail");
+//    }
+//    
+//    rc.setEmail(txtEmailCli.getText());
+//    estaRegistrado =false;    
+//    Cargando();
+//     if(conexion !=null)
+//        {
+//            conexion = null;
+//        } 
+//    conexion = new ConexionIpx(rest);
+//        Thread t = new Thread()
+//        {
+//            public void run()
+//            {
+//                   
+//                System.out.println(" thred consumidor activo");
+//                if(rest.getCodigoRespuesta()==200)
+//                {
+//                    cliente = new Cliente(rest.getRespuesta());
+//                    //colocar mensaje de guardado
+//                    estaRegistrado = true;
+//                    
+//           
+//                    switchDisplayable (null, getListMenu ());                                         
+//                    switchDisplayable(getProblemas(), getListMenu());
+//                    
+//                    
+////                    cambiarPantalla();
+//                
+//                    //Cargando el titulo de la lista
+//                    
+//                }
+//                else
+//                {   
+//                    //Repinta la pantalla antes de que esta esetes
+//                    switchDisplayable(null, getFormLogin());
+//                    switchDisplayable(getProblemas(), getFormLogin());
+//                }   
+//
+//            
+//            }
+//      
+//        };       
+//        
+//        conexion.EnviarPost(REGISTRARCLIENTE,RegistroCliente.toJSON(rc),this.llave,t);
+////        conexion.Lenvantate();
+//        conexion.start();
+//    
          
   /*      
 switchDisplayable (null, getListMenu ());//GEN-BEGIN:|1266-entry|1|1267-postAction
@@ -4833,7 +4787,7 @@ backCommand7 = new Command("Atras", Command.OK, 0);//GEN-LINE:|1413-getter|1|141
         if (formLogout == null) {
 //GEN-END:|1408-getter|0|1408-preInit
  // write pre-init user code here
-formLogout = new Form("Seguridad", new Item[]{getStringItem(), getTextField1(), getStringItem1()});//GEN-BEGIN:|1408-getter|1|1408-postInit
+formLogout = new Form("Seguridad", new Item[]{getStringItem(), getTextField1()});//GEN-BEGIN:|1408-getter|1|1408-postInit
             formLogout.addCommand(getOkCommand26());
             formLogout.addCommand(getBackCommand7());
             formLogout.setCommandListener(this);//GEN-END:|1408-getter|1|1408-postInit
@@ -4898,22 +4852,7 @@ try {//GEN-BEGIN:|1419-getter|1|1419-@java.io.IOException
     }
 //</editor-fold>//GEN-END:|1419-getter|3|
 
-//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem1 ">//GEN-BEGIN:|1421-getter|0|1421-preInit
-    /**
-     * Returns an initialized instance of stringItem1 component.
-     *
-     * @return the initialized component instance
-     */
-    public StringItem getStringItem1() {
-        if (stringItem1 == null) {
-//GEN-END:|1421-getter|0|1421-preInit
- // write pre-init user code here
-stringItem1 = new StringItem("Nota: Una vez cerrada la sesion se borraran los productos, cliente y FACTURAS almacenados en el dispositivo.", null);//GEN-LINE:|1421-getter|1|1421-postInit
- // write post-init user code here
-}//GEN-BEGIN:|1421-getter|2|
-        return stringItem1;
-    }
-//</editor-fold>//GEN-END:|1421-getter|2|
+
 
 //<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand27 ">//GEN-BEGIN:|1422-getter|0|1422-preInit
     /**
@@ -5443,7 +5382,7 @@ public TextField getTextNativo()
           case FACTURAS:
          
           case PRINTFACTURA:
-               switch(rest.getCodigoRespuesta())
+               switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         titulo= "Autentificacion Fallida";
@@ -5463,7 +5402,7 @@ public TextField getTextNativo()
                 }
               break;
                case GETFACTURA:
-                   switch(rest.getCodigoRespuesta())
+                   switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         titulo= "Autentificacion Fallida";
@@ -5483,7 +5422,7 @@ public TextField getTextNativo()
                 }
                break;
           case CLIENTE:
-              switch(rest.getCodigoRespuesta())
+              switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         titulo= "Autentificacion Fallida";
@@ -5514,7 +5453,7 @@ public TextField getTextNativo()
                     }
                     else
                     {
-                        switch(rest.getCodigoRespuesta())
+                        switch(conexion.getCodigoRespuesta())
                         {
                             case 401:
                                 titulo= "Verifique que el Usuario y Password sean CORRECTOS";
@@ -5550,7 +5489,7 @@ public TextField getTextNativo()
 //            case GETFACTURA:
             case PRINTFACTURA:
             
-                switch(rest.getCodigoRespuesta())
+                switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         mensaje= "Verifique que el Usuario y Password sean CORRECTOS";
@@ -5569,7 +5508,7 @@ public TextField getTextNativo()
                 
                 break;
             case GETFACTURA:
-                switch(rest.getCodigoRespuesta())
+                switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         mensaje= "Verifique que el Usuario y Password sean CORRECTOS";
@@ -5590,7 +5529,7 @@ public TextField getTextNativo()
                 }
                 break;
             case CLIENTE: 
-                switch(rest.getCodigoRespuesta())
+                switch(conexion.getCodigoRespuesta())
                 {
                     case 401:
                         mensaje= "Verifique que el Usuario y Password sean CORRECTOS";
@@ -5621,7 +5560,7 @@ public TextField getTextNativo()
                     }
                     else
                     {
-                        switch(rest.getCodigoRespuesta())
+                        switch(conexion.getCodigoRespuesta())
                         {
                             case 401:
                                 mensaje= "Verifique que el Usuario y Password sean CORRECTOS";
@@ -6093,17 +6032,17 @@ public TextField getTextNativo()
         getTxtPassword().setText("");
         getTxtPassword().setString("");
 //        conexion.setLlave("");
-        llave =null;
-        rest.setLlave("_______");
+//        this.llave ="";
+      
         user.setUsuario("");
         user.setPassword("");
         user.setSesion(false);
-                    try {
-                                storage.save( user, "usuario");
-                        } catch (IOException e) {
+        try {
+                    storage.save( user, "usuario");
+            } catch (IOException e) {
 
-                                System.out.println("Unable to store notes" + e );
-                        }
+                    System.out.println("Unable to store notes" + e );
+            }
     }
     
     public boolean estaVacio(TextField t)
@@ -6618,22 +6557,22 @@ public TextField getTextNativo()
         {
             conexion = null;
         }
-        conexion = new ConexionIpx(rest);
+        conexion = new ConexionIpx();
         Thread t;       
         t = new Thread()
         {
             public void run()
             {
 
-                if(rest.getCodigoRespuesta()==200)
+                if(conexion.getCodigoRespuesta()==200)
                 {
 //                      switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
 //                                EliminarFacturas();
                     try {
                         /*{"resultado ":"0","resultado":3}*/
                       
-                        JSONObject json= new JSONObject(rest.getRespuesta());
-                        Log.i("saveoffline ",rest.getRespuesta());
+                        JSONObject json= new JSONObject(conexion.getRespuesta());
+                        Log.i("saveoffline ",conexion.getRespuesta());
                         if(json.has("resultado"))
                         {
                             if(json.getString("resultado").equals("0"))
@@ -6667,7 +6606,7 @@ public TextField getTextNativo()
             
         };
         
-        conexion.EnviarPost(GUARDARFACTURA,SendInvoices.toJSONObjects(facturas),this.llave,t);
+        conexion.EnviarPost(ConexionIpx.GUARDARFACTURA,SendInvoices.toJSONObjects(facturas),this.user.getllave(),t);
 //        conexion.Lenvantate();
         conexion.start();
     }
@@ -6719,8 +6658,9 @@ public TextField getTextNativo()
                             productos.removeAllElements();
                             clientes.removeAllElements();
                             facturas.removeAllElements();
-                         
-                           
+//                            this.llave =null;
+                           user.setUsuario("");
+                           user.setPassword("");
                             System.out.print("productos borrados");
                             
                             storage.save( productos,"productos");
