@@ -27,6 +27,7 @@ import com.ipx.json.InvoiceItem;
 import com.ipx.json.InvoiceItems;
 import com.ipx.json.Products;
 import com.ipx.json.RegistroCliente;
+import com.ipx.json.ResponseSave;
 import com.ipx.json.SendInvoices;
 import com.ipx.json.Sucursal;
 import com.ipx.json.Version;
@@ -6565,41 +6566,38 @@ public TextField getTextNativo()
             {
 
                 if(conexion.getCodigoRespuesta()==200)
-                {
-//                      switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
+                {   
+                    
+                     switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
+                                EliminarFacturas();
+//                      ResponseSave resultado = new ResponseSave(conexion.getRespuesta());
+//                      
+//                      
+//                   
+//                      
+//                      
+//                        Log.i("saveoffline ",conexion.getRespuesta());
+//                     
+//                            if(resultado.getResultado().equals("0"))
+//                            {
+//                                Log.i("saveoffline ",resultado.getResultado());
+//                                switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
 //                                EliminarFacturas();
-                    try {
-                        /*{"resultado ":"0","resultado":3}*/
-                      
-                        JSONObject json= new JSONObject(conexion.getRespuesta());
-                        Log.i("saveoffline ",conexion.getRespuesta());
-                        if(json.has("resultado"))
-                        {
-                            if(json.getString("resultado").equals("0"))
-                            {
-                                Log.i("saveoffline ",json.getString("resultado"));
-
-                                
-                            }                                
-                            if(json.getString("resultado").equals("1"))
-                           {
-                               Log.i("saveoffline ",json.getString("resultado"));
-                               switchDisplayable(alerta("Envio Fallido !!","No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
-                           }
+//                                
+//                            }                                
+//                            if(resultado.getResultado().equals("1"))
+//                           {
+//                               Log.i("saveoffline ",resultado.getResultado());
+//                               switchDisplayable(alerta("Envio Fallido !! error:"+conexion.getCodigoRespuesta(),"No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
+//                           }
                      
-                        }
-                        else
-                        {
-                            switchDisplayable(alerta("Envio Fallido !!","No se pudo enviar las facturas debido a algun problema de conexion por verifique su conexion a internet. "), getFormSincronizacion());
-                        }
+                       
           
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
+                
                 }
                 else
                 {
-                    switchDisplayable(alerta("Envio Fallido !!","Hubo un problema al enviar las facturas, por favor verifique su conexion a internet e intentelo de nuevo "), getFormSincronizacion());
+                    switchDisplayable(alerta("Envio Fallido !! error"+conexion.getCodigoRespuesta(),"Hubo un problema al enviar las facturas, por favor verifique su conexion a internet e intentelo de nuevo "), getFormSincronizacion());
                 }
 
             }

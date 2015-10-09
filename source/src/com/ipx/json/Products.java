@@ -87,7 +87,8 @@ public class Products implements Serializable
         Vector vectorProducts = new Vector();
         try{
             JSONArray array = new JSONArray(jsonArray);
-            for(int i=0;i<array.length();i++)
+//            for(int i=0;i<array.length();i++)
+            for(int i=0;i<30;i++)
             {
                 JSONObject json = array.getJSONObject(i);
                 Products product = Products.fromJson(json.toString());

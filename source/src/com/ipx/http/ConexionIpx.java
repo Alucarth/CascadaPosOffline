@@ -26,14 +26,14 @@ public class ConexionIpx extends Thread
     private final String PROTOCOLO="http://";
 
     
-    private final String URL_AUTENTIFICACION = "/loginOffline";
+    private final String URL_AUTENTIFICACION = "/pos";
     private final String URL_LOGOUT ="/logoutPOS";
 //    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-    private final String URL_CLIENTE="/clientes/";
+    private final String URL_CLIENTE="/clientes";
     
 //    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
 //    public static final String URL_GUARDARFACTURA="/guardarFacturaOffline";
-     public static final String URL_GUARDARFACTURA="/saveoffline";
+     public static final String URL_GUARDARFACTURA="/pos";
     
     private final String URL_VERSION="/version";
     private final String URL_REGISTRARCLIENTE="/registrarCliente";
@@ -128,7 +128,7 @@ public class ConexionIpx extends Thread
                     break;
                 case GUARDARFACTURA:
                     url = PROTOCOLO+SERVIDOR+URL_GUARDARFACTURA;
-                    EnviarRestPost(url,parametros);
+                    EnviarRestPost(url,this.parametros);
                     break;
                 case VERSION:
                     url=PROTOCOLO+SERVIDOR+URL_VERSION;
@@ -246,7 +246,7 @@ public class ConexionIpx extends Thread
       os = httpConn.openOutputStream();
 
     
-      os.write(this.getParametros().getBytes());
+      os.write(parametros.getBytes());
       os.flush();
 
       /**Caution: os.flush() is controversial. It may create unexpected behavior
@@ -262,13 +262,19 @@ public class ConexionIpx extends Thread
       this.respCode = httpConn.getResponseCode();
       Log.i(TAG, "respCode: "+this.respCode);
       if (this.respCode == httpConn.HTTP_OK) {
-      int chr;
-      while ((chr = is.read()) != -1)
-        sb.append((char) chr);
+                int chr;
+           String cadena="";
+            while ((chr = is.read()) != -1)
+            {
+                cadena=cadena+""+(char) chr;
+            }
+
+//      while ((chr = is.read()) != -1)
+//        sb.append((char) chr);
 
       // Converitmos la respuesta de utf-8 a ISO-8859-1
       
-      this.Respuesta = Conexion.convertiraISO(sb.toString());
+      this.Respuesta = Conexion.convertiraISO(cadena);
        Log.i(TAG, this.Respuesta);
       
       }
