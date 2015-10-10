@@ -2027,12 +2027,12 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                    
                 
                 Log.i("cliente ", "thread  cliente consumido");
-                cliente = buscarCliente(clientes,txtNit.getString());
-                if(cliente!=null)
+                int index = buscarCliente(clientes,txtNit.getString());
+                if(index!=-1)
                 {
                     
-
-                  
+                    cliente = new Cliente();
+                    cliente.setCliente((Clients)clientes.elementAt(index));
                         cambiarPantalla();
             
                        txtNitDat.setText(cliente.getCliente().getNit());
@@ -6484,24 +6484,26 @@ public TextField getTextNativo()
 //        
 //        return sw;
 //    }
-    public Cliente buscarCliente(Vector clientes,String publicId)
+    public int buscarCliente(Vector clientes,String publicId)
     {
-        Cliente cliente= null;
+//        Cliente clienteBuscado= null;
+        int indice = -1;
         for(int i=0;i<clientes.size();i++)
         {
            //si se encuentra al cliente se retorna al objeto cliente
             if(((Clients ) clientes.elementAt(i)).getPublic_id().equals(publicId))
             {
-                 cliente = new Cliente();
-                 cliente.setCliente((Clients)clientes.elementAt(i));
+//                 clienteBuscado = new Cliente();
+//                 clienteBuscado.setCliente((Clients)clientes.elementAt(i));
              
 //                punteroCliente = i;
+                indice = i;
                 i=clientes.size();
                
             }
         }
         
-        return cliente;
+        return indice;
     }
     public boolean buscarFactura(Vector facturasGuardadas,String idCliente)
     {
@@ -6524,8 +6526,8 @@ public TextField getTextNativo()
     }
      public Alert getFormEnviar() {
         
-                                     
-            
+        
+        
             //#style mailAlert
             
            Alert alert = new Alert("Enviar Facturas?", "Esta seguro de enviar sus facturas?", null, AlertType.CONFIRMATION, de.enough.polish.ui.StyleSheet.mailalertStyle );
@@ -6568,28 +6570,71 @@ public TextField getTextNativo()
                 if(conexion.getCodigoRespuesta()==200)
                 {   
                     
-                     switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
-                                EliminarFacturas();
-//                      ResponseSave resultado = new ResponseSave(conexion.getRespuesta());
+//                     switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
+//                                EliminarFacturas();
+                      ResponseSave resultado = new ResponseSave(conexion.getRespuesta());
 //                      
 //                      
 //                   
 //                      
 //                      
-//                        Log.i("saveoffline ",conexion.getRespuesta());
-//                     
-//                            if(resultado.getResultado().equals("0"))
-//                            {
-//                                Log.i("saveoffline ",resultado.getResultado());
-//                                switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
-//                                EliminarFacturas();
-//                                
-//                            }                                
-//                            if(resultado.getResultado().equals("1"))
-//                           {
-//                               Log.i("saveoffline ",resultado.getResultado());
-//                               switchDisplayable(alerta("Envio Fallido !! error:"+conexion.getCodigoRespuesta(),"No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
-//                           }
+                        Log.i("saveoffline ",conexion.getRespuesta());
+                     
+                            if(resultado.getResultado().equals("0"))
+                            {
+                                Log.i("saveoffline ",resultado.getResultado());
+                                switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
+                                EliminarFacturas();
+                                
+                            }                                
+                            if(resultado.getResultado().equals("1"))
+                           {
+                               Log.i("saveoffline ",resultado.getResultado());
+                               switchDisplayable(alerta("Envio Fallido !! error:"+conexion.getCodigoRespuesta(),"No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
+                                for(int i=0;i<facturas.size();i++)
+        {
+                                if(!((FacturaOffline)facturas.elementAt(i)).isInvoice())
+                                {
+                                    ((FacturaOffline)facturas.elementAt(i)).setIsInvoice(true);
+                                    ((FacturaOffline)facturas.elementAt(i)).setInvoice_number(cuenta.getSucursal().getInvoice_number_counter());
+
+
+
+                                    //actualizar el contador de facturas
+                                     int contador= Integer.parseInt(cuenta.getSucursal().getInvoice_number_counter());
+                             //              
+                                     contador++;
+                                     cuenta.getSucursal().setInvoice_number_counter(""+contador);
+                                     sucursal.setInvoice_number_counter(""+contador);
+                                      try{
+                                                 storage.save(sucursal, "sucursal");
+                                         } catch (IOException e) {
+                                                 System.out.println("no se pudo actualizar el invoice number" + e );
+                                         }
+                                    //*************************
+
+                                     String numAutho=cuenta.getSucursal().getNumber_autho();
+                                     String numInvoice=cuenta.getSucursal().getInvoice_number_counter();
+                                     String nit=cliente.getCliente().getNit();
+                                     String date =com.david.torrez.DateUtil.getCodigoControFecha();
+                                     String amount=factura.getAmount();
+                                     String keyDosage=cuenta.getSucursal().getKey_dosage();
+                                   try{
+                                     ((FacturaOffline)facturas.elementAt(i)).setControl_code(CodigoDeControl.getCodigoDeControl(nit, numInvoice, date, amount, numAutho, keyDosage));
+                                     }catch(Exception e){
+                                         System.out.println("Error en el Codigo de Control:" );
+                                         System.out.println("Numero de autorizacion:"+numAutho );
+                                         System.out.println("numInvoice:"+numInvoice );
+                                         System.out.println("Nit:"+nit );
+                                         System.out.println("Fecha:"+date );
+                                         System.out.println("Monto:"+amount );
+                                         System.out.println("Llave de Dosificacion:"+keyDosage );
+                                     }
+
+                                    }
+
+                             }
+                           }
                      
                        
           

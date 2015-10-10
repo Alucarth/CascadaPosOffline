@@ -5,6 +5,7 @@
  */
 package com.ipx.json;
 
+import com.ipx.util.Log;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
@@ -14,23 +15,25 @@ import org.json.me.JSONObject;
  */
 public class ResponseSave
 {
-//    {
-//    resultado : 0
-//    respuesta: 2
-//    }
+//    {"resultado ":"0
+//","respuesta":"1
+//"}
     private String resultado;
     private String respuesta;
     public ResponseSave(String jsonText)
     {
         try {
             JSONObject json = new JSONObject(jsonText);
+             Log.i("resultado", json.getString("resultado"));
             if(json.has("resultado"))
-            {
-                this.setResultado(json.getString("resultado"));
+            {   
+                Log.i("resultado", json.getString("resultado"));
+                resultado=json.getString("resultado");
             }
             if(json.has("respuesta"))
             {
-                this.setRespuesta(json.getString("respuesta"));
+                 Log.i("respuesta", json.getString("respuesta"));
+                setRespuesta(json.getString("respuesta"));
             }
         
         } catch (JSONException ex) {
