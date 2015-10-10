@@ -99,7 +99,7 @@ public class CaptureSource extends VideoSource {
 		int step = 0;
 		try {
             //#debug info
-            //# System.out.println("getSnapshot(" + encoding + "), protocol=" + this.protocol + " at " + (new Date()).toString());
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.video.CaptureSource", 102, "getSnapshot(" + encoding + "), protocol=" + this.protocol + " at ", (new Date()).toString());
 			VideoControl vc = this.videoControl;
 			Player pl = this.player;
 			if (vc == null || pl.getState() == Player.CLOSED) {
@@ -124,7 +124,7 @@ public class CaptureSource extends VideoSource {
 				//# }
 			//#endif
             //#debug info
-            //# System.out.println("Start to capture data at " + (new Date()).toString());
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.video.CaptureSource", 127, "Start to capture data at ", (new Date()).toString());
             byte[] data = null;
             String message = null;
             try {
@@ -138,7 +138,7 @@ public class CaptureSource extends VideoSource {
             	data = vc.getSnapshot(encoding);
             } catch (MediaException e) {
             	//#debug info
-            	//# System.out.println("did not get data for encoding " + encoding + e);
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.video.CaptureSource", 141, "did not get data for encoding " + encoding, e);
             	if (encoding == null) {
             		throw e;
             	}
@@ -157,7 +157,7 @@ public class CaptureSource extends VideoSource {
             	}
             }
             //#debug info
-            //# System.out.println("End of capturing data at " + (new Date()).toString());
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.video.CaptureSource", 160, "End of capturing data at ", (new Date()).toString());
             //#debug
             //# System.out.println("data.length=" + data.length);
 			this.isSnapshotInProgress = false;
@@ -165,11 +165,11 @@ public class CaptureSource extends VideoSource {
             return data;
 		} catch (MediaException e) {
 			//#debug error
-			//# System.out.println("Unable to take snapshot " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.CaptureSource", 168, "Unable to take snapshot ", e);
 			throw e;
 		} catch (Throwable e) {
 			//#debug error
-			//# System.out.println("Unable to take snapshot at step " + step + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.CaptureSource", 172, "Unable to take snapshot at step " + step, e);
 			if (e instanceof SecurityException) {
 				throw (SecurityException) e;
 			}

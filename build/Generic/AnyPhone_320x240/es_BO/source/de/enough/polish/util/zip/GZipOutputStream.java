@@ -354,7 +354,7 @@ public class GZipOutputStream extends OutputStream {
     	int distExtra;
     	
     	//#debug info
-		//# System.out.println(length +  "-Tupel found  at " + distance + "back");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.util.zip.GZipOutputStream", 357, length +  "-Tupel found  at " + distance, "back");
 		
 		// compute length information
 		di = ZipHelper.encodeCode(ZipHelper.LENGTH_CODE, length);

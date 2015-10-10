@@ -162,7 +162,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private byte[] leyenda;
     private byte[] actividad;
     public BmpArray ba;
-    
+    int index;
     Vector v;
     private Vector facturasEliminadas;
 //    private Thread t;
@@ -338,7 +338,7 @@ public class StartApp extends MIDlet implements CommandListener {
          listaProductos = new Vector();
           ba = new BmpArray();
 //        rest = new Rest();
-      
+          index=-1;
         new Thread(new Runnable()
         {
             public void run()
@@ -2027,14 +2027,15 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                    
                 
                 Log.i("cliente ", "thread  cliente consumido");
-                int index = buscarCliente(clientes,txtNit.getString());
+                index = buscarCliente(clientes,txtNit.getString());
                 if(index!=-1)
                 {
                     
                     cliente = new Cliente();
                     cliente.setCliente((Clients)clientes.elementAt(index));
+                    index=-1;
                         cambiarPantalla();
-            
+                        
                        txtNitDat.setText(cliente.getCliente().getNit());
                        txtNomDat.setText(cliente.getCliente().getName());
                     
@@ -6484,7 +6485,7 @@ public TextField getTextNativo()
 //        
 //        return sw;
 //    }
-    public int buscarCliente(Vector clientes,String publicId)
+    private static int buscarCliente(Vector clientes,String publicId)
     {
 //        Cliente clienteBuscado= null;
         int indice = -1;

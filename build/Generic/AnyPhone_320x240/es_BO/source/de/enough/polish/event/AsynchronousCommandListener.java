@@ -108,7 +108,7 @@ public class AsynchronousCommandListener implements Runnable, CommandListener {
 					this.parent.commandAction(cmd, disp);
 				} catch (Throwable e) {
 					//#debug error
-					//# System.out.println("Unable to process cmd " + cmd.getLabel() + " for screen " + disp + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.AsynchronousCommandListener", 111, "Unable to process cmd " + cmd.getLabel() + " for screen " + disp, e);
 				}
 			} // while there are commands
 		} // while (!this.isStopRequested) 

@@ -149,9 +149,9 @@ public class LogEntry {
 			buffer.append("<").append( this.time ).append(" ms> ");
 		//#endif
 		//#if polish.debugVerbose || ( (polish.debug.className == true) && (polish.debug.lineNumber == true) )
-			//# buffer.append( this.className ).append(" (").append( this.lineNumber ).append("): ");
+			buffer.append( this.className ).append(" (").append( this.lineNumber ).append("): ");
 		//#elif polish.debug.className != false
-			buffer.append( this.className ).append(": ");
+			//# buffer.append( this.className ).append(": ");
 		//#elif polish.debug.lineNumber != false
 			//# buffer.append(" (").append( this.lineNumber ).append("): ");
 		//#endif

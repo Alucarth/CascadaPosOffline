@@ -33,7 +33,7 @@ public class RmsContentStorage extends ContentSource {
 			store = RecordStore.openRecordStore(STORAGE, true);
 		} catch (RecordStoreException e) {
 			//#debug error
-			//# System.out.println("unable to open record store " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsContentStorage", 36, "unable to open record store ", e);
 		}
 	}
 	
@@ -44,7 +44,7 @@ public class RmsContentStorage extends ContentSource {
 			store.closeRecordStore();
 		} catch (RecordStoreException e) {
 			//#debug error
-			//# System.out.println("unable to close record store " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsContentStorage", 47, "unable to close record store ", e);
 		}
 		
 		super.shutdown();
@@ -103,7 +103,7 @@ public class RmsContentStorage extends ContentSource {
 			return data;
 		} catch (RecordStoreException e) {
 			//#debug error
-			//# System.out.println("unable to load data " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsContentStorage", 106, "unable to load data ", e);
 			return null;
 		}
 	}

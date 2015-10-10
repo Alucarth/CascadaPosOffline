@@ -102,7 +102,7 @@ public class CyclingIconsGaugeView extends ItemView {
 			catch(IOException e)
 			{
 				//#debug error
-				//# System.out.println("unable to load image " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.CyclingIconsGaugeView", 105, "unable to load image ", e);
 			}
 			
 			this.iconWidth = this.iconImage.getWidth();
@@ -126,7 +126,7 @@ public class CyclingIconsGaugeView extends ItemView {
 			catch(IOException e)
 			{
 				//#debug error
-				//# System.out.println("unable to load image " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.CyclingIconsGaugeView", 129, "unable to load image ", e);
 			}
 		}
 		//#endif
@@ -148,7 +148,7 @@ public class CyclingIconsGaugeView extends ItemView {
 			catch(IOException e)
 			{
 				//#debug error
-				//# System.out.println("unable to load image " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.CyclingIconsGaugeView", 151, "unable to load image ", e);
 			}
 			
 			if(this.iconHighlightCount > 2)

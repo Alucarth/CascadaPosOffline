@@ -1021,10 +1021,10 @@ extends ItemView
 			} else {
 				//int rowIndex = 0;
 				//#if polish.debug.warn
-					//# if (this.columnsWidths == null) {
+					if (this.columnsWidths == null) {
 						//#debug warn
-						//# System.out.println(this + ": no columnsWidth for " + this.parentContainer.getStyle().name + " with " + myItems.length + " elements");
-					//# }
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.ContainerView", 1026, this + ": no columnsWidth for " + this.parentContainer.getStyle().name + " with " + myItems.length, " elements");
+					}
 				//#endif
 				for (int i = 0; i < myItems.length; i++) {
 					if (i != this.focusedIndex) {
@@ -1497,7 +1497,7 @@ extends ItemView
 								// this is an invalid setting! 
 								this.columnsSetting = NORMAL_WIDTH_COLUMNS;
 								//#debug warn
-								//# System.out.println("Container: Invalid [columns-width] setting: [" + width + "], the number of widths needs to be the same as with [columns] specified.");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.ContainerView", 1500, "Container: Invalid [columns-width] setting: [" + width + "], the number of widths needs to be the same as with [columns] specified.");
 							} else {
 								this.columnsSetting = STATIC_WIDTH_COLUMNS;
 								this.columnsWidths = new Dimension[ this.numberOfColumns ];

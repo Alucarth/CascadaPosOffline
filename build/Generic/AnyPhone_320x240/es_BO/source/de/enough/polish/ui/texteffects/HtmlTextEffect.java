@@ -106,7 +106,7 @@ public class HtmlTextEffect extends TextEffect {
 			parse( xmlReader, baseStyle, childList );
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to parse text " + htmlText + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.texteffects.HtmlTextEffect", 109, "Unable to parse text " + htmlText, e );
 			super.wrap(parent, htmlText, textColor, meFont, firstLineWidth, lineWidth, maxLines,
 					maxLinesAppendix, maxLinesAppendixPosition, wrappedText);
 			return;

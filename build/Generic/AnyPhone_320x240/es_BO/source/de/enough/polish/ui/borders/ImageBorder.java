@@ -97,7 +97,7 @@ public class ImageBorder extends Border
 				this.bottomRightImage = getImagePart(image, 7, this.borderWidth);
 			} catch (IOException e) {
 				//#debug error
-				//# System.out.println( "unable to load image " + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.borders.ImageBorder", 100, "unable to load image ", e );
 			}
 			this.isLoaded = true;
 		}

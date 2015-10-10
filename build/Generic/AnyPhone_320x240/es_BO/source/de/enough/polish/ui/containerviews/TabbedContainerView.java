@@ -144,7 +144,7 @@ implements FocusListener
 					img = StyleSheet.getImage(this.iconUrl, this, false );
 				} catch (IOException e) {
 					//#debug error
-					//# System.out.println("Unable to load tabbed-icon " + this.iconUrl + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.containerviews.TabbedContainerView", 147, "Unable to load tabbed-icon " + this.iconUrl, e);
 				}
 			}
 			Image hoverImg = null;
@@ -153,7 +153,7 @@ implements FocusListener
 					hoverImg = StyleSheet.getImage(this.iconHoverUrl, this, false );
 				} catch (IOException e) {
 					//#debug error
-					//# System.out.println("Unable to load tabbed-icon-hover " + this.iconHoverUrl + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.containerviews.TabbedContainerView", 156, "Unable to load tabbed-icon-hover " + this.iconHoverUrl, e);
 				}
 			}
 			

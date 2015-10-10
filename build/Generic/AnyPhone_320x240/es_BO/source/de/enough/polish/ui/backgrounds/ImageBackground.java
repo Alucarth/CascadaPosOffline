@@ -198,7 +198,7 @@ extends Background
 				this.image = StyleSheet.getImage(this.imageUrl, this, false);
 			} catch (IOException e) {
 				//#debug error
-				//# System.out.println( "unable to load image [" + this.imageUrl + "]" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.ImageBackground", 201, "unable to load image [" + this.imageUrl + "]", e );
 			}
 			this.isLoaded = true;
 		}

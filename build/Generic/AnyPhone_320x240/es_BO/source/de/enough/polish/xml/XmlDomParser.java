@@ -83,7 +83,7 @@ public class XmlDomParser
 			return parseTree(document, null);
 		} catch (UnsupportedEncodingException e) {
 			//#debug error
-			//# System.out.println("Unable to parse stream in default encoding: " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.xml.XmlDomParser", 86, "Unable to parse stream in default encoding: ", e);
 			throw new RuntimeException( e.toString() );
 		}
 	}
@@ -120,7 +120,7 @@ public class XmlDomParser
 			return parseTree( in, null );
 		} catch (UnsupportedEncodingException e) {
 			//#debug error
-			//# System.out.println("Unable to parse stream in default encoding: " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.xml.XmlDomParser", 123, "Unable to parse stream in default encoding: ", e);
 			throw new RuntimeException( e.toString() );
 		}
     }

@@ -39,7 +39,7 @@ public class CenterNavigationContainerView extends ContainerView {
 			rightItem = new ImageItem(null,Image.createImage("/arrow_right.png"),Item.LAYOUT_RIGHT,null);
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to load arrow resource " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.containerviews.CenterNavigationContainerView", 42, "Unable to load arrow resource ", e);
 		}
 	}
 

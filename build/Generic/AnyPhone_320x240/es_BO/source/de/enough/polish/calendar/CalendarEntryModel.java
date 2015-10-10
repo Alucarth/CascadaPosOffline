@@ -391,7 +391,7 @@ implements Externalizable, CalendarSubject
 		
 		if ( category.hasChildCategories() ) {
 			//#debug info
-			//# System.out.println("Cannot delete category since it contains child categories. Can only delete categories on the lowest level.");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.calendar.CalendarEntryModel", 394, "Cannot delete category since it contains child categories. Can only delete categories on the lowest level.");
 			throw new IllegalStateException();
 		}
 		
@@ -412,7 +412,7 @@ implements Externalizable, CalendarSubject
 			return removed;
 		} else {
 			//#debug info
-			//# System.out.println("Cannot delete category since it is a root category.");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.calendar.CalendarEntryModel", 415, "Cannot delete category since it is a root category.");
 			return false;
 		}
 	}
@@ -688,7 +688,7 @@ implements Externalizable, CalendarSubject
 		CalendarEntryList calendarEntryList = (CalendarEntryList) this.calendarEntriesByCategory.get(category);
 		if (calendarEntryList == null) {
 			//#debug warn
-			//# System.out.println("no entries found for cateogry " + category.getName());
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.calendar.CalendarEntryModel", 691, "no entries found for cateogry ", category.getName());
 			return returnList;
 		}
 		

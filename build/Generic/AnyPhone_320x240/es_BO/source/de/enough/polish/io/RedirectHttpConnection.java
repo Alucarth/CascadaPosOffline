@@ -472,7 +472,7 @@ public class RedirectHttpConnection implements HttpConnection
 			return this.httpConnection.getEncoding();
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to establish connection" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RedirectHttpConnection", 475, "Unable to establish connection", e);
 			return this.currentHttpConnection.getEncoding();
 		}
 	}
@@ -489,7 +489,7 @@ public class RedirectHttpConnection implements HttpConnection
 			return this.httpConnection.getLength();
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to establish connection" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RedirectHttpConnection", 492, "Unable to establish connection", e);
 			return this.currentHttpConnection.getLength();
 		}
 	}
@@ -506,7 +506,7 @@ public class RedirectHttpConnection implements HttpConnection
 			return this.httpConnection.getType();
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to establish connection" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RedirectHttpConnection", 509, "Unable to establish connection", e);
 			return this.currentHttpConnection.getType();
 		}
 	}

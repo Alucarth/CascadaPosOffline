@@ -136,7 +136,7 @@ public class CoverFlowContainerView extends ContainerView {
 			//#if polish.midp2
 			if (this.shownRgbDataWidths == null) {
 				//#debug warn
-				//# System.out.println("CoverFlowContainerView is animated before initContent has been called");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.containerviews.CoverFlowContainerView", 139, "CoverFlowContainerView is animated before initContent has been called");
 				return;
 			}
 			//#endif

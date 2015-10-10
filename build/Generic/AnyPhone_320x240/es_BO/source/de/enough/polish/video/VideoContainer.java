@@ -195,11 +195,11 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 				return player;
 			} catch (IOException e) {
 				//#debug error
-				//# System.out.println("Could not create test player");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 198, "Could not create test player");
 				return null;
 			} catch (MediaException e) {
 				//#debug error
-				//# System.out.println("Could not create test player");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 202, "Could not create test player");
 				return null;
 			}
 		}
@@ -679,11 +679,11 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 			this.currentThread.start();
 		}
 		//#if polish.debug.warn
-		//# else
-		//# {
+		else
+		{
 			//#debug warn
-			//# System.out.println("prepare() failed: state is not zero");
-		//# }
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.video.VideoContainer", 685, "prepare() failed: state is not zero");
+		}
 		//#endif
 	}
 	
@@ -903,7 +903,7 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 		} catch (MediaException e)
 		{
 			//#debug error
-			//# System.out.println("Unable to enter fullscreen mode" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 906, "Unable to enter fullscreen mode", e );
 			onVideoError(e);
 		}
 		
@@ -966,7 +966,7 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 			this.changingViewMode = false;
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("exception : " + e.getMessage());
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 969, "exception : ", e.getMessage());
 			onVideoError(e);
 		}
 	}
@@ -1025,7 +1025,7 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 					}
 					else {
 						//#debug error
-						//# System.out.println("source is not set");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 1028, "source is not set");
 					}
 				}
 			
@@ -1280,7 +1280,7 @@ public class VideoContainer extends Container implements Runnable, PlayerListene
 
 	public void onVideoError(Exception e) {
 		//#debug error
-		//# System.out.println("onVideoError: error=" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoContainer", 1283, "onVideoError: error=", e );
 		this.lastException = e;
 		for (int i = 0; i < this.callbacks.size(); i++) {
 			callback(i).onVideoError(e);
