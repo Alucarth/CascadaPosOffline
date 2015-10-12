@@ -200,9 +200,9 @@ public class Color implements Serializable {
 			Display display = StyleSheet.display;
 			if (display == null) {
 				//#if polish.debug.verbose
-					throw new IllegalStateException("unable to retrieve dynamic color before the startApp() method has been called.");
+					//# throw new IllegalStateException("unable to retrieve dynamic color before the startApp() method has been called.");
 				//#else
-					//# throw new IllegalStateException();
+					throw new IllegalStateException();
 				//#endif
 			}
 			return display.getColor(this.argb);

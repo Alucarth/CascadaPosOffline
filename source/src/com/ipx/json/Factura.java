@@ -38,6 +38,7 @@ public class Factura
     private String num_auto;
     private String fecha_limite;
     
+    private Vector listaProductos;
     public Factura()
     {
         
@@ -250,6 +251,14 @@ public class Factura
 
     public void setFecha_limite(String fecha_limite) {
         this.fecha_limite = fecha_limite;
+    }
+
+    public Vector getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(Vector listaProductos) {
+        this.listaProductos = listaProductos;
     }
     
 }

@@ -309,8 +309,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -1858,6 +1858,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                  double ice = 0;
 //                 String cad ="";
                Vector ItemsOffline = new Vector();
+               Vector ListaProductosFactura = new Vector();
                for(int i=0;i<listaProductos.size();i++)
                 {
                   
@@ -1865,6 +1866,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
 //                  table.addRow();
                    
                     Products pro = (Products) listaProductos.elementAt(i);
+                    ListaProductosFactura.addElement(pro);
                      InvoiceItem item = new InvoiceItem();
                      item.setBoni(pro.getBoni());
                      double costo=(double)(Double.parseDouble(pro.getCost())/Integer.parseInt(pro.getUnits()));
@@ -1952,7 +1954,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
              factura = new Factura();
              
              factura.setAccount(account);
-           
+            
              
              factura.setAmount(""+redondeo(total,2));
              factura.setSubtotal(""+redondeo(subtotal,2));
@@ -1967,8 +1969,9 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
              factura.setInvoice_number(cuenta.getSucursal().getInvoice_number_counter());
              factura.setLaw(cuenta.getSucursal().getLaw());
              factura.setItems(ItemsOffline);
+             factura.setListaProductos(ListaProductosFactura);
              factura.setInvoice_date(com.david.torrez.DateUtil.getFechaActual());
-             
+            
             String numAutho=cuenta.getSucursal().getNumber_autho();
             String numInvoice=cuenta.getSucursal().getInvoice_number_counter();
             String nit=cliente.getCliente().getNit();
@@ -2018,7 +2021,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
         {
         pantalla = CLIENTE;
         
-        Cargando();
+//        Cargando();
        
         Thread t = new Thread()
         {
@@ -2268,24 +2271,24 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
 
             private void guardarFactura(boolean isInvoice) {
                 
-                solicitudFactura sf= new solicitudFactura();
-                sf.setClient_id(factura.getCliente().getId());
-                sf.setCod_control(factura.getControlCode());
-                sf.setDate(factura.getInvoiceDate());
-                sf.setName(factura.getCliente().getName());
-                sf.setNit(factura.getCliente().getNit());
-                if(isInvoice)
-                {
-                     sf.setInvoice_number(factura.getInvoiceNumber());
-                }
-                else
-                {
-                    sf.setInvoice_number("0");
-                }
-                
-                sf.setProductos(listaProductos);
+//                solicitudFactura sf= new solicitudFactura();
+//                sf.setClient_id(factura.getCliente().getId());
+//                sf.setCod_control(factura.getControlCode());
+//                sf.setDate(factura.getInvoiceDate());
+//                sf.setName(factura.getCliente().getName());
+//                sf.setNit(factura.getCliente().getNit());
+//                if(isInvoice)
+//                {
+//                     sf.setInvoice_number(factura.getInvoiceNumber());
+//                }
+//                else
+//                {
+//                    sf.setInvoice_number("0");
+//                }
+//                
+//                sf.setProductos(listaProductos);
                 //guardando datos del cliente
-                clientId=sf.getClient_id();
+                clientId=cliente.getCliente().getPublic_id();
 
                 /*guardar esta factura para el offline XD
                  estos son los datos a guardar 
@@ -2297,7 +2300,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                  FacturaOffline fac = new FacturaOffline();
 
         //         fac.setFactura(guardar);
-                 fac.setListaProductos(listaProductos);
+                 fac.setListaProductos(factura.getListaProductos());
                  fac.setClienteId(factura.getCliente().getId());
                  fac.setItems(factura.getInvoiceItems());
                  fac.setCodCli(cliente.getCliente().getPublic_id());
@@ -4895,6 +4898,7 @@ public TextField getTextNativo()
         Converter conv= new Converter();
         Vector vnombre = TextLine("NOMBRE: "+factura.getCliente().getName(),36);
         Vector literal = TextLine("SON: "+conv.getStringOfNumber(factura.getAmount()),39);
+        Vector vactividad = TextLine(cuenta.getSucursal().getActivity_pri(),40);
         Vector s = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
         byte titulos[]= null;
         //algoritmo de impresion de invoice items
@@ -4978,7 +4982,12 @@ public TextField getTextNativo()
 //                                    imprimir.printText("ELABORACI\u00D3N DE BEBIDAS NO ALCOH\u00D3LICAS",1);
 //                                    imprimir.printText("PRODUCCI\u00D3N DE AGUAS MINERALES.",1);
 //                                    ImprimirActividad();
-                                    imprimir.printBitmap(actividad);
+//                                    imprimir.printBitmap(actividad);
+                                     for(int j=0;j<vactividad.size();j++)
+                                    {
+                                        String linea = (String) vactividad.elementAt(j);
+                                        imprimir.printText(linea, 1);
+                                    }
                                     imprimir.printText("FECHA: "+factura.getInvoiceDate()+"         Hora: "+DateUtil.dateToString1(), 1);
                                     imprimir.printText("NIT/CI: "+factura.getCliente().getNit()+"        COD.:"+factura.getCliente().getPublic_id(), 1);
 //                                    imprimir.printText("NOMBRE: "+factura.getCliente().getName(), 1);
@@ -6125,7 +6134,8 @@ public TextField getTextNativo()
     }
 
     private Alert alertaCliente() {
-          //#style mailAlert
+        
+        //#style mailAlert
         Alert alert = new Alert("Cliente numero  "+cliente.getCliente().getPublic_id(), "Ya selecciono al cliente "+ cliente.getCliente().getName()+", \n desea seleccionar otro cliente?", null, AlertType.CONFIRMATION);
        final Command cmdYes = new Command("Si", Command.OK, 1);
        final Command cmdNo = new Command("No", Command.CANCEL, 1);

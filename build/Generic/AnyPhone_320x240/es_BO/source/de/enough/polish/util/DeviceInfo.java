@@ -310,7 +310,7 @@ public class DeviceInfo
 					}
 				} catch (Exception e) {
 					//#debug info
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.util.DeviceInfo", 313, "Unable to retrieve System property " + name + ": most likely need to be signed", e);
+					//# System.out.println("Unable to retrieve System property " + name + ": most likely need to be signed" + e);
 				}
 			}
 			if (id != null) {

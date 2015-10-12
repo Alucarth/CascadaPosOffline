@@ -97,7 +97,7 @@ public class StreamUtil {
 				return new String( buffer, 0, buffer.length, encoding );
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.StreamUtil", 100, "Unable to encode string with " + encoding, e);
+				//# System.out.println("Unable to encode string with " + encoding + e);
 				return new String( buffer, 0, buffer.length );
 			}
 		} else {
@@ -203,7 +203,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.StreamUtil", 1
 			}
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.StreamUtil", 206, "Unable to read stream fully ", e);
+			//# System.out.println("Unable to read stream fully " + e);
 		}
 		return out.toByteArray();
 	}

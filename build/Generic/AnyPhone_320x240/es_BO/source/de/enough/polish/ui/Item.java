@@ -1371,7 +1371,7 @@ public abstract class Item implements UiElement, Animatable
 				return viewType;
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 1374, "Container: Unable to init view-type ", e );
+				//# System.out.println("Container: Unable to init view-type " + e );
 			}
 		}
 		return this.view;
@@ -2516,7 +2516,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 1374, "Co
 				return;
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 2519, "Unable to forward ItemStateChanged event to listener " + this.itemStateListener, e );
+				//# System.out.println("Unable to forward ItemStateChanged event to listener " + this.itemStateListener + e );
 			}
 		}
 		Screen scr = StyleSheet.currentScreen;
@@ -4960,7 +4960,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 2519, "Un
 			return true;
 		} catch (Exception e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 4963, "Unable to handle command " + cmd.getLabel(), e );
+			//# System.out.println("Unable to handle command " + cmd.getLabel() + e );
 		}
 		return false;
 	}
@@ -5086,7 +5086,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 4963, "Un
 		Screen myScreen = getScreen();
 		if ( myScreen == null ) {
 			//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Item", 5089, "Unable to show this item, since the screen is not known.");
+			//# System.out.println("Unable to show this item, since the screen is not known.");
 			return;
 		}
 		
@@ -5567,24 +5567,24 @@ de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Item", 5089, "Una
 	}
 
 	//#if polish.debug.error || polish.keepToString
-	/**
-	 * Generates a String representation of this item.
-	 * This method is only implemented when the logging framework is active or the preprocessing variable 
-	 * "polish.keepToString" is set to true.
-	 * @return a String representation of this item.
-	 */
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		if (this.label != null && this.label.text != null) {
-			buffer.append( '"' ).append( this.label.text ).append("\""); 
-		}
-		if (this.style != null) {
-			buffer.append(" [").append(this.style.name).append("]");
-		}
-		buffer.append(": ");
-		buffer.append( super.toString() );
-		return buffer.toString();
-	}
+	//# /**
+	 //# * Generates a String representation of this item.
+	 //# * This method is only implemented when the logging framework is active or the preprocessing variable 
+	 //# * "polish.keepToString" is set to true.
+	 //# * @return a String representation of this item.
+	 //# */
+	//# public String toString() {
+		//# StringBuffer buffer = new StringBuffer();
+		//# if (this.label != null && this.label.text != null) {
+			//# buffer.append( '"' ).append( this.label.text ).append("\""); 
+		//# }
+		//# if (this.style != null) {
+			//# buffer.append(" [").append(this.style.name).append("]");
+		//# }
+		//# buffer.append(": ");
+		//# buffer.append( super.toString() );
+		//# return buffer.toString();
+	//# }
 	//#endif
 
 	/**
@@ -6034,7 +6034,7 @@ de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Item", 5089, "Una
 		//#if polish.midp2
 			if (this.itemWidth < 1 || this.itemHeight < 1) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Item", 6037, "Unable to retrieve RGB data for item with a dimension of " + this.itemWidth + "x" + this.itemHeight + " for ", this );
+				//# System.out.println("Unable to retrieve RGB data for item with a dimension of " + this.itemWidth + "x" + this.itemHeight + " for " + this );
 				return new int[0];
 			}
 			Image image = Image.createImage( this.itemWidth, this.itemHeight );
