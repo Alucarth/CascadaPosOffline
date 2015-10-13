@@ -1,20 +1,15 @@
 package com.mobiwire.startup;
 
 
-import com.david.controles.TextDavid;
-import com.david.controles.Texto;
 import com.david.torrez.CodigoDeControl;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.BmpArray;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.ipx.db.Note;
 import com.ipx.db.Usuario;
 import com.ipx.http.ConectorRest; 
-import com.ipx.http.Conexion;
 import com.ipx.http.ConexionIpx;
-import com.ipx.http.Rest;
 import com.ipx.http.switchDisplay;  
 import com.ipx.json.Account;
 import com.ipx.json.Cliente;
@@ -22,22 +17,15 @@ import com.ipx.json.Clients;
 import com.ipx.json.Cuenta;
 import com.ipx.json.Factura;
 import com.ipx.json.FacturaOffline;
-import com.ipx.json.Facturas;
 import com.ipx.json.InvoiceItem;
-import com.ipx.json.InvoiceItems;
 import com.ipx.json.Products;
-import com.ipx.json.RegistroCliente;
 import com.ipx.json.ResponseSave;
 import com.ipx.json.SendInvoices;
 import com.ipx.json.Sucursal;
-import com.ipx.json.Version;
 import com.ipx.json.facturaRespuesta;
-import com.ipx.json.solicitudFactura;
-import com.ipx.util.ByteIpx;
 import com.ipx.util.Converter;
 import com.ipx.util.Log;
 
-import com.ipx.util.Numero_a_Letra;
 import com.ipx.util.Tokenizer;
 import com.mobiwire.print.DeviceOps;
 import com.nbbse.printer.Printer;
@@ -51,20 +39,15 @@ import de.enough.polish.ui.SplashScreen;
 import de.enough.polish.util.TableData;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;  
 import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDlet;
-import javax.microedition.midlet.MIDletStateChangeException;
 import net.sf.microlog.core.Logger;
 import net.sf.microlog.core.LoggerFactory;
 import net.sf.microlog.core.PropertyConfigurator;
-import org.json.me.JSONException;
-import org.json.me.JSONObject;
 import org.netbeans.microedition.util.SimpleCancellableTask;
 
 
@@ -309,8 +292,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Ticker ticker;
     private Image image19;
+    private Ticker ticker;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -452,7 +435,7 @@ public class StartApp extends MIDlet implements CommandListener {
 
 
         textField = new TextField("codigo de control generado", null, 32, TextField.ANY);//GEN-LINE:|0-initialize|1|0-postInitialize
-        
+      
 
 //        gau = new Gauge(null, false, Gauge.INDEFINITE, Gauge.CONTINUOUS_RUNNING);
 //        ScreenInfo.setItem(gau);
@@ -1651,6 +1634,7 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                 		}
                     
                     //Cargando el titulo de la lista
+                        DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline());
                     
                 }
                 else
@@ -2261,11 +2245,26 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
         alert.setCommandListener(new CommandListener() {
             public void commandAction(Command c, Displayable d) {
                 if (c == cmdYes) {
+                    if(DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline()))
+                    {
+                        guardarFactura(true);
+                    }
+                    else
+                    {
+                        switchDisplayable (alerta("Fecha Vencida"," La fecha limite de emision de la sucursal esta vencida por lo cual no puede emitir facturas"), getFormFactura()); 
+                    }
                     
-                    guardarFactura(true);
                 } else {
-                 
-                    guardarFactura(false);
+                    
+                     if(DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline()))
+                    {
+                        guardarFactura(false);
+                    }
+                    else
+                    {
+                        switchDisplayable (alerta("Fecha Vencida"," La fecha limite de emision de la sucursal esta vencida por lo cual no puede emitir facturas"), getFormFactura()); 
+                    }
+               
                 }               
             }
 
@@ -4671,6 +4670,7 @@ formSincronizacion = new Form("Reporte de Datos", new Item[]{getStrNumClientes()
             formSincronizacion.addCommand(getOkCommand27());
             formSincronizacion.setCommandListener(this);//GEN-END:|1393-getter|1|1393-postInit
  // write post-init user code here
+            verificarFecha();
 }//GEN-BEGIN:|1393-getter|2|
         return formSincronizacion;
     }
@@ -6695,7 +6695,10 @@ public TextField getTextNativo()
                         case LISTMENU:
                              switchDisplayable(null,getListMenu());
                             break;
-                           
+                        case GUARDARFACTURA:
+                            switchDisplayable (null, getFormFactura());
+                            break;
+                       
                        
                        
                     }
@@ -6704,6 +6707,13 @@ public TextField getTextNativo()
             }
         });
         return alert;
+    }
+    private void verificarFecha()
+    {
+        if(DateUtil.VerificarFechaAlerta(cuenta.getSucursal().getDeadline()))
+        {
+            switchDisplayable (alerta("Alerta de Fecha ","su llave de dosificacion esta apunto de vencer, comuniquese con el administrador, de lo contrarario no podra emitir facturas"), getFormFactura());
+        }
     }
      private void borrarInformacion() {
         

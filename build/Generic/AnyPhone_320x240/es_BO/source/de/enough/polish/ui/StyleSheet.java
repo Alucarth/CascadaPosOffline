@@ -815,7 +815,7 @@ public static Command CANCEL_CMD = new Command("Cancelar", Command.CANCEL, 3 );
 	public static Style getStyle( Item item ) {
 		if (item.screen == null) {
 			//#debug info
-			//# System.out.println("unable to retrieve style for item [" + item.getClass().getName() + "] without screen.");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.ui.StyleSheet", 269, "unable to retrieve style for item [" + item.getClass().getName() + "] without screen.");
 			return defaultStyle;
 		}
 		String itemCssSelector = item.cssSelector;

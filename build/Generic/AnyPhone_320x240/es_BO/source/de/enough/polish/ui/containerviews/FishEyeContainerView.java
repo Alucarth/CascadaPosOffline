@@ -155,7 +155,7 @@ public class FishEyeContainerView extends ContainerView {
 			//#if polish.midp2
 			if (this.shownRgbDataWidths == null) {
 				//#debug warn
-				//# System.out.println("FishEyeContainerView is animated before initContent has been called");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.containerviews.FishEyeContainerView", 158, "FishEyeContainerView is animated before initContent has been called");
 				return;
 			}
 			//#endif

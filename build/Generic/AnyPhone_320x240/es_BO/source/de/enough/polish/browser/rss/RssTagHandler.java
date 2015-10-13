@@ -225,7 +225,7 @@ public static final Command CMD_GO_TO_ARTICLE = new Command("Go", Command.SCREEN
 								this.browser.loadPartialPage(new StringReader(this.description));
 							} catch (Exception e) {
 								//#debug error
-								//# System.out.println("Unable to load description " + this.description + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.rss.RssTagHandler", 228, "Unable to load description " + this.description, e );
 							}
 						}
 					}

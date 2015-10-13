@@ -908,9 +908,9 @@ public class TreeItem
 		
 
 		//#if polish.debugEnabled
-		//# public String toString() {
-			//# return "Node " + this.root + "/" + super.toString();
-		//# }
+		public String toString() {
+			return "Node " + this.root + "/" + super.toString();
+		}
 		//#endif
 
 		/* (non-Javadoc)

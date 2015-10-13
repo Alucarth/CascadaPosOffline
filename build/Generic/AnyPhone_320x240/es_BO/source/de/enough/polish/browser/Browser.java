@@ -566,7 +566,7 @@ implements Runnable, ResourceLoader
 			else
 			{
 				//#debug error
-				//# System.out.println("unknown type: " + type + ", name=" + parser.getName());
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 569, "unknown type: " + type + ", name=", parser.getName());
 			}
 		} // end while (parser.next() != PullParser.END_DOCUMENT)
 
@@ -932,7 +932,7 @@ implements Runnable, ResourceLoader
 				// TODO: Implement proper error handling.
 
 				//#debug error
-				//# System.out.println("Unable to load image " + url + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 935, "Unable to load image " + url, e);
 
 				return null;
 			} finally {
@@ -941,7 +941,7 @@ implements Runnable, ResourceLoader
 						is.close();
 					} catch (Exception e) {
 						//#debug error
-						//# System.out.println("unable to close inputstream " + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 944, "unable to close inputstream ", e );
 					}
 				}
 				if (connection != null) {
@@ -952,7 +952,7 @@ implements Runnable, ResourceLoader
 						connection = null;
 					} catch (Exception e) {
 						//#debug error
-						//# System.out.println("unable to close connection " + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 955, "unable to close connection ", e );
 					}
 				}
 			}
@@ -1152,7 +1152,7 @@ implements Runnable, ResourceLoader
 		catch (Exception e)
 		{
 			//#debug error
-			//# System.out.println("Unable to load page " + url + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 1155, "Unable to load page " + url, e );
 			this.currentDocumentBase = previousDocumentBase;
 			notifyPageError(url, e);
 			closeContainers();
@@ -1162,7 +1162,7 @@ implements Runnable, ResourceLoader
 					is.close();
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("unable to close inputstream " + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 1165, "unable to close inputstream ", e );
 				}
 			}
 			if (connection != null) {
@@ -1170,7 +1170,7 @@ implements Runnable, ResourceLoader
 					connection.close();
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Unable to close connection " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 1173, "Unable to close connection ", e);
 				}
 			}
 			HistoryEntry entry = this.scheduledHistoryEntry;
@@ -1319,7 +1319,7 @@ implements Runnable, ResourceLoader
 			}
 			catch (Exception e) {
 				//#debug error
-				//# System.out.println("Unable to load " + this.currentDocumentBase + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.Browser", 1322, "Unable to load " + this.currentDocumentBase, e);
 			}
 
 			if (this.isCancelRequested)
@@ -1398,7 +1398,7 @@ implements Runnable, ResourceLoader
 	{
 		if (this.isWorking && url.equals(this.currentDocumentBase)) {
 			//#debug info
-			//# System.out.println("ignoring go request for " + url + ", as this is currently loading.");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.browser.Browser", 1401, "ignoring go request for " + url, ", as this is currently loading.");
 			return;
 		}
 		//#debug
@@ -1422,7 +1422,7 @@ implements Runnable, ResourceLoader
 	{
 		if (this.isWorking && url.equals(this.currentDocumentBase)) {
 			//#debug info
-			//# System.out.println("ignoring go request for " + url + ", as this is currently loading.");
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.browser.Browser", 1425, "ignoring go request for " + url, ", as this is currently loading.");
 			return;
 		}
 		//#debug

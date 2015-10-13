@@ -79,7 +79,7 @@ public class TaskThread extends Thread {
 					task.execute();
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Unable to execute task " + task + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.TaskThread", 82, "Unable to execute task " + task, e );
 				}
 			}
 			synchronized (this.queue) {

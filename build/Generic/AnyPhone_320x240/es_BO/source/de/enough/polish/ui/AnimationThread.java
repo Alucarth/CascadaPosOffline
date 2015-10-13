@@ -115,9 +115,9 @@ public class AnimationThread extends Thread
 	 */
 	public AnimationThread() {
 		//#if polish.cldc1.1 && polish.debug.error
-			//# super("AnimationThread");
+			super("AnimationThread");
 		//#else
-			super();
+			//# super();
 		//#endif
 		//#if polish.css.animations
 			//# EventManager.getInstance().addEventListener(null, this);
@@ -279,7 +279,7 @@ public class AnimationThread extends Thread
 				// ignore
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("unable to animate screen" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.AnimationThread", 282, "unable to animate screen", e );
 			}
 
 		}

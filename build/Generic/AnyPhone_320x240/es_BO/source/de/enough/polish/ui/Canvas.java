@@ -646,7 +646,7 @@ implements Displayable
     			Display._setFullScreenMode(mode);
     		} catch (Exception e) {
     			//#debug error
-    			//# System.out.println("Unable to switch to fullscreen mode " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Canvas", 649, "Unable to switch to fullscreen mode ", e);
     		}
     	//#endif
     }

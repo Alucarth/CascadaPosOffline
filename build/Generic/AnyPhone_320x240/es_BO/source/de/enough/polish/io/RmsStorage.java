@@ -176,7 +176,7 @@ public class RmsStorage
 			} 
 			catch (RecordStoreException e) {
 				//#debug error
-				//# System.out.println("unable to close master recordstore " + e.toString());
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RmsStorage", 179, "unable to close master recordstore ", e.toString());
 			}
 		}
 	}
@@ -353,7 +353,7 @@ public class RmsStorage
 			}
 		} catch (RecordStoreException e ) {
 			//#debug error
-			//# System.out.println("Unable to store object under name [" + newKey + "]" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RmsStorage", 356, "Unable to store object under name [" + newKey + "]", e );
 			throw new IOException( e.toString() );
 		}
 	}
@@ -419,9 +419,9 @@ public class RmsStorage
 	public String[] list() throws IOException {
 		if (this.masterRecordStore == null) {
 			//#if polish.debug.verbose
-				//# throw new IllegalStateException("need  to use a single-name RmsStorage configuration for being able to list entries.");
+				throw new IllegalStateException("need  to use a single-name RmsStorage configuration for being able to list entries.");
 			//#else
-				throw new IllegalStateException();
+				//# throw new IllegalStateException();
 			//#endif
 		}
 		return (String[]) this.masterRecordSetIdsByName.keys( new String[ this.masterRecordSetIdsByName.size() ]);
@@ -517,7 +517,7 @@ public class RmsStorage
 			return this.masterRecordStore.getSize();
 		} catch (RecordStoreNotOpenException e) {
 			//#debug warn
-			//# System.out.println("Unable to retrieve masterStoreSize" + e );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.RmsStorage", 520, "Unable to retrieve masterStoreSize", e );
 		}
 		return -1;
 	}
@@ -534,7 +534,7 @@ public class RmsStorage
 			return this.masterRecordStore.getSizeAvailable();
 		} catch (RecordStoreNotOpenException e) {
 			//#debug warn
-			//# System.out.println("Unable to retrieve available masterStoreSize" + e );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.RmsStorage", 537, "Unable to retrieve available masterStoreSize", e );
 		}
 		return -1;
 	}
@@ -557,7 +557,7 @@ public class RmsStorage
 			this.masterRecordStore.closeRecordStore();
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Unable to close record store" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.RmsStorage", 560, "Unable to close record store", e);
 		}
 		this.isClosed = true;
 	}

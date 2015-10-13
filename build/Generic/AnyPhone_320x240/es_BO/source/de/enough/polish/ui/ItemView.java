@@ -257,7 +257,7 @@ public abstract class ItemView implements Serializable{
 	public Background removeParentBackground() {
 		if (this.parentItem == null) {
 			//#debug warn
-			//# System.out.println("Unable to remove parent background when parent field is not set.");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.ItemView", 260, "Unable to remove parent background when parent field is not set.");
 			return null;
 		}
 		Background bg = this.parentItem.background;
@@ -273,7 +273,7 @@ public abstract class ItemView implements Serializable{
 	public Border removeParentBorder() {
 		if (this.parentItem == null) {
 			//#debug warn
-			//# System.out.println("Unable to remove parent border when parentContainer field is not set.");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.ItemView", 276, "Unable to remove parent border when parentContainer field is not set.");
 			return null;
 		}
 		Border border = this.parentItem.border;

@@ -211,7 +211,7 @@ implements Runnable, PlayerListener
 			initApp();
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Unable to call initApp()" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 214, "Unable to call initApp()", e );
 		}
 	}
 	
@@ -226,7 +226,7 @@ implements Runnable, PlayerListener
 			InputStream is = this.getClass().getResourceAsStream( this.movieUrl );
 			if (is == null) {
 				//#debug error
-				//# System.out.println("did not find video resource " + this.movieUrl);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 229, "did not find video resource ", this.movieUrl);
 				this.isVideoFinished = true;
 				return;
 			}
@@ -237,7 +237,7 @@ implements Runnable, PlayerListener
 	            VideoControl control = ( VideoControl ) this.player.getControl( "VideoControl" );
 	            if (control == null) {
 	            	//#debug error
-	            	//# System.out.println("Unable to retrieve VideoControl");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 240, "Unable to retrieve VideoControl");
 					this.isVideoFinished = true;
 	            	return;
 	            }
@@ -261,7 +261,7 @@ implements Runnable, PlayerListener
 	        catch (Exception e)
 	        {
 	        	//#debug error
-	        	//# System.out.println("unable to start video " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 264, "unable to start video ", e);
 				this.isVideoFinished = true;
 	        }
 		}
@@ -322,7 +322,7 @@ implements Runnable, PlayerListener
 					this.videoControl.setVisible(false);
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Unable to invisible player" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 325, "Unable to invisible player", e);
 				}
 				this.videoControl = null;
 			}
@@ -330,7 +330,7 @@ implements Runnable, PlayerListener
 				this.player.close();
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("Unable to close player" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 333, "Unable to close player", e);
 			}
 			this.player = null;
 		}

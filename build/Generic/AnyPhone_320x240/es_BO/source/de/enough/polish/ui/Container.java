@@ -1036,7 +1036,7 @@ public class Container extends Item {
 				previouslyFocusedItem.defocus(this.itemStyle);
 			} else {
 				//#debug error
-				//# System.out.println("Container: Unable to defocus item - no previous style found.");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Container", 1039, "Container: Unable to defocus item - no previous style found.");
 				previouslyFocusedItem.defocus( StyleSheet.defaultStyle );
 			}
 			if (isInitialized()) {
@@ -1083,10 +1083,10 @@ public class Container extends Item {
 			} 
 		//#endif
 		//#ifdef polish.debug.error
-			//# if (this.itemStyle == null) {
+			if (this.itemStyle == null) {
 				//#debug error 
-				//# System.out.println("Container: Unable to retrieve style of item " + item.getClass().getName() );
-			//# }
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Container", 1088, "Container: Unable to retrieve style of item ", item.getClass().getName() );
+			}
 		//#endif
 		//System.out.println("focus - still initialzed=" + this.isInitialized + " for " + this);
 		if  (isInitialized()) {
@@ -4423,7 +4423,7 @@ public class Container extends Item {
 					return viewType;
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Container: Unable to init view-type " + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Container", 4426, "Container: Unable to init view-type ", e );
 				}
 			}
 			return this.containerView;
