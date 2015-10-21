@@ -62,7 +62,7 @@
 	<target name="setdeploy" 
 		description="Call this target first to set the OTA download-URL, e.g. ant setdeploy j2mepolish"
 		>
-		<property name="deploy-url" value="http://www.davidtorrez.com.bo/download/" />
+		<property name="deploy-url" value="http://pos.sigcfactu.com.bo/offline/" />
 	</target>
 	
 	<target name="enableDebug" 
@@ -102,8 +102,8 @@
 		    <!-- general settings -->
 			<info
 				name="CascadaOfflinePOS"
-				version="2.0.0"
-				description="Facturador Mobil IPX"
+				version="3.0.0"
+				description="Factura Virttual IPX by Ing. L. David Torrez Salinas "
 				vendorName="IpxServer"
 				infoUrl="http://localhost"
 				jarName="CascadaOfflinePOS.jar" 

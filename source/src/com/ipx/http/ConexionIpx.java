@@ -49,6 +49,7 @@ public class ConexionIpx extends Thread
    public static final int FACTURAS=6;
    public static final int PRINTFACTURA=7;
    public static final int GETFACTURA=8;
+ 
     
     private String Respuesta=null;
     protected int respCode=0;
@@ -221,6 +222,8 @@ public class ConexionIpx extends Thread
     public String getClave()
     {
         String llave_base64 = "Basic " + Base64.encode(this.llave);
+        Log.i("Conexion ", "llave "+this.llave);
+//        Log.w("Conexion", "llave "+this.llave);
         return llave_base64;
     }
     public void EnviarRestPost(String url,String parametros)  throws IOException
