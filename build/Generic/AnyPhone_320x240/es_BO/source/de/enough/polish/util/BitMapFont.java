@@ -114,7 +114,7 @@ public final class BitMapFont {
 			initFont(in);
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.BitMapFont", 117, "Unable to load bitmap-font [" + this.fontUrl + "]", e);
+			//# System.out.println("Unable to load bitmap-font [" + this.fontUrl + "]" + e);
 		//#ifndef polish.Bugs.ImageIOStreamAutoClose
 		} finally {
 			if (in != null) {
@@ -122,7 +122,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.BitMapFont", 1
 					in.close();
 				} catch (IOException e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.BitMapFont", 125, "Unable to close bitmap-font stream", e);
+					//# System.out.println("Unable to close bitmap-font stream" + e);
 				}
 			}
 		//#endif
@@ -279,7 +279,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.BitMapFont", 1
 				} catch (IOException e)
 				{
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.BitMapFont", 282, "Unable to initialize bitmap font from input stream", e);
+					//# System.out.println("Unable to initialize bitmap font from input stream" + e);
 				}
 			}
 		}

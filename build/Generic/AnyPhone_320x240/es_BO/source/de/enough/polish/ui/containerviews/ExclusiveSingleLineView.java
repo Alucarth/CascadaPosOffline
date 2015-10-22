@@ -497,7 +497,7 @@ public class ExclusiveSingleLineView extends ContainerView {
 		Item[] items = this.parentContainer.getItems();
 		if (this.currentItem == null) {
 			//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.containerviews.ExclusiveSingleLineView", 500, "ExclusiveSingleLineView: getNextItem(): no current item defined, it seems the initContent() has been skipped.");
+			//# System.out.println("ExclusiveSingleLineView: getNextItem(): no current item defined, it seems the initContent() has been skipped.");
 			this.currentItemIndex = choiceGroup.getSelectedIndex();
 			this.currentItem = (ChoiceItem) items[ this.currentItemIndex ];
 		}

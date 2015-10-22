@@ -36,6 +36,7 @@ import de.enough.polish.ui.*;
 
 //import de.enough.polish.ui.TableItem;
 import de.enough.polish.ui.SplashScreen;
+import de.enough.polish.util.Arrays;
 import de.enough.polish.util.TableData;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class StartApp extends MIDlet implements CommandListener {
     
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3";
+     private String version ="3.1";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -292,8 +293,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Ticker ticker;
     private Image image19;
+    private Ticker ticker;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -5007,6 +5008,8 @@ public TextField getTextNativo()
         Vector literal = TextLine("SON: "+conv.getStringOfNumber(factura.getAmount()),39);
         Vector vactividad = TextLine(cuenta.getSucursal().getActivity_pri(),40);
         Vector s = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
+        Vector vterceros = TextLine(cuenta.getSucursal().getName(),40);
+        
         byte titulos[]= null;
         //algoritmo de impresion de invoice items
         try {
@@ -5070,13 +5073,19 @@ public TextField getTextNativo()
 //                                    imprimir.printBitmap(deviceOps.readImage("/FAC_tigo2.bmp", 0));
 //                                    //imprimir.printBitmap(deviceOps.readImage("/viva.bmp", 0));
                                     //Encabezado 
+                                    for(int j=0;j<vterceros.size();j++)
+                                    {
+                                         String linea = (String) vterceros.elementAt(j);
+                                        imprimir.printText(linea, 1);
+                                    }
+                                    imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
                                     imprimir.printTextWidthHeightZoom(ConstruirFilaA("La Cascada S.A"), 2, 1);
 //                                    imprimir.printTextWidthHeightZoom(ConstruirFilaA(), 2, 1);
-                                    imprimir.printText(ConstruirFila(factura.getAccount().getName()), 1);
+//                                    imprimir.printText(ConstruirFila(factura.getAccount().getName()), 1);
                                     imprimir.printText(ConstruirFila(factura.getAddress1()), 1);
                                     imprimir.printText(ConstruirFila(factura.getAddress2()), 1);
 //                                    imprimir.printText(ConstruirFila("SFC-001"), 1);
-                                    imprimir.printText(ConstruirFila("FACTURA"), 1);
+                                    imprimir.printText("            FACTURA POR TERCEROS", 1);
                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
                                     //Datos de la Empresa
                                     imprimir.printText(ConstruirFila("NIT: "+factura.getAccount().getNit()), 1);
@@ -6194,6 +6203,7 @@ public TextField getTextNativo()
     private void imprimirReporte() {
         
         pantalla = SINCRONIZAR;
+        FacturaOffline facturasDesordenadas[] = new FacturaOffline[facturas.size()];
 //        Cargando();
         for(int i=0;i<facturas.size();i++)
         {
@@ -6236,17 +6246,35 @@ public TextField getTextNativo()
                 }
 
                }
-            
+            facturasDesordenadas[i]= ((FacturaOffline)facturas.elementAt(i));
         }
+        
+        for(int i =0;i<facturasDesordenadas.length;i++)
+        {
+            for(int j=0;j<facturasDesordenadas.length;j++)
+            {
+                if(Integer.parseInt(facturasDesordenadas[i].getInvoice_number())<Integer.parseInt(facturasDesordenadas[j].getInvoice_number()))
+                {
+                    FacturaOffline aux = facturasDesordenadas[i];
+                    
+                    facturasDesordenadas[i]= facturasDesordenadas[j];
+                    facturasDesordenadas[j]=aux;
+                }
+            }
+        }
+        
         imprimir = Printer.getInstance();
         imprimir.printText("Reporte de facturas Emitidas", 1);
+//        Arrays.sort(facturasDesordenadas);
         
-        for(int i=0;i<facturas.size();i++)
+        
+        
+        for(int i=0;i<facturasDesordenadas.length;i++)
         {
-            FacturaOffline factura = (FacturaOffline) facturas.elementAt(i);
-            imprimir.printText("\n  Factura Nro. "+factura.getInvoice_number(), 1);
-            imprimir.printText("  Cliente: "+factura.getNameCliente(), 1);
-            imprimir.printText("  Total Bs: "+factura.getAmount(), 1);
+//            FacturaOffline factura = facturasDesordenadas[i];
+            imprimir.printText("\n  Factura Nro. "+facturasDesordenadas[i].getInvoice_number(), 1);
+            imprimir.printText("  Cliente: "+facturasDesordenadas[i].getNameCliente(), 1);
+            imprimir.printText("  Total Bs: "+facturasDesordenadas[i].getAmount(), 1);
         }
         imprimir.printEndLine();
 //        cambiarPantalla();
@@ -6788,9 +6816,15 @@ public TextField getTextNativo()
     
     public void EliminarFacturas()
     {
-        facturas.removeAllElements();
-        
-        getStrNumFacturas().setText(""+facturas.size());
+        try {
+            facturas.removeAllElements();
+            
+            getStrNumFacturas().setText(""+facturas.size());
+            storage.save(facturas, "facturas");
+            System.out.print("facturas borrados");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     public Alert alerta(final String titulo,final String mensaje)
     {

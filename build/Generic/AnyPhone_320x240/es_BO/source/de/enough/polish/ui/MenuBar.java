@@ -1311,19 +1311,19 @@ public class MenuBar extends Item {
 					setInitialized(false);
 				} else { 
 					//#if polish.debug.error
-						if (gameAction == Canvas.DOWN || gameAction == Canvas.UP) {
+						//# if (gameAction == Canvas.DOWN || gameAction == Canvas.UP) {
 							//#if polish.Container.allowCycling != false
 								//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.MenuBar", 1317, "Container DID NOT HANDLE DOWN OR UP, selectedIndex=" + this.commandsContainer.getFocusedIndex() + ", count="+ this.commandsContainer.size() + ", cycling=", this.commandsContainer.allowCycling);
+								//# System.out.println("Container DID NOT HANDLE DOWN OR UP, selectedIndex=" + this.commandsContainer.getFocusedIndex() + ", count="+ this.commandsContainer.size() + ", cycling=" + this.commandsContainer.allowCycling);
 							//#else
 								//#debug error
 								//# System.out.println("Container DID NOT HANDLE DOWN OR UP probably since cycling has been DEACTIVATED - check your polish.Container.allowCycling preprocessing variable" );
 							//#endif
 							//#if polish.css.view-type
 								//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.MenuBar", 1324, "view-type of container " + this.commandsContainer + " = ", this.commandsContainer.containerView );
+								//# System.out.println("view-type of container " + this.commandsContainer + " = " + this.commandsContainer.containerView );
 							//#endif
-						}
+						//# }
 					//#endif
 					if (keyCode >= Canvas.KEY_NUM1 && keyCode <= Canvas.KEY_NUM9) {
 						int index = keyCode - Canvas.KEY_NUM1;
@@ -2106,7 +2106,7 @@ color =  0x96000000;
 	private void addCommand(CommandItem item ) {
 		if (item == null) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.MenuBar", 2109, "MenuBar.addCommand(CommandItem): Unable to add null CommandItem");
+			//# System.out.println("MenuBar.addCommand(CommandItem): Unable to add null CommandItem");
 			return;
 		}
 		Command cmd = item.command;

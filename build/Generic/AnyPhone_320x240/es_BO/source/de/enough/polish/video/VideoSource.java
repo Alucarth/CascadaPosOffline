@@ -35,7 +35,7 @@ public class VideoSource implements Serializable {
 		} catch (MediaException e) {
 			CAPTURE = null;
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoSource", 38, "capture is not supported");
+			//# System.out.println("capture is not supported");
 		}
 	}
 
@@ -223,7 +223,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoSource",
 		{
 			this.callback.onVideoError(e);
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.video.VideoSource", 226, "Unable to close connection", e);
+			//# System.out.println("Unable to close connection" + e);
 		}
 	}
 	

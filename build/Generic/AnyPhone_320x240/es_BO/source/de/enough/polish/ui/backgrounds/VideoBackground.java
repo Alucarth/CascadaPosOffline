@@ -95,7 +95,7 @@ public class VideoBackground extends Background
 			InputStream is = openInputStream();
 			if (is == null) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 98, "did not find video resource ", this.url);
+				//# System.out.println("did not find video resource " + this.url);
 				return;
 			}
 	        try
@@ -106,7 +106,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Vide
 	            VideoControl control = ( VideoControl ) this.player.getControl( "VideoControl" );
 	            if (control == null) {
 	            	//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 109, "Unable to retrieve VideoControl");
+	            	//# System.out.println("Unable to retrieve VideoControl");
 	            	return;
 	            }
 	            control.initDisplayMode( VideoControl.USE_DIRECT_VIDEO, Display.getInstance() );
@@ -133,7 +133,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Vide
 	        catch (Exception e)
 	        {
 	        	//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 136, "unable to start video ", e);
+	        	//# System.out.println("unable to start video " + e);
 	        }
 		}
 	}
@@ -155,7 +155,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Vide
 			} catch (Exception e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 158, "unable to stop player");
+				//# System.out.println("unable to stop player");
 			}
 			this.player.deallocate();
 			this.player = null;
@@ -174,7 +174,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Vide
 			} catch (Exception e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 177, "unable to stop player ", e );
+				//# System.out.println("unable to stop player " + e );
 			}
 		}
 	}
@@ -190,14 +190,14 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Vide
 				VideoControl control = (VideoControl) this.player.getControl("VideoControl");
 				if (control == null) {
 					//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.backgrounds.VideoBackground", 193, "showNotify: unable to get VideoControl");
+					//# System.out.println("showNotify: unable to get VideoControl");
 					return;
 				}
 				this.player.start();
 			} catch (Exception e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.VideoBackground", 200, "unable to stop player ", e );
+				//# System.out.println("unable to stop player " + e );
 			}
 		}
 	}

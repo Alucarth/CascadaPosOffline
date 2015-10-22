@@ -78,7 +78,7 @@ implements BluetoothRemoteClient
 			} catch (Exception e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.SppRemoteClient", 81, "Unable to establish bluetooth connection", e);
+				//# System.out.println("Unable to establish bluetooth connection" + e);
 				throw new RemoteException( e );
 			}
 		}
@@ -90,7 +90,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.SppRe
 		} catch (IOException e)
 		{
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.SppRemoteClient", 93, "Unable to write/read method call", e);
+			//# System.out.println("Unable to write/read method call" + e);
 			try {
 				this.connection.close();
 			} catch (Exception ce) {
@@ -136,7 +136,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.SppRe
 		this.isConnecting = true;
 		try {
 			//#debug info
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.rmi.bluetooth.SppRemoteClient", 139, "Searching for service ", this.url);
+			//# System.out.println("Searching for service " + this.url);
 			StreamConnection con = (StreamConnection) DiscoveryHelper.findAndConnectService(this.url, DiscoveryHelper.SEARCH_MODE_GIAC, DiscoveryHelper.DEVICE_CLASS_MAJOR_PC, true);
 			if (con == null) {
 				throw new IOException(this.url + " not found");
@@ -145,7 +145,7 @@ de.enough.polish.util.Debug.debug("info", "de.enough.polish.rmi.bluetooth.SppRem
 			this.in = con.openDataInputStream();
 			this.out = con.openDataOutputStream();
 			//#debug info
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.rmi.bluetooth.SppRemoteClient", 148, "Connection established");
+			//# System.out.println("Connection established");
 		} finally {
 			this.isConnecting = false;
 		}

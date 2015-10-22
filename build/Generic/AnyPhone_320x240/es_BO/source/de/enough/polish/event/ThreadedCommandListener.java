@@ -104,7 +104,7 @@ public class ThreadedCommandListener implements Runnable, CommandListener {
 					this.parent.commandAction(cmd, disp);
 				} catch (Throwable e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.ThreadedCommandListener", 107, "Unable to process cmd " + cmd.getLabel() + " for screen " + disp, e);
+					//# System.out.println("Unable to process cmd " + cmd.getLabel() + " for screen " + disp + e);
 				}
 			} // while there are commands
 		} // while (!this.isStopRequested) 

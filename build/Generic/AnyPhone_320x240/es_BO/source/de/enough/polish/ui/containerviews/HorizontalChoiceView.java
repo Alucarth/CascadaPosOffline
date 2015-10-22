@@ -556,7 +556,7 @@ public class HorizontalChoiceView extends ContainerView {
 		int current = this.currentItemIndex;
 		if (currentItem == null) {
 			//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.containerviews.HorizontalChoiceView", 559, "HorizontalChoiceView: getNextItem(): no current item defined, it seems the initContent() has been skipped.");
+			//# System.out.println("HorizontalChoiceView: getNextItem(): no current item defined, it seems the initContent() has been skipped.");
 			current = choiceGroup.getSelectedIndex();
 			if (choiceGroup.getType() == ChoiceGroup.MULTIPLE) {
 				current = choiceGroup.getFocusedIndex();

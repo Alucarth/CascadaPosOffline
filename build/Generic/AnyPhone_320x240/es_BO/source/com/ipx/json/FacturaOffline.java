@@ -7,6 +7,8 @@
 package com.ipx.json;
 
 import de.enough.polish.io.Serializable;
+//import de.enough.polish.util.Comparable;
+//import java.util.Comparator;
 import java.util.Vector;
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
@@ -329,5 +331,16 @@ public class FacturaOffline implements Serializable
     public void setListaProductos(Vector listaProductos) {
         this.listaProductos = listaProductos;
     }
+
+
+
+//    public int compareTo(Object o) {
+//         FacturaOffline f = (FacturaOffline) o;
+//         if(Integer.parseInt(this.getInvoice_number())>Integer.parseInt(f.getInvoice_number()))
+//         {
+//             return 1;
+//         }
+//        return 0;
+//    }
     
 }

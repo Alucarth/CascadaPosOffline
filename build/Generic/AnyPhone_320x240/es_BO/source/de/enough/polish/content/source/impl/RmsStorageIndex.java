@@ -44,7 +44,7 @@ public class RmsStorageIndex extends StorageIndex {
 			
 		} catch (RecordStoreException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 47, "unable to open record store ", e);
+			//# System.out.println("unable to open record store " + e);
 		}
 	}
 
@@ -68,11 +68,11 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl
 			}
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 71, "unable to read index ", e);
+			//# System.out.println("unable to read index " + e);
 		}
 		 catch (RecordStoreException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 75, "unable to open record store ", e);
+			//# System.out.println("unable to open record store " + e);
 		}
 		 
 		 return null;
@@ -106,10 +106,10 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl
 			}
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 109, "unable to serialize index ", e);
+			//# System.out.println("unable to serialize index " + e);
 		} catch (RecordStoreException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 112, "unable to store index ", e);
+			//# System.out.println("unable to store index " + e);
 		}
 	}
 
@@ -120,7 +120,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl
 			store.closeRecordStore();
 		} catch (RecordStoreException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.impl.RmsStorageIndex", 123, "unable to close index ", e.toString());
+			//# System.out.println("unable to close index " + e.toString());
 		}
 	}
 

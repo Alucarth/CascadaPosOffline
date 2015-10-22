@@ -102,8 +102,8 @@
 		    <!-- general settings -->
 			<info
 				name="CascadaOfflinePOS"
-				version="3.0.0"
-				description="Factura Virttual IPX by Ing. L. David Torrez Salinas "
+				version="3.1.0"
+				description="Factura Virtual IPX by David Torrez Salinas "
 				vendorName="IpxServer"
 				infoUrl="http://localhost"
 				jarName="CascadaOfflinePOS.jar" 
