@@ -1,7 +1,9 @@
 package com.mobiwire.startup;
 
 
+
 import com.david.torrez.CodigoDeControl;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -73,7 +75,7 @@ public class StartApp extends MIDlet implements CommandListener {
     
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.1";
+     private String version ="3.2";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -293,8 +295,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -2446,9 +2448,27 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                             try {
         //                        factura = new Factura(rest.getRespuesta()); se inicializo en el getFormFactura
 
+                                    
+                                String nit1=factura.getAccount().getNit();
+                                String invoice_number2=factura.getInvoiceNumber();
+                                String num_auto3=factura.getNumAuto();
+                                String fecha_emision4=factura.getInvoiceDate();
+                                String total5=factura.getAmount();
+                                String credito_fiscal6=factura.getFiscal();
+                                String cod_control7=factura.getControlCode();
+                                String ci_8=factura.getCliente().getNit();
+                                String ice_9=factura.getIce();
+                                String importe_ventas10="0.0";
+                                String sincredito_fiscal11="0.0";
+                                double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
+                                String descuentos_bonificacion=""+redondeo(descuento,2);//;
                                 
-
-                                String datos =factura.getAccount().getNit()+"|"+factura.getInvoiceNumber()+"|"+factura.getNumAuto()+"|"+factura.getInvoiceDate()+"|"+factura.getAmount()+"|"+factura.getFiscal()+"|"+factura.getControlCode()+"|"+factura.getCliente().getNit()+"|"+factura.getIce()+"|0|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())),6)+"|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())-Double.parseDouble(factura.getIce())),6);
+                                
+                                String datos =nit1+"|"+invoice_number2+"|"+num_auto3+"|"+fecha_emision4+"|"+total5+"|"
+                                             +credito_fiscal6+"|"+cod_control7+"|"+ci_8+"|"+ice_9+"|"+importe_ventas10+"|"
+                                             +sincredito_fiscal11+"|"+descuentos_bonificacion;
+                                
+                                
                                 qrCodeImage = encode(datos);
 
                                 byte imagen[] =  ba.readImage(BMPGenerator.encodeBMP(qrCodeImage));
@@ -3665,8 +3685,27 @@ try {//GEN-BEGIN:|1282-getter|1|1282-@java.io.IOException
                                         
 //                       String datos =factura.getAccount().getNit()+"|"+factura.getInvoiceNumber()+"|"+factura.getNumAuto()+"|"+factura.getFechaLimite()+"|"+factura.getAmount()+"|"+factura.getFiscal()+"|"+factura.getControlCode()+"|"+factura.getCliente().getNit()+"|"+factura.getIce()+"|0|0|"+(Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount()));
 //                       String datos =factura.getAccount().getNit()+"|"+factura.getInvoiceNumber()+"|"+factura.getNumAuto()+"|"+factura.getFechaLimite()+"|"+factura.getAmount()+"|"+factura.getFiscal()+"|"+factura.getControlCode()+"|"+factura.getCliente().getNit()+"|"+factura.getIce()+"|0|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())),6)+"|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())-Double.parseDouble(factura.getIce())),6);
-                         String datos =factura.getAccount().getNit()+"|"+factura.getInvoiceNumber()+"|"+factura.getNumAuto()+"|"+factura.getInvoiceDate()+"|"+factura.getAmount()+"|"+factura.getFiscal()+"|"+factura.getControlCode()+"|"+factura.getCliente().getNit()+"|"+factura.getIce()+"|0|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())),6)+"|"+redondeo((Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount())-Double.parseDouble(factura.getIce())),6);
-          
+                       String nit1=factura.getAccount().getNit();
+                                String invoice_number2=factura.getInvoiceNumber();
+                                String num_auto3=factura.getNumAuto();
+                                String fecha_emision4=factura.getInvoiceDate();
+                                String total5=factura.getAmount();
+                                String credito_fiscal6=factura.getFiscal();
+                                String cod_control7=factura.getControlCode();
+                                String ci_8=factura.getCliente().getNit();
+                                String ice_9=factura.getIce();
+                                String importe_ventas10="0.0";
+                                String sincredito_fiscal11="0.0";
+                                double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
+                                String descuentos_bonificacion=""+redondeo(descuento,2);//;
+                                
+                                
+                                String datos =nit1+"|"+invoice_number2+"|"+num_auto3+"|"+fecha_emision4+"|"+total5+"|"
+                                             +credito_fiscal6+"|"+cod_control7+"|"+ci_8+"|"+ice_9+"|"+importe_ventas10+"|"
+                                             +sincredito_fiscal11+"|"+descuentos_bonificacion;
+                                
+                                
+                            
                          qrCodeImage = encode(datos);
                                         
                                      //   imprimir.printBitmap(ba.readImage(BMPGenerator.encodeBMP(qrCodeImage)));
