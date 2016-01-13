@@ -75,7 +75,7 @@ public class StartApp extends MIDlet implements CommandListener {
     
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.2";
+     private String version ="3.4";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -331,7 +331,7 @@ public class StartApp extends MIDlet implements CommandListener {
             {
                 //creando leyenda y actividad XD
                 
-                v = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
+                v = TextLine("\"ESTA FACTURA BRIAN CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
                 try{
                         leyenda = ba.readImage(BMPGenerator.encodeBMP(getLeyenda(v)));
                                      }catch(IOException e){}
@@ -1689,6 +1689,7 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                     sucursal.setLaw(cuenta.getSucursal().getLaw());
                     sucursal.setName(cuenta.getSucursal().getName());
                     sucursal.setNumber_autho(cuenta.getSucursal().getNumber_autho());
+                    sucursal.setTerceros(cuenta.getSucursal().getTerceros());
                     
                      try {
                                 storage.save( sucursal, "sucursal");
@@ -5072,9 +5073,12 @@ public TextField getTextNativo()
 //                                        String concepto =(String) conceptos.elementAt(i);
 //                                            imprimir.printText(invitem.getNotes(), 1);
                                             
-                                            double cant = Double.parseDouble(invitem.getQty());
-                                            double subTotal = (Double.parseDouble(invitem.getCost())*cant);
-                                            double costo =Double.parseDouble(invitem.getCost());
+//                                            double cant = Double.parseDouble(invitem.getQty());
+//                                            double subTotal = (Double.parseDouble(invitem.getCost())*cant);
+//                                            double costo =Double.parseDouble(invitem.getCost());
+                                            double cant = Double.parseDouble(invitem.getQty()); 
+                                            double costo = Double.parseDouble(invitem.getCost()); 
+                                            double subTotal = costo*cant;
                                             
                                             
 //                                            double c = Double.parseDouble(invitem.getQty());
@@ -5112,10 +5116,12 @@ public TextField getTextNativo()
 //                                    imprimir.printBitmap(deviceOps.readImage("/FAC_tigo2.bmp", 0));
 //                                    //imprimir.printBitmap(deviceOps.readImage("/viva.bmp", 0));
                                     //Encabezado 
+                                    if(cuenta.getSucursal().getTerceros().equals("1")){
                                     for(int j=0;j<vterceros.size();j++)
                                     {
                                          String linea = (String) vterceros.elementAt(j);
                                         imprimir.printText(linea, 1);
+                                    }
                                     }
                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
                                     imprimir.printTextWidthHeightZoom(ConstruirFilaA("La Cascada S.A"), 2, 1);
@@ -5124,7 +5130,15 @@ public TextField getTextNativo()
                                     imprimir.printText(ConstruirFila(factura.getAddress1()), 1);
                                     imprimir.printText(ConstruirFila(factura.getAddress2()), 1);
 //                                    imprimir.printText(ConstruirFila("SFC-001"), 1);
-                                    imprimir.printText("            FACTURA POR TERCEROS", 1);
+                                    if(cuenta.getSucursal().getTerceros().equals("1")){ 
+                                        imprimir.printText("            FACTURA POR TERCEROS", 1); 
+                                    } 
+                                    else { 
+                                        if(cuenta.getSucursal().getTerceros().equals("2")){ 
+                                            imprimir.printText("                       FACTURA", 1);
+                                        } 
+                                    } // else{ // imprimir.printText(" FACTURA SHIT", 1); // } }
+                                    //imprimir.printText("            FACTURA POR TERCEROS", 1);
                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
                                     //Datos de la Empresa
                                     imprimir.printText(ConstruirFila("NIT: "+factura.getAccount().getNit()), 1);
@@ -5276,7 +5290,7 @@ public TextField getTextNativo()
                                         ex.printStackTrace();
                                     }
                                      imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
-                                     imprimir.printText(ConstruirFila("www.facturavirtual.com.bo"), 1);
+                                     imprimir.printText(ConstruirFila("www.emizor.com"), 1);
                                      imprimir.printEndLine();
                                     
                                     

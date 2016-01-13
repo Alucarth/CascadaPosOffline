@@ -32,6 +32,7 @@ public class Sucursal implements Serializable
     private String activity_pri;
     private String invoice_number_counter;
     private String law;
+    private String terceros;
     public Sucursal()
     {
     }
@@ -74,6 +75,9 @@ public class Sucursal implements Serializable
             if(json.has("law"))
             {
                 law = json.getString("law");
+            }
+            if(json.has("terceros")) { 
+                terceros = json.getString("terceros"); 
             }
             
         } catch (JSONException ex) {
@@ -119,6 +123,9 @@ public class Sucursal implements Serializable
     public String getLaw() {
         return law;
     }
+    public String getTerceros(){ 
+        return terceros; 
+    }
 
     public void setInvoice_number_counter(String invoice_number_counter) {
         this.invoice_number_counter = invoice_number_counter;
@@ -155,7 +162,9 @@ public class Sucursal implements Serializable
     public void setLaw(String law) {
         this.law = law;
     }
-    
+    public void setTerceros(String terceros){ 
+        this.terceros = terceros; 
+    }
    
     
 }

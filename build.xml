@@ -102,7 +102,7 @@
 		    <!-- general settings -->
 			<info
 				name="CascadaOfflinePOS"
-				version="3.2.0"
+				version="3.4.0"
 				description="Factura Virtual IPX by David Torrez Salinas "
 				vendorName="IpxServer"
 				infoUrl="http://localhost"
