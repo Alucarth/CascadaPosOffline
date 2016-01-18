@@ -64,9 +64,9 @@ public class Sucursal implements Serializable
             {
                 number_autho=json.getString("number_autho");
             }
-            if(json.has("activity_pri"))
+            if(json.has("economic_activity"))
             {
-                activity_pri=json.getString("activity_pri");
+                activity_pri=json.getString("economic_activity");
             }
             if(json.has("invoice_number_counter"))
             {
@@ -76,8 +76,8 @@ public class Sucursal implements Serializable
             {
                 law = json.getString("law");
             }
-            if(json.has("terceros")) { 
-                terceros = json.getString("terceros"); 
+            if(json.has("type_third")) { 
+                terceros = json.getString("type_third"); 
             }
             
         } catch (JSONException ex) {

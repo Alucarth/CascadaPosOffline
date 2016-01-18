@@ -20,8 +20,8 @@ import javax.microedition.io.HttpConnection;
  */
 public class ConexionIpx extends Thread
 {
-    private final String SERVIDOR="sigcfactu.com.bo";
-//    private final String SERVIDOR="192.168.100.38/cascadadev/public";
+//    private final String SERVIDOR="sigcfactu.com.bo";
+    private final String SERVIDOR="192.168.1.11/repocas/public";
    
     private final String PROTOCOLO="http://";
 
@@ -29,7 +29,7 @@ public class ConexionIpx extends Thread
     private final String URL_AUTENTIFICACION = "/pos";
     private final String URL_LOGOUT ="/logoutPOS";
 //    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-    private final String URL_CLIENTE="/clientes";
+    private final String URL_CLIENTE="/clientesPOS";
     
 //    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
 //    public static final String URL_GUARDARFACTURA="/guardarFacturaOffline";

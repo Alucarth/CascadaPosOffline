@@ -2473,12 +2473,12 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                                 qrCodeImage = encode(datos);
 
                                 byte imagen[] =  ba.readImage(BMPGenerator.encodeBMP(qrCodeImage));
-        //                        byte imagenActividad[] =ba.readImage(BMPGenerator.encodeBMP(imgActividad));
+        
                                 Vector v= VectorProductos(factura.getInvoiceItems());
                                 //mejorando la velocidad de impresion
    
                                  Vector vec = TextLine(factura.getLaw());
-                                Imprimir(factura,imagen,v,vec);
+//                                Imprimir(factura,imagen,v,vec);
                                 cambiarPantalla();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
