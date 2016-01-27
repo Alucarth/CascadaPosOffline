@@ -2478,7 +2478,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                                 //mejorando la velocidad de impresion
    
                                  Vector vec = TextLine(factura.getLaw());
-//                                Imprimir(factura,imagen,v,vec);
+                                Imprimir(factura,imagen,v,vec);
                                 cambiarPantalla();
                             } catch (IOException ex) {
                                 ex.printStackTrace();
@@ -6254,7 +6254,7 @@ public TextField getTextNativo()
 
 
     private void imprimirReporte() {
-        
+        Log.i("imprimir Reporte","Iniciando proceso");
         pantalla = SINCRONIZAR;
         FacturaOffline facturasDesordenadas[] = new FacturaOffline[facturas.size()];
 //        Cargando();
@@ -6264,27 +6264,25 @@ public TextField getTextNativo()
            {
                ((FacturaOffline)facturas.elementAt(i)).setIsInvoice(true);
                ((FacturaOffline)facturas.elementAt(i)).setInvoice_number(cuenta.getSucursal().getInvoice_number_counter());
-               
-             
-               
                //actualizar el contador de facturas
                 int contador= Integer.parseInt(cuenta.getSucursal().getInvoice_number_counter());
         //              
                 contador++;
                 cuenta.getSucursal().setInvoice_number_counter(""+contador);
                 sucursal.setInvoice_number_counter(""+contador);
-                 try{
-                            storage.save(sucursal, "sucursal");
-                    } catch (IOException e) {
-                            System.out.println("no se pudo actualizar el invoice number" + e );
-                    }
+//                 try{
+//                            storage.save(sucursal, "sucursal");
+//                    } catch (IOException e) {
+//                            System.out.println("no se pudo actualizar el invoice number" + e );
+//                    }
                //*************************
                
                 String numAutho=cuenta.getSucursal().getNumber_autho();
                 String numInvoice=cuenta.getSucursal().getInvoice_number_counter();
-                String nit=cliente.getCliente().getNit();
+           
+                String nit=((FacturaOffline)facturas.elementAt(i)).getNitCliente();
                 String date =com.david.torrez.DateUtil.getCodigoControFecha();
-                String amount=factura.getAmount();
+                String amount=((FacturaOffline)facturas.elementAt(i)).getAmount();
                 String keyDosage=cuenta.getSucursal().getKey_dosage();
               try{
                 ((FacturaOffline)facturas.elementAt(i)).setControl_code(CodigoDeControl.getCodigoDeControl(nit, numInvoice, date, amount, numAutho, keyDosage));
@@ -6301,7 +6299,12 @@ public TextField getTextNativo()
                }
             facturasDesordenadas[i]= ((FacturaOffline)facturas.elementAt(i));
         }
-        
+         try{
+                    storage.save(sucursal, "sucursal");
+            } catch (IOException e) {
+                    System.out.println("no se pudo actualizar el invoice number" + e );
+            }
+        Log.i("Todos convertidos a facturas ", "size de facturas desordenadas "+facturasDesordenadas.length+"   facturas:"+facturas.size());
         for(int i =0;i<facturasDesordenadas.length;i++)
         {
             for(int j=0;j<facturasDesordenadas.length;j++)
@@ -6316,8 +6319,11 @@ public TextField getTextNativo()
             }
         }
         
+          Log.i("Resporte de Facturas Emitidaas", "--> ");
+        Log.i("facturasDesordenadas", "size de facturas desordenadas "+facturasDesordenadas.length+"   facturas:"+facturas.size());
         imprimir = Printer.getInstance();
         imprimir.printText("Reporte de facturas Emitidas", 1);
+      
 //        Arrays.sort(facturasDesordenadas);
         
         
@@ -6325,6 +6331,7 @@ public TextField getTextNativo()
         for(int i=0;i<facturasDesordenadas.length;i++)
         {
 //            FacturaOffline factura = facturasDesordenadas[i];
+              Log.i("Numero de factura ", facturasDesordenadas[i].getInvoice_number());
             imprimir.printText("\n  Factura Nro. "+facturasDesordenadas[i].getInvoice_number(), 1);
             imprimir.printText("  Cliente: "+facturasDesordenadas[i].getNameCliente(), 1);
             imprimir.printText("  Total Bs: "+facturasDesordenadas[i].getAmount(), 1);
@@ -6703,7 +6710,7 @@ public TextField getTextNativo()
         for(int i=0;i<clientes.size();i++)
         {
            //si se encuentra al cliente se retorna al objeto cliente
-            if(((Clients ) clientes.elementAt(i)).getPublic_id().equals(publicId))
+            if(((Clients ) clientes.elementAt(i)).getId().equals(publicId))
             {
 //                 clienteBuscado = new Cliente();
 //                 clienteBuscado.setCliente((Clients)clientes.elementAt(i));

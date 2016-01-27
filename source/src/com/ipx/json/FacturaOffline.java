@@ -66,11 +66,13 @@ public class FacturaOffline implements Serializable
         solicitudFactura sf= new solicitudFactura();
         if(this.isInvoice)
         {
-            sf.setClient_id(this.clienteId+"1");
+//            sf.setClient_id(this.clienteId+"1");
+            sf.setClient_id(this.clienteId);
         }
         else
         {
-            sf.setClient_id(this.clienteId+"0");
+//            sf.setClient_id(this.clienteId+"0");
+            sf.setClient_id(this.clienteId);
         }
         
         sf.setCod_control(this.control_code);
