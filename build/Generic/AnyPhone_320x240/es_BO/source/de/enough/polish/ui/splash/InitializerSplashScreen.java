@@ -310,7 +310,7 @@ implements Runnable
 			repaint();
 		} catch (Exception e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerSplashScreen", 313, "Unable to call initApp()", e );
+			//# System.out.println("Unable to call initApp()" + e );
 			//#if !polish.classes.SplashView:defined
 				this.message = "Error: " + e.toString();
 				repaint();

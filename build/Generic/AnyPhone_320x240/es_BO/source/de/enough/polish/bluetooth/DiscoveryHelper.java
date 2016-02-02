@@ -324,7 +324,7 @@ public class DiscoveryHelper implements DiscoveryListener
 					}
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.bluetooth.DiscoveryHelper", 327, "Unable to store last connection URL.", e);
+					//# System.out.println("Unable to store last connection URL." + e);
 				} finally {
 					if (store != null) {
 						try {

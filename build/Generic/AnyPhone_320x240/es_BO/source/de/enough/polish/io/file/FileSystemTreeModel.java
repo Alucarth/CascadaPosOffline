@@ -60,7 +60,7 @@ public class FileSystemTreeModel implements TreeModel {
 			}
 		} else if (!(parent instanceof FileSystemNode)){
 			//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.file.FileSystemTreeModel", 63, "Unable to retrieve children for node ", parent);
+			//# System.out.println("Unable to retrieve children for node " + parent);
 		} else {
 			FileSystemNode node = (FileSystemNode) parent;
 			String nodePath = node.getPath();
@@ -90,7 +90,7 @@ de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.file.FileSystemTr
 					this.fileConnection.setFileConnection(newPathName);
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.file.FileSystemTreeModel", 93, "Unable to reset fileconnection to \"" + newPathName + "\"", e);
+					//# System.out.println("Unable to reset fileconnection to \"" + newPathName + "\"" + e);
 					establishNewFileConnection = true;
 				}
 			}
@@ -100,7 +100,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.file.FileSystemT
 						this.fileConnection.close();
 					} catch (Exception e) {
 						//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.file.FileSystemTreeModel", 103, "Unable to close previous file connection", e);
+						//# System.out.println("Unable to close previous file connection" + e);
 					}
 				}
 				try {
@@ -109,7 +109,7 @@ de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.file.FileSystemTr
 					//# System.out.println("Opened: " + this.fileConnection.getURL());
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.file.FileSystemTreeModel", 112, "Unable to open file connection to \"file:///" + node.getAbsolutePath() + "\"", e );
+					//# System.out.println("Unable to open file connection to \"file:///" + node.getAbsolutePath() + "\"" + e );
 					return;
 				}
 			}
@@ -130,7 +130,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.file.FileSystemT
 				}
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.file.FileSystemTreeModel", 133, "Unable to list contents of \"" + this.fileConnection.getPath() + "\"", e);
+				//# System.out.println("Unable to list contents of \"" + this.fileConnection.getPath() + "\"" + e);
 			}
 		}
 	}

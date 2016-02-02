@@ -1616,8 +1616,8 @@ public final class ImageUtil {
             }
         } catch (Throwable t) {
             //#mdebug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.ImageUtil", 1619, "Error adjusting RgbImage colorspace: ", t.getMessage());
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.ImageUtil", 1620, t);
+            //# System.out.println("Error adjusting RgbImage colorspace: " + t.getMessage());
+            //# t.printStackTrace();
             //#enddebug
 
             //clean up
@@ -1895,8 +1895,8 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.ImageUtil", 16
             }
         } catch (Throwable t) {
             //#mdebug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.ImageUtil", 1898, "Error balancing RgbImage: ", t.getMessage());
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.ImageUtil", 1899, t);
+            //# System.out.println("Error balancing RgbImage: " + t.getMessage());
+            //# t.printStackTrace();
             //#enddebug
         }
 

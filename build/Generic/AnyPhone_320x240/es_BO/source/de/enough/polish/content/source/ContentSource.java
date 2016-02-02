@@ -158,7 +158,7 @@ public abstract class ContentSource {
 		if (!id.equals(ContentDescriptor.TRANSFORM_NONE)
 				&& this.transformers.containsKey(id)) {
 			//#debug info
-			info("overwriting transformer with id \"" + id + "\"");
+			//# info("overwriting transformer with id \"" + id + "\"");
 		}
 
 		this.transformers.put(id, transformer);
@@ -239,8 +239,8 @@ public abstract class ContentSource {
 					data = transformer.transformContent(data);
 				} catch (IOException e) {
 					//#debug error
-//# System.out.println("error transforming " + descriptor + ":"
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.ContentSource", 242, "error transforming " + descriptor + ":", e);
+					//# System.out.println("error transforming " + descriptor + ":"
+							//# + e);
 				}
 
 				return data;
@@ -311,9 +311,9 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.content.source.Cont
 		if (reference != null) {
 			if (reference.getVersion() != descriptor.getVersion()) {
 				//#debug info
-//# System.out
-//# System.out.println(this.getClass().getName()
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.content.source.ContentSource", 314, this.getClass().getName(), " : version does not match stored content, destroying ...");
+				//# System.out
+						//# .println(this.getClass().getName()
+								//# + " : version does not match stored content, destroying ...");
 
 				// destroy the content if the version doesn't match
 				destroyContent(descriptor);

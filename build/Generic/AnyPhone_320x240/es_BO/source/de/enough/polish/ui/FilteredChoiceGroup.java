@@ -327,7 +327,7 @@ public class FilteredChoiceGroup
 		}
 		} catch (Exception e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.FilteredChoiceGroup", 330, "Unable to handle command " + cmd.getLabel(), e );
+			//# System.out.println("Unable to handle command " + cmd.getLabel() + e );
 		}
 	}
 

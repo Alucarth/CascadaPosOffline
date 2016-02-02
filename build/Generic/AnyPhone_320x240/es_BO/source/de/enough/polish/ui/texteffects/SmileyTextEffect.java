@@ -68,7 +68,7 @@ public class SmileyTextEffect extends TextEffect {
 			catch(IOException e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.texteffects.SmileyTextEffect", 71, "unable to load smiley image ", e);
+				//# System.out.println("unable to load smiley image " + e);
 			}
 			
 			this.description = description;
@@ -224,9 +224,9 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.texteffects.Smil
 		}
 		if (firstLineWidth <= 0 || lineWidth <= 0) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.texteffects.SmileyTextEffect", 227, "INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + text + ")");
+			//# System.out.println("INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + text + ")");
 			//#if polish.debug.error
-				new RuntimeException().printStackTrace();
+				//# new RuntimeException().printStackTrace();
 			//#endif
 			return new String[]{ text };
 		}

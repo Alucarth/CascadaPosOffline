@@ -108,7 +108,7 @@ public class MultiImageBorder extends Border
 				this.bottomRightImage = StyleSheet.getImage(this.bottomRightUrl, this, false);
 			} catch (IOException e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.borders.MultiImageBorder", 111, "unable to load image ", e );
+				//# System.out.println( "unable to load image " + e );
 			}
 			this.isLoaded = true;
 		}

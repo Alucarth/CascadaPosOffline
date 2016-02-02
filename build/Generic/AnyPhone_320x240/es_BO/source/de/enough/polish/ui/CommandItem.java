@@ -463,10 +463,10 @@ public class CommandItem extends IconItem {
 				//# System.out.println( this + " invoking command " + this.command.getLabel() + " on screen " + getScreen() );
 				Screen scr = getScreen();
 				//#if polish.debug.error
-				if (scr == null) {
+				//# if (scr == null) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.CommandItem", 468, "Unable to retrieve screen for " + this + ", parent=", this.parent );
-				}
+					//# System.out.println("Unable to retrieve screen for " + this + ", parent=" + this.parent );
+				//# }
 				//#endif
 				scr.callCommandListener( this.command );
 				return true;

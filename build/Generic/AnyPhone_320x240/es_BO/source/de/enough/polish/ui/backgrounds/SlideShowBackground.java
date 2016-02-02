@@ -122,7 +122,7 @@ extends Background
 				this.currentImage = image;
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.SlideShowBackground", 125, "unable to load image [" + url + "]", e );
+				//# System.out.println( "unable to load image [" + url + "]" + e );
 			}
 		}
 		if (this.color != Item.TRANSPARENT) {
@@ -197,7 +197,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.Slid
 				this.currentImage = StyleSheet.getImage(url, this, false);
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.SlideShowBackground", 200, "unable to load image [" + url + "]", e );
+				//# System.out.println( "unable to load image [" + url + "]" + e );
 			}
 			addRelativeToBackgroundRegion(repaintRegion, screen, parent, 0, 0, 0, 0 );
 		}

@@ -80,7 +80,7 @@ public class RecordingDataInputStream extends InputStream implements DataInput
 		} catch (IOException e)
 		{
 			//#debug warn
-de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.RecordingDataInputStream", 83, "Unable to flush DataOutputStream", e);
+			//# System.out.println("Unable to flush DataOutputStream" + e);
 		}
 		return this.byteOut.toByteArray();
 	}

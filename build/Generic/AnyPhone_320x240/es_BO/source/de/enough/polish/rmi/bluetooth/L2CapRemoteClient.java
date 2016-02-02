@@ -77,7 +77,7 @@ implements BluetoothRemoteClient
 			} catch (Exception e)
 			{
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.L2CapRemoteClient", 80, "Unable to establish bluetooth connection", e);
+				//# System.out.println("Unable to establish bluetooth connection" + e);
 				throw new RemoteException( e );
 			}
 		}
@@ -93,7 +93,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.L2Cap
 		} catch (IOException e)
 		{
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.bluetooth.L2CapRemoteClient", 96, "Unable to write/read method call", e);
+			//# System.out.println("Unable to write/read method call" + e);
 			try {
 				this.connection.close();
 			} catch (Exception e2) {

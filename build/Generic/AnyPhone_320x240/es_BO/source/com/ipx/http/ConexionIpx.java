@@ -21,7 +21,7 @@ import javax.microedition.io.HttpConnection;
 public class ConexionIpx extends Thread
 {
 //    private final String SERVIDOR="sigcfactu.com.bo";
-    private final String SERVIDOR="cascada.emizor.com";
+    private final String SERVIDOR="162.242.239.72";
    
     private final String PROTOCOLO="http://";
 

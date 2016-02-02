@@ -211,7 +211,7 @@ implements Runnable, PlayerListener
 			initApp();
 		} catch (Exception e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 214, "Unable to call initApp()", e );
+			//# System.out.println("Unable to call initApp()" + e );
 		}
 	}
 	
@@ -226,7 +226,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.Initializ
 			InputStream is = this.getClass().getResourceAsStream( this.movieUrl );
 			if (is == null) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 229, "did not find video resource ", this.movieUrl);
+				//# System.out.println("did not find video resource " + this.movieUrl);
 				this.isVideoFinished = true;
 				return;
 			}
@@ -237,7 +237,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.Initializ
 	            VideoControl control = ( VideoControl ) this.player.getControl( "VideoControl" );
 	            if (control == null) {
 	            	//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 240, "Unable to retrieve VideoControl");
+	            	//# System.out.println("Unable to retrieve VideoControl");
 					this.isVideoFinished = true;
 	            	return;
 	            }
@@ -261,7 +261,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.Initializ
 	        catch (Exception e)
 	        {
 	        	//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 264, "unable to start video ", e);
+	        	//# System.out.println("unable to start video " + e);
 				this.isVideoFinished = true;
 	        }
 		}
@@ -322,7 +322,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.Initializ
 					this.videoControl.setVisible(false);
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 325, "Unable to invisible player", e);
+					//# System.out.println("Unable to invisible player" + e);
 				}
 				this.videoControl = null;
 			}
@@ -330,7 +330,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.Initializ
 				this.player.close();
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash.InitializerMovieScreen", 333, "Unable to close player", e);
+				//# System.out.println("Unable to close player" + e);
 			}
 			this.player = null;
 		}

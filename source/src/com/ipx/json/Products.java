@@ -88,7 +88,7 @@ public class Products implements Serializable
         try{
             JSONArray array = new JSONArray(jsonArray);
 //            for(int i=0;i<array.length();i++)
-//            for(int i=0;i<30;i++)
+//            for(int i=0;i<10;i++)
             for(int i=0;i<array.length();i++)
             {
                 JSONObject json = array.getJSONObject(i);

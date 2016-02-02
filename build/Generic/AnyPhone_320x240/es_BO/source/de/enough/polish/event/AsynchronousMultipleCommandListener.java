@@ -206,7 +206,7 @@ public class AsynchronousMultipleCommandListener implements Runnable {
 				}
 			} catch (Throwable e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.AsynchronousMultipleCommandListener", 209, "Unable to process cmd " + cmd.getLabel() + " for screen " + disp, e);
+				//# System.out.println("Unable to process cmd " + cmd.getLabel() + " for screen " + disp + e);
 			}
 		} // while (!this.isStopRequested) 
 
@@ -242,7 +242,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.AsynchronousM
 				}
 			} catch (Throwable e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.AsynchronousMultipleCommandListener", 245, "Unable to process cmd " + this.command.getLabel() + " for screen " + this.displayable, e);
+				//# System.out.println("Unable to process cmd " + this.command.getLabel() + " for screen " + this.displayable + e);
 			}
 		}
 	}

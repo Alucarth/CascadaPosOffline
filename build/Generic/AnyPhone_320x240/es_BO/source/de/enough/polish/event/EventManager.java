@@ -145,7 +145,7 @@ public class EventManager {
 				listener.handleEvent(name, source, data);
 			} catch (Exception e) {
 				//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.EventManager", 148, "Unable to forward event " + name + " to " + listener, e );
+				//# System.out.println("Unable to forward event " + name + " to " + listener + e );				
 			}
 		}
 		EventListener[] listeners = (EventListener[]) this.eventListenersByEvent.get( name );
@@ -156,7 +156,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.EventManager"
 					listener.handleEvent(name, source, data);
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.EventManager", 159, "Unable to forward event " + name + " to " + listener, e );
+					//# System.out.println("Unable to forward event " + name + " to " + listener + e );
 				}
 			}
 		}

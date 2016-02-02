@@ -160,7 +160,7 @@ public final class DateUtil {
              Calendar fa = Calendar.getInstance();
              c1.set(Calendar.YEAR, Integer.parseInt(token.nextToken()));
                 
-             c1.set(Calendar.MONTH, Integer.parseInt(token.nextToken()));//eso es por el mes esta seteado 0 a 11 
+             c1.set(Calendar.MONTH, Integer.parseInt(token.nextToken())-1);//eso es por el mes esta seteado 0 a 11 
          
              c1.set(Calendar.DAY_OF_MONTH, Integer.parseInt(token.nextToken()));
              

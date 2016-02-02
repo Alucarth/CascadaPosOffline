@@ -528,7 +528,7 @@ public class ChoiceItem extends IconItem
 			}
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ChoiceItem", 531, "Unable to load image [" + name + "]", e );
+			//# System.out.println("Unable to load image [" + name + "]" + e );
 		}
 		
 	}

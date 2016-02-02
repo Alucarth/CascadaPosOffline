@@ -92,7 +92,7 @@ public class ImagesGaugeView extends ItemView{
 		
 		if (this.images == null) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.ImagesGaugeView", 95, "Unable to initialize ImageGaugeView with style " + (parent.getStyle() == null ? "<null>" : parent.getStyle().name ), ": no gauge-images-sources defined.");
+			//# System.out.println("Unable to initialize ImageGaugeView with style " + (parent.getStyle() == null ? "<null>" : parent.getStyle().name ) + ": no gauge-images-sources defined.");
 			return;
 		}
 		int maxHeight = 0;
@@ -173,7 +173,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.Image
 		if(this.images == null)
 		{
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.ImagesGaugeView", 176, "no images set for image gauge");
+			//# System.out.println("no images set for image gauge");
 		}
 	}
 	
@@ -200,7 +200,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.Image
 			}
 		} catch (IOException e) {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.gaugeviews.ImagesGaugeView", 203, "unable to read image " + image + " : ", e.toString());
+			//# System.out.println("unable to read image " + image + " : " + e.toString());
 			this.images = null;
 		}
 	}

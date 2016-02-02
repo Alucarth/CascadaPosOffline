@@ -72,10 +72,10 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int GETFACTURA =8;
     private final int SINCRONIZAR =10;
     private final int LISTMENU=11;
-    
+    private final int CLIENTES=12;
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.4";
+     private String version ="3.7";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -633,7 +633,18 @@ switchDisplayable (null, getListProductos ());//GEN-BEGIN:|7-commandAction|12|13
 //GEN-END:|7-commandAction|12|1337-postAction
           */    
                 cambiarPantalla();
-                Products pro =(Products) cuenta.getProductos().elementAt(puntero);
+                Products productoSeleccionado =(Products) cuenta.getProductos().elementAt(puntero);
+                Products pro = new Products();
+                pro.setId(productoSeleccionado.getId());
+                pro.setCC(productoSeleccionado.getCC());
+                pro.setKey(productoSeleccionado.getKey());
+                pro.setNotes(productoSeleccionado.getNotes());
+//                pro.setPaquete(productoSeleccionado.getPaquete());
+//                pro.setUnidad(productoSeleccionado.getUnidad());
+                pro.setUnits(productoSeleccionado.getUnits());
+                pro.setCost(productoSeleccionado.getCost());
+                pro.setIce(productoSeleccionado.getIce());
+                pro.setSeleccionado(productoSeleccionado.getSeleccionado());
 //                int cantidad = (int)(Integer.parseInt(txtP.getString())*Integer.parseInt(pro.getUnits()))+Integer.parseInt(txtU.getString());
 //                if(txtP.getString().equals(""))
 //                {
@@ -832,7 +843,7 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
  // write post-action user code here
 } else if (command == okCommand24) {//GEN-LINE:|7-commandAction|51|1395-preAction
  // consultando lista de clientes
-    pantalla = CLIENTE;
+    pantalla = CLIENTES;
         
         Cargando();
         if(conexion!=null)
@@ -881,8 +892,8 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
                 else
                 {   
                     //Repinta la pantalla antes de que esta esetes
-                    switchDisplayable(null, getFormCliente());
-                    switchDisplayable(getProblemas(), getFormCliente());
+                    switchDisplayable(null, getFormSincronizacion());
+                    switchDisplayable(getProblemas(), getFormSincronizacion());
                 }   
 
             
@@ -2380,9 +2391,10 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
 
         //         fac.setFactura(guardar);
                  fac.setListaProductos(factura.getListaProductos());
+               
                  fac.setClienteId(factura.getCliente().getId());
                  fac.setItems(factura.getInvoiceItems());
-                 fac.setCodCli(cliente.getCliente().getPublic_id());
+                 fac.setCodCli(cliente.getCliente().getId());
                  fac.setAddress1(factura.getAddress1());
                  fac.setAddress2(factura.getAddress2());
                  fac.setAmount(factura.getAmount());
@@ -3833,7 +3845,7 @@ okCommand11 = new Command("Imprimir", Command.OK, 0);//GEN-LINE:|1289-getter|1|1
                                 Clients c = new Clients();
                                 c.setName(fg.getNameCliente());
                                 c.setNit(fg.getNitCliente());
-                                c.setPublic_id(fg.getCodCli());
+                                c.setPublic_id(fg.getClienteId());
                                 
                                 factura = new Factura();
                                 factura.setAccount(account);
@@ -5158,7 +5170,7 @@ public TextField getTextNativo()
                                         imprimir.printText(linea, 1);
                                     }
                                     imprimir.printText("FECHA: "+factura.getInvoiceDate()+"         Hora: "+DateUtil.dateToString1(), 1);
-                                    imprimir.printText("NIT/CI: "+factura.getCliente().getNit()+"        COD.:"+factura.getCliente().getPublic_id(), 1);
+                                    imprimir.printText("NIT/CI: "+factura.getCliente().getNit()+"        COD.:"+factura.getCliente().getId(), 1);
 //                                    imprimir.printText("NOMBRE: "+factura.getCliente().getName(), 1);
                                     for(int j=0;j<vnombre.size();j++)
                                     {
@@ -5274,11 +5286,11 @@ public TextField getTextNativo()
                                     }
 //                                  BmpArray b = new BmpArray();
 //                                      Vector leyenda= TextLine("'ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY'");
-                                      
-                                     try{
-                                         imprimir.printBitmap(Vs);
-                                         
-                                     }catch(Exception e){}
+                                      imprimir.printBitmap(deviceOps.readImage("/leyenda_generica.bmp", 0));
+//                                     try{
+//                                         imprimir.printBitmap(Vs);
+//                                         
+//                                     }catch(Exception e){}
 
 //                                      Vector vec = TextLine(factura.getLaw());
 //                                       BmpArray b2 = new BmpArray(this);
@@ -5289,7 +5301,8 @@ public TextField getTextNativo()
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                     }
-                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
+//                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
+//                                     imprimir.printBitmap(deviceOps.readImage("/logo_pie.bmp", 0));
                                      imprimir.printText(ConstruirFila("www.emizor.com"), 1);
                                      imprimir.printEndLine();
                                     
@@ -5497,6 +5510,10 @@ public TextField getTextNativo()
                     switchDisplayable(null,getFormDatosCliente());
                     
                     break;
+             case CLIENTES:
+                    switchDisplayable(null,getFormSincronizacion());
+                   break;
+                    
              case GUARDARFACTURA:
                     switchDisplayable(null, getListPrincipal());
                     break;
@@ -6344,7 +6361,7 @@ public TextField getTextNativo()
     private Alert alertaCliente() {
         
         //#style mailAlert
-        Alert alert = new Alert("Cliente numero  "+cliente.getCliente().getPublic_id(), "Ya selecciono al cliente "+ cliente.getCliente().getName()+", \n desea seleccionar otro cliente?", null, AlertType.CONFIRMATION, de.enough.polish.ui.StyleSheet.mailalertStyle );
+        Alert alert = new Alert("Cliente numero  "+cliente.getCliente().getId(), "Ya selecciono al cliente "+ cliente.getCliente().getName()+", \n desea seleccionar otro cliente?", null, AlertType.CONFIRMATION, de.enough.polish.ui.StyleSheet.mailalertStyle );
        final Command cmdYes = new Command("Si", Command.OK, 1);
        final Command cmdNo = new Command("No", Command.CANCEL, 1);
         
@@ -6731,7 +6748,7 @@ public TextField getTextNativo()
         for(int i=0;i<facturasGuardadas.size();i++)
         {
             FacturaOffline fo= (FacturaOffline) facturasGuardadas.elementAt(i);
-            if(fo.getCodCli().equals(idCliente))
+            if(fo.getClienteId().equals(idCliente))
             {
                 System.out.print("Puntero"+i);
                 punteroFactura =i;

@@ -302,13 +302,13 @@ public static final Command CMD_BACK = new Command("Back", Command.BACK, 10 );
 			if (opening) {
 				if (this.currentSelect != null) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 305, "Error in HTML-Code: You cannot open a <select>-tag inside another <select>-tag.");
+					//# System.out.println("Error in HTML-Code: You cannot open a <select>-tag inside another <select>-tag.");
 
 					ChoiceGroup choiceGroup = this.currentSelect.getChoiceGroup();
 					add(choiceGroup);
 					if (this.currentForm == null) {
 						//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 311, "Error in HTML-Code: no <form> for <select> element found!");
+						//# System.out.println("Error in HTML-Code: no <form> for <select> element found!");
 					} else {
 						this.currentForm.addItem(choiceGroup);
 					}
@@ -334,17 +334,17 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 					add(choiceGroup);
 					if (this.currentForm == null) {
 						//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 337, "Error in HTML-Code: no <form> for <select> element found!");
+						//# System.out.println("Error in HTML-Code: no <form> for <select> element found!");
 					} else {
 						this.currentForm.addItem(choiceGroup);
 					}
 					this.currentSelect = null;
 				}
 				//#mdebug error
-				else {
+				//# else {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 346, "Error in HTML-Code. You cannot close a <select>-tag without opening one.");
-				}
+					//# System.out.println("Error in HTML-Code. You cannot close a <select>-tag without opening one.");
+				//# }
 				//#enddebug
 			}
 			return true;
@@ -368,10 +368,10 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 			if (opening) {
 				this.anchorHref = (String) attributeMap.get(ATTR_HREF);
 				//#if polish.debug.error
-				if (this.anchorHref == null) {
+				//# if (this.anchorHref == null) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 373, "Unable to handle anchor tag <a> without " + ATTR_HREF + " attribute: ", attributeMap);
-				}
+					//# System.out.println("Unable to handle anchor tag <a> without " + ATTR_HREF + " attribute: " + attributeMap);
+				//# }
 				//#endif
 				this.browser.openContainer(style);
 				if (style == null) {
@@ -537,7 +537,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 					this.browser.setCssStyles(reader.getAllStyles());
 				} catch (Exception e) {
 					//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 540, "Unable to parse CSS", e );
+					//# System.out.println("Unable to parse CSS" + e );
 				}
 				//parser.next();
 				return true;
@@ -601,7 +601,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 						maxCharNumber = Integer.parseInt(cols) * Integer.parseInt(rows);
 					} catch (Exception e) {
 						//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 604, "Unable to parse textarea cols or rows attribute: cols=" + cols + ", rows=", rows);
+						//# System.out.println("Unable to parse textarea cols or rows attribute: cols=" + cols + ", rows=" + rows);
 					}
 				}
 				//#style browserInput
@@ -772,7 +772,7 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 							add(choiceGroup);
 							if (this.currentForm == null) {
 								//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 775, "Error in HTML-Code: no <form> for <select> element found!");
+								//# System.out.println("Error in HTML-Code: no <form> for <select> element found!");
 							} else {
 								this.currentForm.addItem(choiceGroup);
 							}
@@ -1028,10 +1028,10 @@ de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTa
 			this.browser.go(this.browser.makeAbsoluteURL(href));
 		}
 		//#if polish.debug.error
-		else {
+		//# else {
 			//#debug error
-de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlTagHandler", 1033, "Unable to handle link command for item " + linkItem + ": no " + ATTR_HREF, " attribute found.");
-		}
+			//# System.out.println("Unable to handle link command for item " + linkItem + ": no " + ATTR_HREF + " attribute found.");
+		//# }
 		//#endif
 	}
 

@@ -52,12 +52,12 @@ public class SnapshotUtil {
 				protocol = "capture://video";
 				String device = "video";
 				//#debug info
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.snapshot.SnapshotUtil", 55, "Here are the supported contentTypes:");
+				//# System.out.println("Here are the supported contentTypes:");
 				boolean deviceIsSupported = false;
 				for (int i = 0; i < contentTypes.length; i++) {
 					String contentType = contentTypes[i];
 	                //#debug info
-de.enough.polish.util.Debug.debug("info", "de.enough.polish.snapshot.SnapshotUtil", 60, "ContentType " + i + " ", contentType);
+	                //# System.out.println("ContentType " + i + " " + contentType);
 					if (contentType.equals("image")) { // this is the case on Series 40, for example
 						protocol = "capture://image";
 						deviceIsSupported = true;
