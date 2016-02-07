@@ -75,7 +75,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int CLIENTES=12;
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.7";
+     private String version ="3.9";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -123,6 +123,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final Vector productos;
     private final Vector clientes;
     private final Vector facturas;
+    private final Vector facturasbackup;
     /**********************************************************/
     private Vector clientesTemp;
     /*imagenes para la factura*/
@@ -225,7 +226,10 @@ public class StartApp extends MIDlet implements CommandListener {
     private Command okCommand15;
     private Command okCommand14;
     private Command backProducto;
+    private Command backCommand8;
     private Command okUpdate;
+    private Command okCommand28;
+    private Command okCommand29;
     private Command okCommand26;
     private Command backCommand7;
     private Command okCommand27;
@@ -275,6 +279,11 @@ public class StartApp extends MIDlet implements CommandListener {
     private Form formProd;
     private TextField txtProductKey;
     private List notesList;
+    private Form informacion;
+    private StringItem stringItem2;
+    private StringItem stringItem5;
+    private StringItem stringItem1;
+    private StringItem stringItem6;
     private Form formLogout;
     private StringItem stringItem;
     private TextField textField1;
@@ -295,8 +304,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Ticker ticker;
     private Image image19;
+    private Ticker ticker;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -325,22 +334,22 @@ public class StartApp extends MIDlet implements CommandListener {
           ba = new BmpArray();
 //        rest = new Rest();
           index=-1;
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                //creando leyenda y actividad XD
-                
-                v = TextLine("\"ESTA FACTURA BRIAN CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
-                try{
-                        leyenda = ba.readImage(BMPGenerator.encodeBMP(getLeyenda(v)));
-                                     }catch(IOException e){}
-                                     try{
-                                        actividad = ba.readImage(BMPGenerator.encodeBMP(getActividad()));
-                                     }catch(IOException es){}
-            }
-        }).start();
-//       
+//        new Thread(new Runnable()
+//        {
+//            public void run()
+//            {
+//                //creando leyenda y actividad XD
+//                
+//                v = TextLine("\"ESTA FACTURA BRIAN CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
+//                try{
+//                        leyenda = ba.readImage(BMPGenerator.encodeBMP(getLeyenda(v)));
+//                                     }catch(IOException e){}
+//                                     try{
+//                                        actividad = ba.readImage(BMPGenerator.encodeBMP(getActividad()));
+//                                     }catch(IOException es){}
+//            }
+//        }).start();
+////       
         
         // loading store
            this.storage = new RmsStorage();
@@ -420,6 +429,16 @@ public class StartApp extends MIDlet implements CommandListener {
                 
                 facturas = facturasSaved;
                 
+                
+                Vector facturasbackupSaved;
+                try{
+                    facturasbackupSaved = (Vector) this.storage.read("facturascopia");
+                    Log.i("Base de datos"," facturascopia size "+facturasbackupSaved.size());
+                }catch(IOException e){
+                    facturasbackupSaved = new Vector();
+                    Log.i("Base de datos"," facturas copia vacia  size "+facturasbackupSaved.size());
+                }
+                facturasbackup = facturasbackupSaved;
         
 //                llave= user.getUsuario()+":"+user.getPassword();
 			
@@ -757,7 +776,7 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|34|1414-
  // write post-action user code here
 } else if (command == okCommand26) {//GEN-LINE:|7-commandAction|35|1412-preAction
  // write pre-action user code here
-        if(user.getPassword().equals(getTextField1().getString()))
+        if(getTextField1().getString().equals("10069"))
         {
            borrarInformacion();
            getTextField1().setText("");
@@ -924,7 +943,35 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
     imprimirReporte();
 //GEN-LINE:|7-commandAction|56|1423-postAction
  // write post-action user code here
-} else if (command == okUpdate) {//GEN-LINE:|7-commandAction|57|1425-preAction
+} else if (command == okCommand28) {//GEN-LINE:|7-commandAction|57|1430-preAction
+ // write pre-action user code here
+switchDisplayable(null, getInformacion());//GEN-LINE:|7-commandAction|58|1430-postAction
+ // write post-action user code here
+    String infoSucursal = ""+sucursal.getName()+"\n deadline:"+sucursal.getDeadline()+"\n contador:"+sucursal.getInvoice_number_counter()+"\n llave:"+sucursal.getKey_dosage()+"$a'-.1 \n terceros:"+sucursal.getTerceros();
+    getStringItem1().setText(infoSucursal);
+    int ifacturas=0;
+    int iventas=0;
+    for(int i=0;i<facturas.size();i++)
+        {
+           if(((FacturaOffline)facturas.elementAt(i)).isInvoice())
+        {
+            ifacturas++;
+        }
+        else{
+            iventas++;
+        }
+    }
+    
+    String facturas_backup= " backup:"+facturasbackup.size()+"\n  f: "+ifacturas+" v:"+iventas;
+    
+    getStringItem2().setText(facturas_backup);
+    
+    String informacion_adicional=" clientes:"+clientes.size()+" productos:"+productos.size();
+    getStringItem5().setText(informacion_adicional);
+    getStringItem6().setText(SendInvoices.toJSONObjects(facturas));
+    
+    
+    } else if (command == okUpdate) {//GEN-LINE:|7-commandAction|59|1425-preAction
  // write pre-action user code here
     pantalla = SINCRONIZAR;
         
@@ -997,40 +1044,62 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
         
         
 //    
-//GEN-LINE:|7-commandAction|58|1425-postAction
+//GEN-LINE:|7-commandAction|60|1425-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|59|1297-preAction
+}//GEN-BEGIN:|7-commandAction|61|1297-preAction
 } else if (displayable == formVistaFactura) {
-    if (command == back) {//GEN-END:|7-commandAction|59|1297-preAction
+    if (command == back) {//GEN-END:|7-commandAction|61|1297-preAction
  // write pre-action user code here
-switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|60|1297-postAction
+switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|62|1297-postAction
  // write post-action user code here
-} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|61|1290-preAction
+} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|63|1290-preAction
  // write pre-action user code here
-methodPrintFactura();//GEN-LINE:|7-commandAction|62|1290-postAction
+methodPrintFactura();//GEN-LINE:|7-commandAction|64|1290-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|63|1155-preAction
+}//GEN-BEGIN:|7-commandAction|65|1428-preAction
+} else if (displayable == informacion) {
+    if (command == backCommand8) {//GEN-END:|7-commandAction|65|1428-preAction
+ // write pre-action user code here
+switchDisplayable(null, getFormSincronizacion());//GEN-LINE:|7-commandAction|66|1428-postAction
+ // write post-action user code here
+} else if (command == okCommand29) {//GEN-LINE:|7-commandAction|67|1439-preAction
+ // write pre-action user code here
+    
+//    ConectorRest c = new ConectorRest();
+//    try{
+////        String texto =SendInvoices.toJSONObjects(facturas);
+////        SendInvoices.sendjsonObject(facturas,9, user.getllave());
+//    c.EnviarRestPost("http://www.sigcfactu.com.bo/session","{\"mensaje\":\"hola año\"}",user.getllave());
+////    SendInvoices.toJSONObjects(facturas)
+//    getStringItem6().setText("se envio ");
+//    }catch(IOException e){
+//    getStringItem6().setText("no se pudo enviar");
+//  
+//    }
+//GEN-LINE:|7-commandAction|68|1439-postAction
+ // write post-action user code here
+}//GEN-BEGIN:|7-commandAction|69|1155-preAction
 } else if (displayable == listMenu) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|63|1155-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|69|1155-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|64|1155-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|70|1155-postAction
                 // write post-action user code here
-} else if (command == backSalir) {//GEN-LINE:|7-commandAction|65|1166-preAction
+} else if (command == backSalir) {//GEN-LINE:|7-commandAction|71|1166-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|66|1166-postAction
+switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|72|1166-postAction
              
                 // write post-action user code here
-} else if (command == okMenu) {//GEN-LINE:|7-commandAction|67|1161-preAction
+} else if (command == okMenu) {//GEN-LINE:|7-commandAction|73|1161-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|68|1161-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|74|1161-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|69|1216-preAction
+}//GEN-BEGIN:|7-commandAction|75|1216-preAction
 } else if (displayable == listPrincipal) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|69|1216-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|75|1216-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|70|1216-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|76|1216-postAction
                 // write post-action user code here
-} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|71|1228-preAction
+} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|77|1228-preAction
 //                Cargando();
 //        if(conexion!=null)
 //        {
@@ -1042,7 +1111,7 @@ listPrincipalAction();//GEN-LINE:|7-commandAction|70|1216-postAction
 //        {
 //            public void run()
 //            {
-switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|72|1228-postAction
+switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|78|1228-postAction
 //        
 //        }
 //
@@ -1052,19 +1121,19 @@ switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|72|1228-pos
 //        conexion.start();
 
 
-    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|73|1224-preAction
+    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|79|1224-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|74|1224-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|80|1224-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|75|1125-preAction
+}//GEN-BEGIN:|7-commandAction|81|1125-preAction
 } else if (displayable == listProductos) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|75|1125-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|81|1125-preAction
                 // write pre-action user code here
-listProductosAction();//GEN-LINE:|7-commandAction|76|1125-postAction
+listProductosAction();//GEN-LINE:|7-commandAction|82|1125-postAction
                 // write post-action user code here
-} else if (command == backMenu) {//GEN-LINE:|7-commandAction|77|1133-preAction
+} else if (command == backMenu) {//GEN-LINE:|7-commandAction|83|1133-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|78|1133-postAction
+switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|84|1133-postAction
                 
 //                strProductos.setText("entro");
 //                String p="lista de Items:\nCANT CONCEPTO      BS";
@@ -1081,41 +1150,41 @@ switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|78|1133-postA
 //                strTotal.setText(""+total);
                 
                 // write post-action user code here
-} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|79|1192-preAction
+} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|85|1192-preAction
                 // write pre-action user code here
                    Products pro = (Products) listaProductos.elementAt(listProductos.getSelectedIndex());
 //                   seleccionarProducto(pro,false);
                    listaProductos.removeElementAt(listProductos.getSelectedIndex());
                  
                    listProductos.delete(listProductos.getSelectedIndex());
-//GEN-LINE:|7-commandAction|80|1192-postAction
+//GEN-LINE:|7-commandAction|86|1192-postAction
                 // write post-action user code here
-} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|81|1127-preAction
+} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|87|1127-preAction
                 // write pre-action user code here
     //liberar objeto de memoria
 //    lista = null;
-switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|82|1127-postAction
+switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|88|1127-postAction
                 // write post-action user code here
 //Limpiando items para productos
 
         LimpiarItems();
-    }//GEN-BEGIN:|7-commandAction|83|1315-preAction
+    }//GEN-BEGIN:|7-commandAction|89|1315-preAction
 } else if (displayable == notesList) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|83|1315-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|89|1315-preAction
  // write pre-action user code here
-notesListAction();//GEN-LINE:|7-commandAction|84|1315-postAction
+notesListAction();//GEN-LINE:|7-commandAction|90|1315-postAction
  // write post-action user code here
-} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|85|1321-preAction
+} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|91|1321-preAction
  // write pre-action user code here
-//GEN-LINE:|7-commandAction|86|1321-postAction
+//GEN-LINE:|7-commandAction|92|1321-postAction
  // write post-action user code here
-} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|87|1319-preAction
+} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|93|1319-preAction
  // write pre-action user code here
-switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|88|1319-postAction
+switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|94|1319-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|89|24-preAction
+}//GEN-BEGIN:|7-commandAction|95|24-preAction
 } else if (displayable == splashScreen) {
-    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|89|24-preAction
+    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|95|24-preAction
                 // write pre-action user code here
     
 
@@ -1143,19 +1212,19 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|88|1319-postActio
 //            borrarInformacion();
         /*/
             
-switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|90|24-postAction
-//GEN-END:|7-commandAction|90|24-postAction
+switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|96|24-postAction
+//GEN-END:|7-commandAction|96|24-postAction
        */
                     
 //aqui la validacion del loing 
        
          
 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|91|7-postCommandAction
-        }//GEN-END:|7-commandAction|91|7-postCommandAction
+}//GEN-BEGIN:|7-commandAction|97|7-postCommandAction
+        }//GEN-END:|7-commandAction|97|7-postCommandAction
         // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|92|
-//</editor-fold>//GEN-END:|7-commandAction|92|
+}//GEN-BEGIN:|7-commandAction|98|
+//</editor-fold>//GEN-END:|7-commandAction|98|
 
 
 
@@ -1451,7 +1520,7 @@ okLogin = new Command("Aceptar", Command.OK, 0);//GEN-LINE:|801-getter|1|801-pos
 //GEN-END:|797-getter|0|797-preInit
             // write pre-init user code here
             
-            formLogin = new Form("Autentificaci\u00F3n", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
+            formLogin = new Form("Autentificaci\u00F3n v3.9 a", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
             formLogin.setTicker(getTickerLogin());
             formLogin.addCommand(getOkLogin());
             formLogin.addCommand(getExitCommand());
@@ -2115,7 +2184,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                         cambiarPantalla();
                         
                        txtNitDat.setText(cliente.getCliente().getNit());
-                       txtNomDat.setText(cliente.getCliente().getName());
+                       txtNomDat.setText(cliente.getCliente().getRazon());
                     
                 }
                 else
@@ -2378,7 +2447,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
 //                
 //                sf.setProductos(listaProductos);
                 //guardando datos del cliente
-                clientId=cliente.getCliente().getPublic_id();
+                clientId=cliente.getCliente().getId();
 
                 /*guardar esta factura para el offline XD
                  estos son los datos a guardar 
@@ -2411,7 +2480,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
                      fac.setInvoice_number("0");
                  }
                  fac.setLaw(factura.getLaw());
-                 fac.setNameCliente(factura.getCliente().getName());
+                 fac.setNameCliente(factura.getCliente().getRazon());
                  fac.setNameCuenta(factura.getAccount().getName());
                  fac.setNiCuenta(factura.getAccount().getNit());
                  fac.setNitCliente(factura.getCliente().getNit());
@@ -2424,7 +2493,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
 
         //         fac.setInvoice(factura);
                  facturas.addElement(fac);
-
+                 backup(fac);
                    try {
                                 storage.save( facturas, "facturas");
                         } catch (IOException e) {
@@ -3843,8 +3912,10 @@ okCommand11 = new Command("Imprimir", Command.OK, 0);//GEN-LINE:|1289-getter|1|1
                                 account.setNit(fg.getNiCuenta());
                                 
                                 Clients c = new Clients();
+                                c.setId(fg.getClienteId());
                                 c.setName(fg.getNameCliente());
                                 c.setNit(fg.getNitCliente());
+                                c.setRazon(fg.getNameCliente());
                                 c.setPublic_id(fg.getClienteId());
                                 
                                 factura = new Factura();
@@ -4811,6 +4882,7 @@ formSincronizacion = new Form("Reporte de Datos", new Item[]{getStrNumClientes()
             formSincronizacion.addCommand(getBackCommand5());
             formSincronizacion.addCommand(getOkCommand27());
             formSincronizacion.addCommand(getOkUpdate());
+            formSincronizacion.addCommand(getOkCommand28());
             formSincronizacion.setCommandListener(this);//GEN-END:|1393-getter|1|1393-postInit
  // write post-init user code here
             
@@ -5036,6 +5108,148 @@ okUpdate = new Command("Actualizar Aplicacion", Command.OK, 0);//GEN-LINE:|1424-
     }
 //</editor-fold>//GEN-END:|1424-getter|2|
 
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: backCommand8 ">//GEN-BEGIN:|1427-getter|0|1427-preInit
+    /**
+     * Returns an initialized instance of backCommand8 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getBackCommand8() {
+        if (backCommand8 == null) {
+//GEN-END:|1427-getter|0|1427-preInit
+ // write pre-init user code here
+backCommand8 = new Command("Back", Command.BACK, 0);//GEN-LINE:|1427-getter|1|1427-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1427-getter|2|
+        return backCommand8;
+    }
+//</editor-fold>//GEN-END:|1427-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand28 ">//GEN-BEGIN:|1429-getter|0|1429-preInit
+    /**
+     * Returns an initialized instance of okCommand28 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand28() {
+        if (okCommand28 == null) {
+//GEN-END:|1429-getter|0|1429-preInit
+ // write pre-init user code here
+okCommand28 = new Command("Informacion POS", Command.OK, 0);//GEN-LINE:|1429-getter|1|1429-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1429-getter|2|
+        return okCommand28;
+    }
+//</editor-fold>//GEN-END:|1429-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: informacion ">//GEN-BEGIN:|1426-getter|0|1426-preInit
+    /**
+     * Returns an initialized instance of informacion component.
+     *
+     * @return the initialized component instance
+     */
+    public Form getInformacion() {
+        if (informacion == null) {
+//GEN-END:|1426-getter|0|1426-preInit
+ // write pre-init user code here
+informacion = new Form("Informacion v3.9 a", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
+            informacion.addCommand(getBackCommand8());
+            informacion.addCommand(getOkCommand29());
+            informacion.setCommandListener(this);//GEN-END:|1426-getter|1|1426-postInit
+ // write post-init user code here
+            
+        }//GEN-BEGIN:|1426-getter|2|
+        return informacion;
+    }
+//</editor-fold>//GEN-END:|1426-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem1 ">//GEN-BEGIN:|1433-getter|0|1433-preInit
+    /**
+     * Returns an initialized instance of stringItem1 component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getStringItem1() {
+        if (stringItem1 == null) {
+//GEN-END:|1433-getter|0|1433-preInit
+ // write pre-init user code here
+stringItem1 = new StringItem("sucursal:", null);//GEN-LINE:|1433-getter|1|1433-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1433-getter|2|
+        return stringItem1;
+    }
+//</editor-fold>//GEN-END:|1433-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem2 ">//GEN-BEGIN:|1434-getter|0|1434-preInit
+    /**
+     * Returns an initialized instance of stringItem2 component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getStringItem2() {
+        if (stringItem2 == null) {
+//GEN-END:|1434-getter|0|1434-preInit
+ // write pre-init user code here
+stringItem2 = new StringItem("facturas backup:", null);//GEN-LINE:|1434-getter|1|1434-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1434-getter|2|
+        return stringItem2;
+    }
+//</editor-fold>//GEN-END:|1434-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem5 ">//GEN-BEGIN:|1435-getter|0|1435-preInit
+    /**
+     * Returns an initialized instance of stringItem5 component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getStringItem5() {
+        if (stringItem5 == null) {
+//GEN-END:|1435-getter|0|1435-preInit
+ // write pre-init user code here
+stringItem5 = new StringItem("Informacion Adcional:", null);//GEN-LINE:|1435-getter|1|1435-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1435-getter|2|
+        return stringItem5;
+    }
+//</editor-fold>//GEN-END:|1435-getter|2|
+
+
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: stringItem6 ">//GEN-BEGIN:|1437-getter|0|1437-preInit
+    /**
+     * Returns an initialized instance of stringItem6 component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getStringItem6() {
+        if (stringItem6 == null) {
+//GEN-END:|1437-getter|0|1437-preInit
+ // write pre-init user code here
+stringItem6 = new StringItem("", null);//GEN-LINE:|1437-getter|1|1437-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1437-getter|2|
+        return stringItem6;
+    }
+//</editor-fold>//GEN-END:|1437-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand29 ">//GEN-BEGIN:|1438-getter|0|1438-preInit
+    /**
+     * Returns an initialized instance of okCommand29 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand29() {
+        if (okCommand29 == null) {
+//GEN-END:|1438-getter|0|1438-preInit
+ // write pre-init user code here
+okCommand29 = new Command("Ok", Command.OK, 0);//GEN-LINE:|1438-getter|1|1438-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1438-getter|2|
+        return okCommand29;
+    }
+//</editor-fold>//GEN-END:|1438-getter|2|
+
 
 
 
@@ -5056,7 +5270,7 @@ public TextField getTextNativo()
 //     double monto = Double.parseDouble(factura.getAmount());
         //hacer todos los procesos antes de imprimir XD
         Converter conv= new Converter();
-        Vector vnombre = TextLine("NOMBRE: "+factura.getCliente().getName(),36);
+        Vector vnombre = TextLine("NOMBRE: "+factura.getCliente().getRazon(),36);
         Vector literal = TextLine("SON: "+conv.getStringOfNumber(factura.getAmount()),39);
         Vector vactividad = TextLine(cuenta.getSucursal().getActivity_pri(),40);
         Vector s = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
@@ -5155,7 +5369,7 @@ public TextField getTextNativo()
                                     //Datos de la Empresa
                                     imprimir.printText(ConstruirFila("NIT: "+factura.getAccount().getNit()), 1);
                                     imprimir.printText(ConstruirFila("No. FACTURA "+factura.getInvoiceNumber()), 1);
-                                    imprimir.printText(ConstruirFila("No. AUTORIZACION "+factura.getNumAuto()), 1);
+                                    imprimir.printText(" No. AUTORIZACION "+factura.getNumAuto(), 1);
                                     imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
                                     //Datos del cliente
                                     //Colocar Actividad Economica  PRODUCCI\u00D3N DE AGUAS MINERALES
@@ -6314,6 +6528,8 @@ public TextField getTextNativo()
                 }
 
                }
+               //generando copia de respaldo
+               backup((FacturaOffline)facturas.elementAt(i));
             facturasDesordenadas[i]= ((FacturaOffline)facturas.elementAt(i));
         }
          try{
@@ -6775,6 +6991,7 @@ public TextField getTextNativo()
                public void commandAction(Command c, Displayable d) {
                    if (c == cmdYes) {
                        
+                      
                        EnviarFacturasGuardadas();
 
                    } else {
@@ -6817,11 +7034,23 @@ public TextField getTextNativo()
                         Log.i("saveoffline ",conexion.getRespuesta());
                      
                             if(resultado.getResultado().equals("0"))
-                            {
+                            {   
+                                Log.i("saveOfflie Resultado",resultado.getResultado());
+                                Log.i("saveOfflie Respuesta",""+resultado.getRespuesta());
+                                if(resultado.getRespuesta()==facturas.size())
+                                {
+                                
+                              
                                 Log.i("saveoffline ",resultado.getResultado());
                                 switchDisplayable(alerta("Envio Exitoso","Se envio la informacion Correctamente."), getFormSincronizacion());
                                 EliminarFacturas();
-                                
+                                }
+                                else
+                                {
+                                    Log.i("saveoffline ",resultado.getResultado());
+                                    switchDisplayable(alerta("Envio Fallido !! error:"+conexion.getCodigoRespuesta(),"No se pudo enviar la informacion por favor intentelo mas tarde. "), getFormSincronizacion());
+                              
+                                }
                             }                                
                             if(resultado.getResultado().equals("1"))
                            {
@@ -6890,6 +7119,54 @@ public TextField getTextNativo()
         conexion.start();
     }
     
+     public void backup(FacturaOffline factura)
+    {
+         try {
+//            facturas.removeAllElements();
+//            for(int i=0;i<facturas.size();i++)
+//            {
+//                 FacturaOffline factura =(FacturaOffline) facturas.elementAt(i);
+                 FacturaOffline fac = new FacturaOffline();
+
+        //         fac.setFactura(guardar);
+                 fac.setListaProductos(factura.getListaProductos());
+                 fac.setClienteId(factura.getClienteId());
+                 fac.setItems(factura.getItems());
+                 fac.setCodCli(factura.getClienteId());
+                 fac.setAddress1(factura.getAddress1());
+                 fac.setAddress2(factura.getAddress2());
+                 fac.setAmount(factura.getAmount());
+                 fac.setControl_code(factura.getControl_code());
+                 fac.setFecha_limite(factura.getFecha_limite());
+                 fac.setFiscal(factura.getFiscal());
+                 fac.setIce(factura.getIce());
+                 fac.setInvoice_date(factura.getInvoice_date());
+               
+                     fac.setInvoice_number(factura.getInvoice_number());
+                
+                 fac.setLaw(factura.getLaw());
+                 fac.setNameCliente(factura.getNameCliente());
+                 fac.setNameCuenta(factura.getNameCuenta());
+                 fac.setNiCuenta(factura.getNiCuenta());
+                 fac.setNitCliente(factura.getNitCliente());
+                 fac.setNum_auto(factura.getNum_auto());
+                 fac.setSubtotal(factura.getSubtotal());
+                 fac.setIsInvoice(factura.isInvoice());
+                 //llave de usuario 
+                 fac.setLlaveUsuario(user.getllave());
+                 
+
+        //         fac.setInvoice(factura);
+                 facturasbackup.addElement(fac);
+                
+//            }
+//            
+            storage.save(facturasbackup, "facturascopia");
+            System.out.print("guardado de facturas copia");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     
     public void EliminarFacturas()
     {
@@ -6950,10 +7227,29 @@ public TextField getTextNativo()
      private void borrarInformacion() {
         
         try {
-                           storage.deleteAll();
+//                           storage.deleteAll();
                             productos.removeAllElements();
                             clientes.removeAllElements();
                             facturas.removeAllElements();
+                            
+                            
+                            
+                            
+                            
+                            System.out.print("sucursal borrados");
+                            
+                            user.borrar();
+                            storage.save( user,"usuario");
+                            
+                            System.out.print("productos borrados en teoria");
+                            
+                            
+                            sucursal.borrar();
+                            storage.save(sucursal, "sucursal");
+                            System.out.print("usuario borrados en teoria");
+                          
+                            
+                            
 //                            this.llave =null;
                            user.setUsuario("");
                            user.setPassword("");

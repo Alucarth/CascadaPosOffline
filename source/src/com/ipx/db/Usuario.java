@@ -54,5 +54,13 @@ public class Usuario implements Serializable
     {
         return this.usuario+":"+this.password;
     }
+    public void borrar()
+    {
+        this.usuario =null;
+        this.password=null;
+        this.sesion = false;
+        
+        this.ice = null;
+    }
     
 }

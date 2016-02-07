@@ -6,6 +6,8 @@
 
 package com.ipx.json;
 
+import com.ipx.http.ConectorRest;
+import java.io.IOException;
 import java.util.Vector;
 import org.json.me.JSONArray;
 import org.json.me.JSONException;
@@ -36,12 +38,61 @@ public class SendInvoices
       
 //            json.put("invoice_items",solfac.getProductos() );
             for(int i=0;i<facturas.size();i++)
+//            for(int i=0;i<5;i++)
             {
 //                JSONObject objeto =;
                 FacturaOffline  factura = (FacturaOffline) facturas.elementAt(i);
                 jsonArray.put(factura.getFactura());
             }
             
+        return jsonArray.toString();
+    }
+    public static String sendjsonObject(Vector facturas,String llave) 
+    {
+//        JSONObject json = new JSONArra();
+        JSONArray jsonArray = new JSONArray ();
+      
+//            json.put("invoice_items",solfac.getProductos() );
+        try{
+            for(int i=0;i<facturas.size();i++)
+            {
+//                JSONObject objeto =;
+                ConectorRest c = new ConectorRest();
+                FacturaOffline  factura = (FacturaOffline) facturas.elementAt(i);
+                c.EnviarRestPost("http://www.sigcfactu.com.bo/pos",factura.getFactura().toString(),llave);
+                try {
+                    Thread.sleep(2000);
+//                jsonArray.put(factura.getFactura());
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }catch(IOException e){
+        }
+        return jsonArray.toString();
+    }
+    public static String sendjsonObject(Vector facturas,int index,String llave) 
+    {
+//        JSONObject json = new JSONArra();
+        JSONArray jsonArray = new JSONArray ();
+      
+//            json.put("invoice_items",solfac.getProductos() );
+        try{
+//            for(int i=0;i<facturas.size();i++)
+//            {
+//                JSONObject objeto =;
+                ConectorRest c = new ConectorRest();
+                FacturaOffline  factura = (FacturaOffline) facturas.elementAt(index);
+                c.EnviarRestPost("http://www.sigcfactu.com.bo/pos",factura.getFactura().toString(),llave);
+                try {
+                    Thread.sleep(2000);
+//                jsonArray.put(factura.getFactura());
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+//            }
+        }catch(IOException e){
+        }
         return jsonArray.toString();
     }
     

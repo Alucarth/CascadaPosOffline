@@ -49,8 +49,8 @@ public class ResponseSave
         this.resultado = resultado;
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    public int getRespuesta() {
+        return Integer.parseInt(this.respuesta);
     }
 
     public void setRespuesta(String respuesta) {

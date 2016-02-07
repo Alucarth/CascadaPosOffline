@@ -23,7 +23,7 @@ public class Clients implements Serializable
     private String name;
     private String nit;
     private String public_id;
-    
+    private String razon;
     public static Clients fromJson(String jsonText)
     {
         Clients client = new Clients();
@@ -40,6 +40,10 @@ public class Clients implements Serializable
             if(json.has("nit"))
             {
                 client.setNit(json.getString("nit"));
+            }
+            if(json.has("business_name"))
+            {
+                client.setRazon(json.getString("business_name"));
             }
             if(json.has("public_id"))
             {
@@ -68,6 +72,15 @@ public class Clients implements Serializable
         }
         return vectorClients;
     }
+
+    public String getRazon() {
+        return razon;
+    }
+
+    public void setRazon(String razon) {
+        this.razon = razon;
+    }
+    
     public void setId(String id)
     {
         this.id = id;

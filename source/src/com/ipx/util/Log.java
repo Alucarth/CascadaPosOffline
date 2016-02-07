@@ -25,29 +25,29 @@ public class Log {
     System.out.println("\n"+titulo+": "+mensaje);
 
     }
-     public static void w(final String titulo, final String mensaje){
-        
-         try {
-             
-             
-             try{
-             OutputConnection connection = (OutputConnection)
-                     Connector.open("file:/miFichero.txt;append=true", Connector.WRITE );
-             OutputStream out = connection.openOutputStream();
-             PrintStream output = new PrintStream( out );
-             output.println("\n"+titulo+": "+mensaje);
-            
-             out.close();
-             
-             connection.close();
-             }
-              catch( ConnectionNotFoundException error )
-             {
-             }
-           
-//        recordstore = 
-         } catch (IOException ex) {
-             ex.printStackTrace();
-         }
-    }
+//     public static void w(final String titulo, final String mensaje){
+//        
+//         try {
+//             
+//             
+//             try{
+//             OutputConnection connection = (OutputConnection)
+//                     Connector.open("file:/miFichero.txt;append=true", Connector.WRITE );
+//             OutputStream out = connection.openOutputStream();
+//             PrintStream output = new PrintStream( out );
+//             output.println("\n"+titulo+": "+mensaje);
+//            
+//             out.close();
+//             
+//             connection.close();
+//             }
+//              catch( ConnectionNotFoundException error )
+//             {
+//             }
+//           
+////        recordstore = 
+//         } catch (IOException ex) {
+//             ex.printStackTrace();
+//         }
+//    }
 }

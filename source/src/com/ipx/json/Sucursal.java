@@ -165,6 +165,21 @@ public class Sucursal implements Serializable
     public void setTerceros(String terceros){ 
         this.terceros = terceros; 
     }
+    
+    public void borrar()
+    {
+        this.activity_pri=null;
+        this.address1=null;
+        this.address2=null;
+        this.deadline=null;
+        this.deadline=null;
+        this.invoice_number_counter=null;
+        this.key_dosage=null;
+        this.law=null;
+        this.name=null;
+        this.number_autho=null;
+        this.terceros=null;
+    }
    
     
 }

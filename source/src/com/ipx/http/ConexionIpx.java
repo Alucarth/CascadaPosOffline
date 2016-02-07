@@ -248,8 +248,8 @@ public class ConexionIpx extends Thread
 
       os = httpConn.openOutputStream();
 
-    
-      os.write(parametros.getBytes());
+      String cadenaconvertida=convertiraUTF(parametros);
+      os.write(cadenaconvertida.getBytes());
       os.flush();
 
       /**Caution: os.flush() is controversial. It may create unexpected behavior
@@ -301,6 +301,15 @@ public class ConexionIpx extends Thread
         String out = null;
         try {
             out = new String(s.getBytes("ISO-8859-1"), "UTF-8");
+        } catch (java.io.UnsupportedEncodingException e) {
+            return null;
+        }
+        return out;
+    }
+    public static String convertiraUTF(String s) {
+        String out = null;
+        try {
+            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
         } catch (java.io.UnsupportedEncodingException e) {
             return null;
         }
