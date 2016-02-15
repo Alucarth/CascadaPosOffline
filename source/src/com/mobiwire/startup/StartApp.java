@@ -182,6 +182,9 @@ public class StartApp extends MIDlet implements CommandListener {
       StringItem contenidoClientes;
       Command cmdClientes;
       
+      //variable para imprimir los subtotales
+      double sumatotales;
+      
 //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Command okOpciones;
     private Command okCliente;
@@ -320,8 +323,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -2153,7 +2156,8 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                      InvoiceItem item = new InvoiceItem();
                      item.setBoni(pro.getBoni());
                      double costo=(double)(Double.parseDouble(pro.getCost())/Integer.parseInt(pro.getUnits()));
-                     item.setCost(""+redondeo(costo,2));
+                     costo = redondeo(costo,2);
+                     item.setCost(""+costo);
                      item.setDesc(pro.getDesc());
                      item.setNotes(pro.getNotes());
                      item.setQty(pro.getQty());
@@ -2681,7 +2685,7 @@ ImprimirFactura = new Command("Imprimir ", Command.OK, 0);//GEN-LINE:|1139-gette
 
                             try {
         //                        factura = new Factura(rest.getRespuesta()); se inicializo en el getFormFactura
-
+                                 
                                     
                                 String nit1=factura.getAccount().getNit();
                                 String invoice_number2=factura.getInvoiceNumber();
@@ -5445,7 +5449,7 @@ public TextField getTextNativo()
         Vector vactividad = TextLine(cuenta.getSucursal().getActivity_pri(),40);
         Vector s = TextLine("\"ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS, EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY\"",40);
         Vector vterceros = TextLine(cuenta.getSucursal().getName(),40);
-        
+        sumatotales = 0;
         byte titulos[]= null;
         //algoritmo de impresion de invoice items
         try {
@@ -5478,7 +5482,7 @@ public TextField getTextNativo()
                                             
                                             
 //                                            double c = Double.parseDouble(invitem.getQty());
-                                            
+                                            sumatotales = sumatotales+redondeo(subTotal,2);
                                             
 //                                        ba = (byte[]) DetalleProductos.elementAt(i);
                                              //Todo: problemas con la converion numerica no imprime XD
@@ -5626,9 +5630,10 @@ public TextField getTextNativo()
 //                                    
                                     
 //                                  imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
-                                    imprimir.printText("                          TOTAL: Bs "+factura.getSubtotal(), 1);                                 
+                                    imprimir.printText("                          TOTAL: Bs "+sumatotales, 1);                                 
 //                                    imprimir.printText("TOTAL: "+factura.getSubtotal(), 1);
-                                    double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
+//                                    double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
+                                    double descuento = sumatotales-Double.parseDouble(factura.getAmount());
                                     imprimir.printText("ICE: "+factura.getIce(), 1);
                                     
                                     imprimir.printText("DESCUENTOS/BONIFICACION: "+redondeo(descuento,2)+"", 1);
@@ -5705,7 +5710,7 @@ public TextField getTextNativo()
                                 tickerLogin.setText("Error de impresión!! ");
 				break;
 			}
-                   
+                   sumatotales=0;
     }
     private double redondeo(double num,int numDecim){
         long p=1;
