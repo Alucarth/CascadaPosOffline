@@ -44,6 +44,7 @@ public class Cuenta
     private String ice;
     private Vector clientes;
     private Sucursal sucursal;
+    private String productosJson;
     public static String TAG  ="cuenta";
    
     public Cuenta(){}
@@ -57,6 +58,7 @@ public class Cuenta
            Log.i(TAG, "terminio de parsear");
            if(json.has("productos"))
            {
+//               this.productosJson = json.getString("productos");
                this.productos = Products.fromJsonArray(json.getString("productos"));
                Log.i(TAG, "tiene productos size ");
 //               Log.i(TAG, "(\"\",parseado productos size"+this.productos.size());
@@ -65,11 +67,11 @@ public class Cuenta
            {
                this.ice = json.getString("ice");
            }
-           if(json.has("clientes"))
-           {
-               this.clientes = Clients.fromJsonArray(json.getString("clientes"));
-               Log.i(TAG, "tiene clientes size");
-           }
+//           if(json.has("clientes"))
+//           {
+//               this.clientes = Clients.fromJsonArray(json.getString("clientes"));
+//               Log.i(TAG, "tiene clientes size");
+//           }
            if(json.has("sucursal"))
            {
                this.sucursal = new Sucursal(json.getString("sucursal"));
@@ -94,6 +96,10 @@ public class Cuenta
     public Sucursal getSucursal()
     {
         return this.sucursal;
+    }
+
+    public String getProductosJson() {
+        return this.productosJson;
     }
     
 //    public void run()

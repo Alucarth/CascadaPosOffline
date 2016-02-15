@@ -3,7 +3,6 @@ package com.mobiwire.startup;
 
 
 import com.david.torrez.CodigoDeControl;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -23,11 +22,11 @@ import com.ipx.json.InvoiceItem;
 import com.ipx.json.Products;
 import com.ipx.json.ResponseSave;
 import com.ipx.json.SendInvoices;
+import com.ipx.json.ServerTxt;
 import com.ipx.json.Sucursal;
 import com.ipx.json.facturaRespuesta;
 import com.ipx.util.Converter;
 import com.ipx.util.Log;
-
 import com.ipx.util.Tokenizer;
 import com.mobiwire.print.DeviceOps;
 import com.nbbse.printer.Printer;
@@ -51,6 +50,7 @@ import javax.microedition.midlet.MIDlet;
 import net.sf.microlog.core.Logger;
 import net.sf.microlog.core.LoggerFactory;
 import net.sf.microlog.core.PropertyConfigurator;
+import org.json.me.JSONArray;
 import org.json.me.JSONException;
 import org.json.me.JSONObject;
 import org.netbeans.microedition.util.SimpleCancellableTask;
@@ -75,7 +75,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int CLIENTES=12;
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.9";
+     private String version ="3.9.1 b";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -124,6 +124,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final Vector clientes;
     private final Vector facturas;
     private final Vector facturasbackup;
+    private final ServerTxt serverInfo;
     /**********************************************************/
     private Vector clientesTemp;
     /*imagenes para la factura*/
@@ -156,6 +157,12 @@ public class StartApp extends MIDlet implements CommandListener {
     /// para el offline
     
     private Gauge gauge;
+    int max = 100;
+    int current = 1;
+    boolean isInteractive = true;
+    
+    
+    
     int  n =1;
     int punteroCliente = 0;
     int punteroFactura =0;
@@ -166,7 +173,15 @@ public class StartApp extends MIDlet implements CommandListener {
       facturaRespuesta fr;
       private StringItem str1;
       boolean swpz=false;
+      
+      Form formActualizar;
+      
+      StringItem contenidoActualizar;
      
+      Form formClientes;
+      StringItem contenidoClientes;
+      Command cmdClientes;
+      
 //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Command okOpciones;
     private Command okCliente;
@@ -233,6 +248,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private Command okCommand26;
     private Command backCommand7;
     private Command okCommand27;
+    private Command okCommand30;
     private Form formFactura;
     private StringItem strNomCli;
     private StringItem strNitCli;
@@ -361,7 +377,7 @@ public class StartApp extends MIDlet implements CommandListener {
                   
 			
 		} catch (IOException e) {
-                
+                 
                 // storage does not yet exist
 			userSaved = new Usuario();
                      Log.i("Base de datos"," usuario nuevo "+userSaved.getUsuario());
@@ -369,6 +385,21 @@ public class StartApp extends MIDlet implements CommandListener {
 		}
 		this.user = userSaved;
                 
+                ServerTxt serverSaved;
+                try {
+			serverSaved = (ServerTxt) this.storage.read("servertxt");
+			Log.i("Base de datos"," server txt "+serverSaved.getClientesTxt());
+                  
+			
+		} catch (IOException e) {
+                
+                // storage does not yet exist
+			serverSaved = new ServerTxt();
+                     Log.i("Base de datos"," server txt vacio "+serverSaved.getClientesTxt());
+                        
+		}
+		this.serverInfo = serverSaved;
+               
                 
 //              Loading Branch
               
@@ -439,7 +470,9 @@ public class StartApp extends MIDlet implements CommandListener {
                     Log.i("Base de datos"," facturas copia vacia  size "+facturasbackupSaved.size());
                 }
                 facturasbackup = facturasbackupSaved;
-        
+                
+               
+                        
 //                llave= user.getUsuario()+":"+user.getPassword();
 			
     }
@@ -862,67 +895,98 @@ switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|50|1399-
  // write post-action user code here
 } else if (command == okCommand24) {//GEN-LINE:|7-commandAction|51|1395-preAction
  // consultando lista de clientes
-    pantalla = CLIENTES;
+//    pantalla = CLIENTES;
         
-        Cargando();
-        if(conexion!=null)
-        {
-            conexion =null;
-        }
-           conexion = new ConexionIpx();
-           
-        Thread t = new Thread()
-        {
-            public void run()
-            {
-                   
-                System.out.println(" thred consumidor  del cliente");
-                if(conexion.getCodigoRespuesta()==200)
-                {
-                    if(clientesTemp!=null)
-                    {
-                        clientesTemp=null;
-                    }
-                    clientesTemp = Clients.fromJsonArray(conexion.getRespuesta());
-                    
-                    clientes.removeAllElements();
-                    for(int i=0;i<clientesTemp.size();i++)
-                    {
-                        Clients cli = (Clients) clientesTemp.elementAt(i);
-                        clientes.addElement(cli);
-                    }
-                       try {
-                                    storage.save( clientes, "clientes");
-                            } catch (IOException e) {
-
-                                    System.out.println("Unable to store clientes XD" + e );
-                            }
-//                    cambiarPantalla();
-                       switchDisplayable(null, getFormSincronizacion());
-                    getStrNumClientes().setText(""+clientes.size());
-            
-                    
-                                  
-                    
-                    
-                    //Cargando el titulo de la lista
-                    
+//        Cargando();
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+        switchDisplayable(null,getFormObtenerClientes());
+        
+        ConectorRest c = new ConectorRest();
+        try{
+             getContenidoClientes().setText(" Solicitando Informacion ");
+           String res= c.EnviarGet(ConexionIpx.getURL(ConexionIpx.CLIENTE),user.getllave());
+    //    c.EnviarRestPost("http://www.sigcfactu.com.bo/session",SendInvoices.toJSONObjects(facturasbackup),user.getllave());
+    //    SendInvoices.toJSONObjects(facturas)
+           String r="";
+           serverInfo.setClientesTxt(res);
+            try {
+                        storage.save( serverInfo, "servertxt");
+                        r="informacion registrada";
+                } catch (IOException e) {
+                        r="no se pudo registrar la informacion";
+                        System.out.println("Unable to store serverInfo XD" + e );
                 }
-                else
-                {   
-                    //Repinta la pantalla antes de que esta esetes
-                    switchDisplayable(null, getFormSincronizacion());
-                    switchDisplayable(getProblemas(), getFormSincronizacion());
-                }   
+           getContenidoClientes().setText(" Informacion obtenida contenido total "+res.length()+" \n "+r);
+    //        getStringItem6().setText("resultado de clientes: "+c.getRespuesta());
+        }catch(IOException e){
+        getContenidoClientes().setText(" No se pudo obtener respuesta del servidor "+c.getCodigoRespuesta() );
 
-            
-            }
-      
-        };       
+        }
+//        if(conexion!=null)
+//        {
+//            conexion =null;
+//        }
+//           conexion = new ConexionIpx();
+           
+//        Thread t = new Thread()
+//        {
+//            public void run()
+//            {
+////                   switchDisplayable(null,getFormLoading());
+//                System.out.println(" thred consumidor  del cliente");
+//                if(conexion.getCodigoRespuesta()==200)
+//                {
+//                    serverInfo.setClientesTxt(conexion.getRespuesta());
+//                    
+////                    if(clientesTemp!=null)
+////                    {
+////                        clientesTemp=null;
+////                    }
+////                    clientesTemp = Clients.fromJsonArray(conexion.getRespuesta());
+////                    
+////                    clientes.removeAllElements();
+////                    for(int i=0;i<clientesTemp.size();i++)
+////                    {
+////                        Clients cli = (Clients) clientesTemp.elementAt(i);
+////                        clientes.addElement(cli);
+////                    }
+//                       try {
+//                                    storage.save( serverInfo, "servertxt");
+//                            } catch (IOException e) {
+//
+//                                    System.out.println("Unable to store serverInfo XD" + e );
+//                            }
+//                       getFormLoading().setTitle("termino de sincronizar");
+//////                    cambiarPantalla();
+////                       switchDisplayable(null, getFormSincronizacion());
+////                    getStrNumClientes().setText(""+clientes.size());
+////            
+//                    cambiarPantalla();
+//                                  
+//                    
+//                    
+//                    //Cargando el titulo de la lista
+//                    
+//                }
+//                else
+//                {   
+//                    //Repinta la pantalla antes de que esta esetes
+//                    switchDisplayable(null, getFormSincronizacion());
+//                    switchDisplayable(getProblemas(), getFormSincronizacion());
+//                }   
+//
+//            
+//            }
+//      
+//        };       
         
-        conexion.EnviarGet(ConexionIpx.CLIENTE,"",this.user.getllave(),t);
-//        conexion.Lenvantate();
-        conexion.start();
+//        conexion.EnviarGet(ConexionIpx.CLIENTE,"",this.user.getllave(),t);
+////        conexion.Lenvantate();
+//        conexion.start();
 //GEN-LINE:|7-commandAction|52|1395-postAction
  // write post-action user code here
 } else if (command == okCommand25) {//GEN-LINE:|7-commandAction|53|1397-preAction
@@ -971,7 +1035,71 @@ switchDisplayable(null, getInformacion());//GEN-LINE:|7-commandAction|58|1430-po
     getStringItem6().setText(SendInvoices.toJSONObjects(facturas));
     
     
-    } else if (command == okUpdate) {//GEN-LINE:|7-commandAction|59|1425-preAction
+    } else if (command == okCommand30) {//GEN-LINE:|7-commandAction|59|1441-preAction
+ // write pre-action user code here
+//        asd}
+             
+        pantalla = CLIENTES;
+//        asdas
+        Actualizando();
+//        getForm1()
+//                switchDisplayable(null, getActualizarClientes());
+        
+            
+        Thread t = new Thread()
+        {
+            public void run()
+            {
+//                 if(clientesTemp!=null)
+//                    {
+//                        clientesTemp=null;
+//                    }
+//                    clientesTemp = Clients.fromJsonArray(conexion.getRespuesta());
+                    clientes.removeAllElements();
+                     try{
+                    JSONArray array = new JSONArray(serverInfo.getClientesTxt());
+                    Log.i("Clientes en total ", ""+array.length());
+//                    getFormActualizar().setTitle("Clientes total "+array.length());
+                   
+                        gauge.setMaxValue(array.length());
+                        gauge.setValue(1);
+//                        getFormActualizar().append(gauge);
+                    for(int i=0;i<array.length();i++)
+                    {
+                        JSONObject json = array.getJSONObject(i);
+                        Clients client = Clients.fromJson(json.toString());
+                        clientes.addElement(client);
+                        Log.i("cliente id: ", client.getId()+" adicionado");
+                        getContenidoActulizar().setText("Cliente "+i+" de "+array.length());
+                        gauge.setValue(gauge.getValue()+1);
+                        gauge.updateInternalArea();
+//                        getFormActualizar().setTitle("Actualizando Clienetes "+i+" de "+array.length());
+                    }
+                    }catch(JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    
+                    
+                    
+                       try {
+                                    storage.save( clientes, "clientes");
+                            } catch (IOException e) {
+
+                                    System.out.println("Unable to store clientes XD" + e );
+                            }
+                    cambiarPantalla();
+//                       switchDisplayable(null, getFormSincronizacion());
+                    getStrNumClientes().setText(""+clientes.size());
+            }
+        };
+        
+        t.start();
+        //formulario de sincronizacion de clientes aqui 
+//GEN-LINE:|7-commandAction|60|1441-postAction
+ // write post-action user code here
+} else if (command == okUpdate) {//GEN-LINE:|7-commandAction|61|1425-preAction
  // write pre-action user code here
     pantalla = SINCRONIZAR;
         
@@ -1044,62 +1172,73 @@ switchDisplayable(null, getInformacion());//GEN-LINE:|7-commandAction|58|1430-po
         
         
 //    
-//GEN-LINE:|7-commandAction|60|1425-postAction
+//GEN-LINE:|7-commandAction|62|1425-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|61|1297-preAction
+}//GEN-BEGIN:|7-commandAction|63|1297-preAction
 } else if (displayable == formVistaFactura) {
-    if (command == back) {//GEN-END:|7-commandAction|61|1297-preAction
+    if (command == back) {//GEN-END:|7-commandAction|63|1297-preAction
  // write pre-action user code here
-switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|62|1297-postAction
+switchDisplayable(null, getFormRClient());//GEN-LINE:|7-commandAction|64|1297-postAction
  // write post-action user code here
-} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|63|1290-preAction
+} else if (command == okCommand11) {//GEN-LINE:|7-commandAction|65|1290-preAction
  // write pre-action user code here
-methodPrintFactura();//GEN-LINE:|7-commandAction|64|1290-postAction
+methodPrintFactura();//GEN-LINE:|7-commandAction|66|1290-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|65|1428-preAction
+}//GEN-BEGIN:|7-commandAction|67|1428-preAction
 } else if (displayable == informacion) {
-    if (command == backCommand8) {//GEN-END:|7-commandAction|65|1428-preAction
+    if (command == backCommand8) {//GEN-END:|7-commandAction|67|1428-preAction
  // write pre-action user code here
-switchDisplayable(null, getFormSincronizacion());//GEN-LINE:|7-commandAction|66|1428-postAction
+switchDisplayable(null, getFormSincronizacion());//GEN-LINE:|7-commandAction|68|1428-postAction
  // write post-action user code here
-} else if (command == okCommand29) {//GEN-LINE:|7-commandAction|67|1439-preAction
+} else if (command == okCommand29) {//GEN-LINE:|7-commandAction|69|1439-preAction
  // write pre-action user code here
     
-//    ConectorRest c = new ConectorRest();
-//    try{
-////        String texto =SendInvoices.toJSONObjects(facturas);
-////        SendInvoices.sendjsonObject(facturas,9, user.getllave());
-//    c.EnviarRestPost("http://www.sigcfactu.com.bo/session","{\"mensaje\":\"hola año\"}",user.getllave());
-////    SendInvoices.toJSONObjects(facturas)
-//    getStringItem6().setText("se envio ");
-//    }catch(IOException e){
-//    getStringItem6().setText("no se pudo enviar");
-//  
-//    }
-//GEN-LINE:|7-commandAction|68|1439-postAction
+    ConectorRest c = new ConectorRest();
+    try{
+//        String texto =SendInvoices.toJSONObjects(facturas);
+//        SendInvoices.sendjsonObject(facturas,9, user.getllave());
+         getStringItem6().setText("se envio consulta  ");
+//       String res= c.EnviarGet("http://www.sigcfactu.com.bo/clientesPOS",user.getllave());
+     c.EnviarRestPost("http://www.sigcfactu.com.bo/backup",SendInvoices.toJSONObjects(facturasbackup),user.getllave());
+//    SendInvoices.toJSONObjects(facturas)
+//       serverInfo.setClientesTxt(res);
+//        try {
+//                    storage.save( serverInfo, "servertxt");
+//                    
+//            } catch (IOException e) {
+//
+//                    System.out.println("Unable to store serverInfo XD" + e );
+//            }
+       getStringItem6().setText(" respuesta del servidor:"+c.getRespuesta());
+//        getStringItem6().setText("resultado de clientes: "+c.getRespuesta());
+    }catch(IOException e){
+    getStringItem6().setText("no se pudo enviar");
+  
+    }
+//GEN-LINE:|7-commandAction|70|1439-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|69|1155-preAction
+}//GEN-BEGIN:|7-commandAction|71|1155-preAction
 } else if (displayable == listMenu) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|69|1155-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|71|1155-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|70|1155-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|72|1155-postAction
                 // write post-action user code here
-} else if (command == backSalir) {//GEN-LINE:|7-commandAction|71|1166-preAction
+} else if (command == backSalir) {//GEN-LINE:|7-commandAction|73|1166-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|72|1166-postAction
+switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|74|1166-postAction
              
                 // write post-action user code here
-} else if (command == okMenu) {//GEN-LINE:|7-commandAction|73|1161-preAction
+} else if (command == okMenu) {//GEN-LINE:|7-commandAction|75|1161-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|74|1161-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|76|1161-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|75|1216-preAction
+}//GEN-BEGIN:|7-commandAction|77|1216-preAction
 } else if (displayable == listPrincipal) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|75|1216-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|77|1216-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|76|1216-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|78|1216-postAction
                 // write post-action user code here
-} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|77|1228-preAction
+} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|79|1228-preAction
 //                Cargando();
 //        if(conexion!=null)
 //        {
@@ -1111,7 +1250,7 @@ listPrincipalAction();//GEN-LINE:|7-commandAction|76|1216-postAction
 //        {
 //            public void run()
 //            {
-switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|78|1228-postAction
+switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|80|1228-postAction
 //        
 //        }
 //
@@ -1121,19 +1260,19 @@ switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|78|1228-pos
 //        conexion.start();
 
 
-    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|79|1224-preAction
+    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|81|1224-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|80|1224-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|82|1224-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|81|1125-preAction
+}//GEN-BEGIN:|7-commandAction|83|1125-preAction
 } else if (displayable == listProductos) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|81|1125-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|83|1125-preAction
                 // write pre-action user code here
-listProductosAction();//GEN-LINE:|7-commandAction|82|1125-postAction
+listProductosAction();//GEN-LINE:|7-commandAction|84|1125-postAction
                 // write post-action user code here
-} else if (command == backMenu) {//GEN-LINE:|7-commandAction|83|1133-preAction
+} else if (command == backMenu) {//GEN-LINE:|7-commandAction|85|1133-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|84|1133-postAction
+switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|86|1133-postAction
                 
 //                strProductos.setText("entro");
 //                String p="lista de Items:\nCANT CONCEPTO      BS";
@@ -1150,41 +1289,41 @@ switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|84|1133-postA
 //                strTotal.setText(""+total);
                 
                 // write post-action user code here
-} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|85|1192-preAction
+} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|87|1192-preAction
                 // write pre-action user code here
                    Products pro = (Products) listaProductos.elementAt(listProductos.getSelectedIndex());
 //                   seleccionarProducto(pro,false);
                    listaProductos.removeElementAt(listProductos.getSelectedIndex());
                  
                    listProductos.delete(listProductos.getSelectedIndex());
-//GEN-LINE:|7-commandAction|86|1192-postAction
+//GEN-LINE:|7-commandAction|88|1192-postAction
                 // write post-action user code here
-} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|87|1127-preAction
+} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|89|1127-preAction
                 // write pre-action user code here
     //liberar objeto de memoria
 //    lista = null;
-switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|88|1127-postAction
+switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|90|1127-postAction
                 // write post-action user code here
 //Limpiando items para productos
 
         LimpiarItems();
-    }//GEN-BEGIN:|7-commandAction|89|1315-preAction
+    }//GEN-BEGIN:|7-commandAction|91|1315-preAction
 } else if (displayable == notesList) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|89|1315-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|91|1315-preAction
  // write pre-action user code here
-notesListAction();//GEN-LINE:|7-commandAction|90|1315-postAction
+notesListAction();//GEN-LINE:|7-commandAction|92|1315-postAction
  // write post-action user code here
-} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|91|1321-preAction
+} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|93|1321-preAction
  // write pre-action user code here
-//GEN-LINE:|7-commandAction|92|1321-postAction
+//GEN-LINE:|7-commandAction|94|1321-postAction
  // write post-action user code here
-} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|93|1319-preAction
+} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|95|1319-preAction
  // write pre-action user code here
-switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|94|1319-postAction
+switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|96|1319-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|95|24-preAction
+}//GEN-BEGIN:|7-commandAction|97|24-preAction
 } else if (displayable == splashScreen) {
-    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|95|24-preAction
+    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|97|24-preAction
                 // write pre-action user code here
     
 
@@ -1212,19 +1351,19 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|94|1319-postActio
 //            borrarInformacion();
         /*/
             
-switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|96|24-postAction
-//GEN-END:|7-commandAction|96|24-postAction
+switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|98|24-postAction
+//GEN-END:|7-commandAction|98|24-postAction
        */
                     
 //aqui la validacion del loing 
        
          
 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|97|7-postCommandAction
-        }//GEN-END:|7-commandAction|97|7-postCommandAction
+}//GEN-BEGIN:|7-commandAction|99|7-postCommandAction
+        }//GEN-END:|7-commandAction|99|7-postCommandAction
         // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|98|
-//</editor-fold>//GEN-END:|7-commandAction|98|
+}//GEN-BEGIN:|7-commandAction|100|
+//</editor-fold>//GEN-END:|7-commandAction|100|
 
 
 
@@ -1520,7 +1659,7 @@ okLogin = new Command("Aceptar", Command.OK, 0);//GEN-LINE:|801-getter|1|801-pos
 //GEN-END:|797-getter|0|797-preInit
             // write pre-init user code here
             
-            formLogin = new Form("Autentificaci\u00F3n v3.9 a", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
+            formLogin = new Form("Autentificaci\u00F3n v3.9.1 b", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
             formLogin.setTicker(getTickerLogin());
             formLogin.addCommand(getOkLogin());
             formLogin.addCommand(getExitCommand());
@@ -1772,12 +1911,12 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
                     sucursal.setTerceros(cuenta.getSucursal().getTerceros());
                     
                      try {
-                                storage.save( sucursal, "sucursal");
-                                Log.i("metho Login", "sucursales sucursal");
-                		} catch (IOException e) {
-                			Log.i("metho Login", "Unable to store sucursal XD");
-                			
-                		}
+                            storage.save( sucursal, "sucursal");
+                            Log.i("metho Login", "sucursales sucursal");
+                        } catch (IOException e) {
+                                Log.i("metho Login", "Unable to store sucursal XD");
+
+                        }
                     productos.removeAllElements();
                     for(int i=0;i<cuenta.getProductos().size();i++)
                     {
@@ -2119,6 +2258,19 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
             String numAutho=cuenta.getSucursal().getNumber_autho();
             String numInvoice=cuenta.getSucursal().getInvoice_number_counter();
             String nit=cliente.getCliente().getNit();
+//            int nitnumerico=null;
+            String nuevonit = "";
+            try{
+                Log.i("convertiendo a anumero :", nit);
+                nuevonit=nit;
+                int nitnumerico = Integer.parseInt(nit);
+            }catch(Exception e){
+                Log.i("no pudo convertir  ",nit);
+                nuevonit = nit.substring(0, nit.length()-1);
+                
+                Log.i(" nuevo nit", nuevonit);
+            }
+            
             String date =com.david.torrez.DateUtil.getCodigoControFecha();
             String amount=factura.getAmount();
             String keyDosage=cuenta.getSucursal().getKey_dosage();
@@ -2126,7 +2278,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
 //            CodigoDeControl cd = new CodigoDeControl();
 //            String cod= cd.getCodigoDeControl(cuenta.getSucursal().getNumber_autho(),"000"+cuenta.getSucursal().getInvoice_number_counter(), cliente.getCliente().getNit(), com.david.torrez.DateUtil.getCodigoControFecha(), factura.getAmount(),cuenta.getSucursal().getKey_dosage() );
             try{
-            factura.setControl_code(CodigoDeControl.getCodigoDeControl(nit, numInvoice, date, amount, numAutho, keyDosage));
+            factura.setControl_code(CodigoDeControl.getCodigoDeControl(nuevonit, numInvoice, date, amount, numAutho, keyDosage));
             }catch(Exception e){
                 System.out.println("Error en el Codigo de Control:" );
                 System.out.println("Numero de autorizacion:"+numAutho );
@@ -4783,11 +4935,11 @@ form1 = new Form("form1", new Item[]{textField});//GEN-BEGIN:|1386-getter|1|1386
             form1.addCommand(getOkCommand23());
             form1.setCommandListener(this);//GEN-END:|1386-getter|1|1386-postInit
  // write post-init user code here
-            int max = 100;
-int current = 1;
-boolean isInteractive = true;
-//#style gaugeItem
-this.gauge = new Gauge( "Tiempo:", isInteractive, max, current );
+//            int max = 100;
+//int current = 1;
+//boolean isInteractive = true;
+////#style gaugeItem
+//this.gauge = new Gauge( "Tiempo:", isInteractive, max, current );
 
 //Gauge busyIndicator = new Gauge( null, false, Gauge.INCREMENTAL_IDLE, Gauge.CONTINUOUS_RUNNING );
 form1.append( this.gauge );
@@ -4825,7 +4977,7 @@ okCommand23 = new Command("generar Codigo de control", Command.OK, 0);//GEN-LINE
         if (okCommand24 == null) {
 //GEN-END:|1394-getter|0|1394-preInit
  // write pre-init user code here
-okCommand24 = new Command("Actualizar Clientes", Command.OK, 0);//GEN-LINE:|1394-getter|1|1394-postInit
+okCommand24 = new Command("Obtener Clientes", Command.OK, 0);//GEN-LINE:|1394-getter|1|1394-postInit
  // write post-init user code here
 }//GEN-BEGIN:|1394-getter|2|
         return okCommand24;
@@ -4878,6 +5030,7 @@ backCommand5 = new Command("Atras", Command.BACK, 0);//GEN-LINE:|1398-getter|1|1
  // write pre-init user code here
 formSincronizacion = new Form("Reporte de Datos", new Item[]{getStrNumClientes(), getStrNumFacturas()});//GEN-BEGIN:|1393-getter|1|1393-postInit
             formSincronizacion.addCommand(getOkCommand24());
+            formSincronizacion.addCommand(getOkCommand30());
             formSincronizacion.addCommand(getOkCommand25());
             formSincronizacion.addCommand(getBackCommand5());
             formSincronizacion.addCommand(getOkCommand27());
@@ -5152,7 +5305,7 @@ okCommand28 = new Command("Informacion POS", Command.OK, 0);//GEN-LINE:|1429-get
         if (informacion == null) {
 //GEN-END:|1426-getter|0|1426-preInit
  // write pre-init user code here
-informacion = new Form("Informacion v3.9 a", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
+informacion = new Form("Informacion v3.9.1 b", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
             informacion.addCommand(getBackCommand8());
             informacion.addCommand(getOkCommand29());
             informacion.setCommandListener(this);//GEN-END:|1426-getter|1|1426-postInit
@@ -5243,12 +5396,29 @@ stringItem6 = new StringItem("", null);//GEN-LINE:|1437-getter|1|1437-postInit
         if (okCommand29 == null) {
 //GEN-END:|1438-getter|0|1438-preInit
  // write pre-init user code here
-okCommand29 = new Command("Ok", Command.OK, 0);//GEN-LINE:|1438-getter|1|1438-postInit
+okCommand29 = new Command("Enviar Backup", Command.OK, 0);//GEN-LINE:|1438-getter|1|1438-postInit
  // write post-init user code here
 }//GEN-BEGIN:|1438-getter|2|
         return okCommand29;
     }
 //</editor-fold>//GEN-END:|1438-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand30 ">//GEN-BEGIN:|1440-getter|0|1440-preInit
+    /**
+     * Returns an initialized instance of okCommand30 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand30() {
+        if (okCommand30 == null) {
+//GEN-END:|1440-getter|0|1440-preInit
+ // write pre-init user code here
+okCommand30 = new Command("Actualizar Clientes", Command.OK, 0);//GEN-LINE:|1440-getter|1|1440-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1440-getter|2|
+        return okCommand30;
+    }
+//</editor-fold>//GEN-END:|1440-getter|2|
 
 
 
@@ -5705,8 +5875,8 @@ public TextField getTextNativo()
         Thread tsd = new Thread(){
             public void run()
             {   
-                getFormLoading().setTitle("Actulizando");
-                switchDisplayable(null,getFormLoading());
+//                getFormLoading().setTitle("Actulizando");
+                switchDisplayable(null,getFormActualizar());
                
             }
         };
@@ -7002,6 +7172,78 @@ public TextField getTextNativo()
         
         return alert;
     }
+      public Form getFormActualizar() {
+        
+            if(formActualizar==null)
+            {
+            // write pre-init user code here
+            //#style mailAlert
+            formActualizar = new Form("Actualizando", new Item[]{getContenidoActulizar()});    
+            
+            formActualizar.addCommand(getCancelCommand2());
+            formActualizar.setCommandListener(this);     
+              //#style gaugeItem
+                        gauge = new Gauge( "Clientes:", true, 100, 1 );
+                        formActualizar.append(gauge);
+            // write post-init user code here
+            
+            }                 
+            getContenidoActulizar().setText("Actualizando Clientes");
+        return formActualizar;
+    }
+    public Form getFormObtenerClientes() {
+        
+            if(formClientes==null)
+            {
+                //#style mailAlert
+                formClientes = new Form("Obteniendo Clientes", new Item[]{getContenidoClientes()});    
+
+                cmdClientes = new Command("aceptar",Command.OK,1);
+                formClientes.addCommand(cmdClientes);
+                formClientes.setCommandListener(new CommandListener() {
+                   public void commandAction(Command c, Displayable d) {
+                       if (c == cmdClientes) {
+
+                           switchDisplayable(null,getFormSincronizacion());
+                       }               
+                   }
+               });      
+             
+            }                 
+          
+        return formClientes;
+    }
+      
+//      public Form getActualizarClientes() {
+//        
+//        
+//        
+//            //#style mailAlert
+//            
+//           final Form alert = new Form("Actualizar clientes ?",new Item[]{});
+//           final Command cmdYes = new Command("Si", Command.OK, 1);
+//           final Command cmdNo =   new Command("No", Command.CANCEL, 1);
+//           alert.addCommand(cmdYes);
+//           alert.addCommand(cmdNo);
+//           alert.append(gauge);
+//           alert.setCommandListener(new CommandListener() {
+//               public void commandAction(Command c, Displayable d) {
+//                   if (c == cmdYes) {
+//                      
+//                        //#style gaugeItem
+////                        gauge = new Gauge( "Tiempo:", isInteractive, max, current );
+////                        alert.append(gauge);
+////                       EnviarFacturasGuardadas();
+////                        gauge.set(10);
+//
+//                   } else {
+//                      switchDisplayable(null,getFormSincronizacion());
+//                   }               
+//               }
+//           });                    
+//           
+//        return alert;
+//    }
     public void EnviarFacturasGuardadas()
     {
         // write pre-action user code here
@@ -7266,6 +7508,23 @@ public TextField getTextNativo()
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
+    }
+     
+      
+    public StringItem getContenidoActulizar() {
+        if (contenidoActualizar == null) {
+
+                    contenidoActualizar = new StringItem("", null);                                       
+        }                           
+        return contenidoActualizar;
+    }
+    public StringItem getContenidoClientes()
+    {
+        if(contenidoClientes ==null)
+        {
+            contenidoClientes = new StringItem("Respuesta: ",null);
+        }
+        return contenidoClientes;
     }
     
 }

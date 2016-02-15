@@ -21,25 +21,26 @@ import javax.microedition.io.HttpConnection;
 public class ConexionIpx extends Thread
 {
 //    private final String SERVIDOR="sigcfactu.com.bo";
-    private final String SERVIDOR="162.242.239.72";
+    public static String SERVIDOR="162.242.239.72";
+//    public static final String SERVIDOR="cascada.emizor.com";
    
-    private final String PROTOCOLO="http://";
+    public static final String PROTOCOLO="http://";
 
     
-    private final String URL_AUTENTIFICACION = "/pos";
-    private final String URL_LOGOUT ="/logoutPOS";
+    public static final String URL_AUTENTIFICACION = "/pos";
+    public static final String URL_LOGOUT ="/logoutPOS";
 //    private final String URL_AUTENTIFICACION="http://nofunciona.org.zs";
-    private final String URL_CLIENTE="/clientesPOS";
+    public static final String URL_CLIENTE="/clientesPOS";
     
 //    private final String URL_CLIENTES="http://192.168.1.10/cascada3/public/clientes/";
 //    public static final String URL_GUARDARFACTURA="/guardarFacturaOffline";
      public static final String URL_GUARDARFACTURA="/pos";
     
-    private final String URL_VERSION="/version";
-    private final String URL_REGISTRARCLIENTE="/registrarCliente";
-    private final String URL_FACTURAS ="/facturas";
-    private final String URL_PRINTFACTURA = "/printFactura/";
-    private final String URL_GETFACTURA = "/obtenerFactura/";
+    public static final String URL_VERSION="/version";
+    public static final String URL_REGISTRARCLIENTE="/registrarCliente";
+    public static final String URL_FACTURAS ="/facturas";
+    public static final String URL_PRINTFACTURA = "/printFactura/";
+    public static final String URL_GETFACTURA = "/obtenerFactura/";
       
    public static final int AUTENTIFICAZION=0;
    public static final int CLIENTE=1;
@@ -341,5 +342,54 @@ public class ConexionIpx extends Thread
     private String getParametros()
     {
         return this.parametros;
+    }
+    public  static String getURL(int identificador)
+    {
+//          Respuesta = "vacio";
+        String url="";
+       
+           
+             switch(identificador)
+            {
+                case -1:
+                     url=PROTOCOLO+SERVIDOR+URL_LOGOUT;
+                
+                    break;
+                case AUTENTIFICAZION:
+                    
+                    url =PROTOCOLO+SERVIDOR+URL_AUTENTIFICACION;
+                   
+                    break;
+                case CLIENTE:
+                    url = PROTOCOLO+SERVIDOR+URL_CLIENTE;
+                   
+                    break;
+                case GUARDARFACTURA:
+                    url = PROTOCOLO+SERVIDOR+URL_GUARDARFACTURA;
+                  
+                    break;
+                case VERSION:
+                    url=PROTOCOLO+SERVIDOR+URL_VERSION;
+                   
+                    break;
+                case REGISTRARCLIENTE:
+                    url = PROTOCOLO+SERVIDOR+URL_REGISTRARCLIENTE;
+                    
+                    break;
+                case FACTURAS:
+                    url = PROTOCOLO+SERVIDOR+URL_FACTURAS;
+                  
+                    break;
+                case PRINTFACTURA:
+                    url = PROTOCOLO+SERVIDOR+URL_PRINTFACTURA;
+                   
+                    break;
+                case GETFACTURA:
+                    url =PROTOCOLO+SERVIDOR+ URL_GETFACTURA;
+                    
+                    break;
+                    
+            }
+             return url;
     }
 }

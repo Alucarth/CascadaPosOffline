@@ -129,20 +129,20 @@ public class ConectorRest
     }
     
     }
-    public void EnviarGet(String url) throws IOException
+    public String EnviarGet(String url,String llave) throws IOException
     {
-
+        String respuesta=null;
     HttpConnection httpConn = null;
     InputStream is = null;
     OutputStream os = null;
-//    String authorizationHeader= "Basic " + Base64.encode(this.parametros);
+    String authorizationHeader= "Basic " + Base64.encode(llave);
     try {
       // Open an HTTP Connection object
       httpConn = (HttpConnection)Connector.open(url);
 
       // Setup HTTP Request
       httpConn.setRequestMethod(HttpConnection.GET);
-//      httpConn.setRequestProperty("Authorization",authorizationHeader);
+      httpConn.setRequestProperty("Authorization",authorizationHeader);
       httpConn.setRequestProperty("User-Agent","Profile/MIDP-1.0 Confirguration/CLDC-1.0");
       
       // This function retrieves the information of this connection
@@ -159,7 +159,7 @@ public class ConectorRest
         while ((chr = is.read()) != -1)
           sb.append((char) chr);
         
-        Respuesta = convertiraISO(sb.toString());
+        respuesta = convertiraISO(sb.toString());
     
       }
       else {
@@ -174,7 +174,7 @@ public class ConectorRest
       if(httpConn != null)
             httpConn.close();
     }
-    
+        return respuesta;
     }
     public String getClave()
     {
