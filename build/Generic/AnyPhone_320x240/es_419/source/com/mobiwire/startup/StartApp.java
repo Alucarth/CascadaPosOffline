@@ -75,7 +75,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int CLIENTES=12;
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.9.1 b";
+     private String version ="3.9.2";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -323,8 +323,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Ticker ticker;
     private Image image19;
+    private Ticker ticker;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -1662,7 +1662,7 @@ okLogin = new Command("Aceptar", Command.OK, 0);//GEN-LINE:|801-getter|1|801-pos
 //GEN-END:|797-getter|0|797-preInit
             // write pre-init user code here
             
-            formLogin = new Form("Autentificaci\u00F3n v3.9.1 b", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
+            formLogin = new Form("Autentificaci\u00F3n v3.9.2", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
             formLogin.setTicker(getTickerLogin());
             formLogin.addCommand(getOkLogin());
             formLogin.addCommand(getExitCommand());
@@ -2156,7 +2156,7 @@ okOpciones = new Command("A\u00F1adir Item", Command.OK, 0);//GEN-LINE:|1099-get
                      InvoiceItem item = new InvoiceItem();
                      item.setBoni(pro.getBoni());
                      double costo=(double)(Double.parseDouble(pro.getCost())/Integer.parseInt(pro.getUnits()));
-                     costo = redondeo(costo,2);
+//                     costo = redondeo(costo,2);
                      item.setCost(""+costo);
                      item.setDesc(pro.getDesc());
                      item.setNotes(pro.getNotes());
@@ -5309,7 +5309,7 @@ okCommand28 = new Command("Informacion POS", Command.OK, 0);//GEN-LINE:|1429-get
         if (informacion == null) {
 //GEN-END:|1426-getter|0|1426-preInit
  // write pre-init user code here
-informacion = new Form("Informacion v3.9.1 b", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
+informacion = new Form("Informacion v3.9.2", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
             informacion.addCommand(getBackCommand8());
             informacion.addCommand(getOkCommand29());
             informacion.setCommandListener(this);//GEN-END:|1426-getter|1|1426-postInit
@@ -5630,10 +5630,10 @@ public TextField getTextNativo()
 //                                    
                                     
 //                                  imprimir.printBitmap(deviceOps.readImage("/linea.bmp", 0));
-                                    imprimir.printText("                          TOTAL: Bs "+sumatotales, 1);                                 
+                                    imprimir.printText("                          TOTAL: Bs "+factura.getSubtotal(), 1);                                 
 //                                    imprimir.printText("TOTAL: "+factura.getSubtotal(), 1);
-//                                    double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
-                                    double descuento = sumatotales-Double.parseDouble(factura.getAmount());
+                                    double descuento = Double.parseDouble(factura.getSubtotal())-Double.parseDouble(factura.getAmount());
+//                                    double descuento = sumatotales-Double.parseDouble(factura.getAmount());
                                     imprimir.printText("ICE: "+factura.getIce(), 1);
                                     
                                     imprimir.printText("DESCUENTOS/BONIFICACION: "+redondeo(descuento,2)+"", 1);
