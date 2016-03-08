@@ -14,7 +14,7 @@ public class Rest
 {
     private String respuesta;    
     private int codresp;
-    private Thread t;
+//    private Thread t;
     public String llave;
     public void setCodigoRespuesta(int codresp)
     {

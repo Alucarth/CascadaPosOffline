@@ -9,8 +9,11 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.BmpArray;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.ipx.db.Usuario;
-import com.ipx.http.ConectorRest; 
+import com.ipx.http.BufferRest; 
+import com.ipx.http.ConectorRest;
 import com.ipx.http.ConexionIpx;
+import com.ipx.http.RestConsumidor;
+import com.ipx.http.RestProductor;
 import com.ipx.http.switchDisplay;  
 import com.ipx.json.Account;
 import com.ipx.json.Cliente;
@@ -252,6 +255,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private Command backCommand7;
     private Command okCommand27;
     private Command okCommand30;
+    private Command okCommand31;
     private Form formFactura;
     private StringItem strNomCli;
     private StringItem strNitCli;
@@ -323,8 +327,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Image image22;
     private Image image17;
     private Image image18;
-    private Image image19;
     private Ticker ticker;
+    private Image image19;
     private Image image20;
     private Image image14;
     private Image image15;
@@ -1220,28 +1224,39 @@ switchDisplayable(null, getFormSincronizacion());//GEN-LINE:|7-commandAction|68|
     }
 //GEN-LINE:|7-commandAction|70|1439-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|71|1155-preAction
+} else if (command == okCommand31) {//GEN-LINE:|7-commandAction|71|1443-preAction
+ // write pre-action user code here
+    facturasbackup.removeAllElements();
+        try {
+            storage.save(facturasbackup, "facturascopia");
+            getStringItem2().setText("vacio "+facturasbackup.size());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+//GEN-LINE:|7-commandAction|72|1443-postAction
+ // write post-action user code here
+}//GEN-BEGIN:|7-commandAction|73|1155-preAction
 } else if (displayable == listMenu) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|71|1155-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|73|1155-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|72|1155-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|74|1155-postAction
                 // write post-action user code here
-} else if (command == backSalir) {//GEN-LINE:|7-commandAction|73|1166-preAction
+} else if (command == backSalir) {//GEN-LINE:|7-commandAction|75|1166-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|74|1166-postAction
+switchDisplayable(null, getListPrincipal());//GEN-LINE:|7-commandAction|76|1166-postAction
              
                 // write post-action user code here
-} else if (command == okMenu) {//GEN-LINE:|7-commandAction|75|1161-preAction
+} else if (command == okMenu) {//GEN-LINE:|7-commandAction|77|1161-preAction
                 // write pre-action user code here
-listMenuAction();//GEN-LINE:|7-commandAction|76|1161-postAction
+listMenuAction();//GEN-LINE:|7-commandAction|78|1161-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|77|1216-preAction
+}//GEN-BEGIN:|7-commandAction|79|1216-preAction
 } else if (displayable == listPrincipal) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|77|1216-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|79|1216-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|78|1216-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|80|1216-postAction
                 // write post-action user code here
-} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|79|1228-preAction
+} else if (command == backCommand2) {//GEN-LINE:|7-commandAction|81|1228-preAction
 //                Cargando();
 //        if(conexion!=null)
 //        {
@@ -1253,7 +1268,7 @@ listPrincipalAction();//GEN-LINE:|7-commandAction|78|1216-postAction
 //        {
 //            public void run()
 //            {
-switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|80|1228-postAction
+switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|82|1228-postAction
 //        
 //        }
 //
@@ -1263,19 +1278,19 @@ switchDisplayable(null, getFormLogout());//GEN-LINE:|7-commandAction|80|1228-pos
 //        conexion.start();
 
 
-    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|81|1224-preAction
+    } else if (command == okCommand8) {//GEN-LINE:|7-commandAction|83|1224-preAction
                 // write pre-action user code here
-listPrincipalAction();//GEN-LINE:|7-commandAction|82|1224-postAction
+listPrincipalAction();//GEN-LINE:|7-commandAction|84|1224-postAction
                 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|83|1125-preAction
+}//GEN-BEGIN:|7-commandAction|85|1125-preAction
 } else if (displayable == listProductos) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|83|1125-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|85|1125-preAction
                 // write pre-action user code here
-listProductosAction();//GEN-LINE:|7-commandAction|84|1125-postAction
+listProductosAction();//GEN-LINE:|7-commandAction|86|1125-postAction
                 // write post-action user code here
-} else if (command == backMenu) {//GEN-LINE:|7-commandAction|85|1133-preAction
+} else if (command == backMenu) {//GEN-LINE:|7-commandAction|87|1133-preAction
                 // write pre-action user code here
-switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|86|1133-postAction
+switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|88|1133-postAction
                 
 //                strProductos.setText("entro");
 //                String p="lista de Items:\nCANT CONCEPTO      BS";
@@ -1292,41 +1307,41 @@ switchDisplayable(null, getListMenu());//GEN-LINE:|7-commandAction|86|1133-postA
 //                strTotal.setText(""+total);
                 
                 // write post-action user code here
-} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|87|1192-preAction
+} else if (command == okCommand4) {//GEN-LINE:|7-commandAction|89|1192-preAction
                 // write pre-action user code here
                    Products pro = (Products) listaProductos.elementAt(listProductos.getSelectedIndex());
 //                   seleccionarProducto(pro,false);
                    listaProductos.removeElementAt(listProductos.getSelectedIndex());
                  
                    listProductos.delete(listProductos.getSelectedIndex());
-//GEN-LINE:|7-commandAction|88|1192-postAction
+//GEN-LINE:|7-commandAction|90|1192-postAction
                 // write post-action user code here
-} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|89|1127-preAction
+} else if (command == okOpciones) {//GEN-LINE:|7-commandAction|91|1127-preAction
                 // write pre-action user code here
     //liberar objeto de memoria
 //    lista = null;
-switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|90|1127-postAction
+switchDisplayable(null, getFormProd());//GEN-LINE:|7-commandAction|92|1127-postAction
                 // write post-action user code here
 //Limpiando items para productos
 
         LimpiarItems();
-    }//GEN-BEGIN:|7-commandAction|91|1315-preAction
+    }//GEN-BEGIN:|7-commandAction|93|1315-preAction
 } else if (displayable == notesList) {
-    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|91|1315-preAction
+    if (command == List.SELECT_COMMAND) {//GEN-END:|7-commandAction|93|1315-preAction
  // write pre-action user code here
-notesListAction();//GEN-LINE:|7-commandAction|92|1315-postAction
+notesListAction();//GEN-LINE:|7-commandAction|94|1315-postAction
  // write post-action user code here
-} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|93|1321-preAction
+} else if (command == backCommand3) {//GEN-LINE:|7-commandAction|95|1321-preAction
  // write pre-action user code here
-//GEN-LINE:|7-commandAction|94|1321-postAction
+//GEN-LINE:|7-commandAction|96|1321-postAction
  // write post-action user code here
-} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|95|1319-preAction
+} else if (command == okCommand14) {//GEN-LINE:|7-commandAction|97|1319-preAction
  // write pre-action user code here
-switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|96|1319-postAction
+switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|98|1319-postAction
  // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|97|24-preAction
+}//GEN-BEGIN:|7-commandAction|99|24-preAction
 } else if (displayable == splashScreen) {
-    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|97|24-preAction
+    if (command == SplashScreen.DISMISS_COMMAND) {//GEN-END:|7-commandAction|99|24-preAction
                 // write pre-action user code here
     
 
@@ -1354,19 +1369,19 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|96|1319-postActio
 //            borrarInformacion();
         /*/
             
-switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|98|24-postAction
-//GEN-END:|7-commandAction|98|24-postAction
+switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|100|24-postAction
+//GEN-END:|7-commandAction|100|24-postAction
        */
                     
 //aqui la validacion del loing 
        
          
 // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|99|7-postCommandAction
-        }//GEN-END:|7-commandAction|99|7-postCommandAction
+}//GEN-BEGIN:|7-commandAction|101|7-postCommandAction
+        }//GEN-END:|7-commandAction|101|7-postCommandAction
         // write post-action user code here
-}//GEN-BEGIN:|7-commandAction|100|
-//</editor-fold>//GEN-END:|7-commandAction|100|
+}//GEN-BEGIN:|7-commandAction|102|
+//</editor-fold>//GEN-END:|7-commandAction|102|
 
 
 
@@ -1856,103 +1871,109 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
         
         //seteando la llave de nuevo
 //        this.llave =getTxtUsuario().getText()+":"+getTxtPassword().getString(); 
-         borrarInformacion();
+        borrarInformacion();
         user.setUsuario(getTxtUsuario().getText());
         user.setPassword(getTxtPassword().getString());
         
         pantalla = AUTENTIFICACION;
-        Cargando();
-        if(conexion!=null)
-        {
-            conexion =null;
-        }
-        conexion = new ConexionIpx();
-      
-      
-       
-        Thread t = new Thread()
-        {
-            public void run()
-            {
-                   
-                Log.i("Login "," thred consumidor activo");
-                if(conexion.getCodigoRespuesta()==200)
-                {
-                    
-                   cuenta = new Cuenta(conexion.getRespuesta());
-                        
-                   cambiarPantalla();
-                   getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
-//                   Log.i("metho Login", rest.getRespuesta());
-                   
-                   //guardando usuario 
-                   
-                   user.setUsuario(getTxtUsuario().getText());
-                   user.setPassword(getTxtPassword().getString());
-                   user.setSesion(true);
-                   user.setIce(cuenta.getIce());
-                   
-                    try {
-                                storage.save( user, "usuario");
-//                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
-                        } catch (IOException e) {
-
-                                
-//                                Log.i("metho Login", "Unable to store user XD");
-                        }
-                    
-                    //guardando sucursal
-                    sucursal.setActivity_pri(cuenta.getSucursal().getActivity_pri());
-                    sucursal.setAddress1(cuenta.getSucursal().getAddress1());
-                    sucursal.setAddress2(cuenta.getSucursal().getAddress2());
-                    sucursal.setDeadline(cuenta.getSucursal().getDeadline());
-                    sucursal.setInvoice_number_counter(cuenta.getSucursal().getInvoice_number_counter());
-                    sucursal.setKey_dosage(cuenta.getSucursal().getKey_dosage());
-                    sucursal.setLaw(cuenta.getSucursal().getLaw());
-                    sucursal.setName(cuenta.getSucursal().getName());
-                    sucursal.setNumber_autho(cuenta.getSucursal().getNumber_autho());
-                    sucursal.setTerceros(cuenta.getSucursal().getTerceros());
-                    
-                     try {
-                            storage.save( sucursal, "sucursal");
-                            Log.i("metho Login", "sucursales sucursal");
-                        } catch (IOException e) {
-                                Log.i("metho Login", "Unable to store sucursal XD");
-
-                        }
-                    productos.removeAllElements();
-                    for(int i=0;i<cuenta.getProductos().size();i++)
-                    {
-                        Products pr = (Products) cuenta.getProductos().elementAt(i);
-                        productos.addElement(pr);
-                    }
-                    
-                      try {
-                                storage.save( productos, "productos");
-//                                 Log.i("metho Login", "productos guardados");
-                		} catch (IOException e) {
-//                			Log.i("metho Login", "Unable to store productos XD");
-                			
-                		}
-                    
-                    //Cargando el titulo de la lista
-                        DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline());
-                    
-                }
-                else
-                {   
-                    //Repinta la pantalla antes de que esta esetes
-                    switchDisplayable(null, getFormLogin());
-                    switchDisplayable(getProblemas(), getFormLogin());
-                }   
-//                conexion = null;
-            
-            }
-      
-        };       
-        Log.i("llave de usuario", user.getllave());
-        conexion.EnviarGet(ConexionIpx.AUTENTIFICAZION,"",this.user.getllave(),t);
-        conexion.start();
+        BufferRest br = new BufferRest();
+        RestProductor restProductor = new RestProductor(this,br,ConexionIpx.AUTENTIFICAZION,null,user.getllave());
+        restProductor.start();
+        
+        RestConsumidor restConsumidor = new RestConsumidor(this,br);
+        restConsumidor.start();
+//        Cargando();
+//        if(conexion!=null)
+//        {
+//            conexion =null;
+//        }
+//        conexion = new ConexionIpx();
+//      
+//      
+//       
+//        Thread t = new Thread()
+//        {
+//            public void run()
+//            {
+//                   
+//                Log.i("Login "," thred consumidor activo");
+//                if(conexion.getCodigoRespuesta()==200)
+//                {
+//                    
+//                   cuenta = new Cuenta(conexion.getRespuesta());
+//                        
+//                   cambiarPantalla();
+//                   getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
+////                   Log.i("metho Login", rest.getRespuesta());
+//                   
+//                   //guardando usuario 
+//                   
+//                   user.setUsuario(getTxtUsuario().getText());
+//                   user.setPassword(getTxtPassword().getString());
+//                   user.setSesion(true);
+//                   user.setIce(cuenta.getIce());
+//                   
+//                    try {
+//                                storage.save( user, "usuario");
+////                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
+//                        } catch (IOException e) {
+//
+//                                
+////                                Log.i("metho Login", "Unable to store user XD");
+//                        }
+//                    
+//                    //guardando sucursal
+//                    sucursal.setActivity_pri(cuenta.getSucursal().getActivity_pri());
+//                    sucursal.setAddress1(cuenta.getSucursal().getAddress1());
+//                    sucursal.setAddress2(cuenta.getSucursal().getAddress2());
+//                    sucursal.setDeadline(cuenta.getSucursal().getDeadline());
+//                    sucursal.setInvoice_number_counter(cuenta.getSucursal().getInvoice_number_counter());
+//                    sucursal.setKey_dosage(cuenta.getSucursal().getKey_dosage());
+//                    sucursal.setLaw(cuenta.getSucursal().getLaw());
+//                    sucursal.setName(cuenta.getSucursal().getName());
+//                    sucursal.setNumber_autho(cuenta.getSucursal().getNumber_autho());
+//                    sucursal.setTerceros(cuenta.getSucursal().getTerceros());
+//                    
+//                     try {
+//                            storage.save( sucursal, "sucursal");
+//                            Log.i("metho Login", "sucursales sucursal");
+//                        } catch (IOException e) {
+//                                Log.i("metho Login", "Unable to store sucursal XD");
+//
+//                        }
+//                    productos.removeAllElements();
+//                    for(int i=0;i<cuenta.getProductos().size();i++)
+//                    {
+//                        Products pr = (Products) cuenta.getProductos().elementAt(i);
+//                        productos.addElement(pr);
+//                    }
+//                    
+//                      try {
+//                                storage.save( productos, "productos");
+////                                 Log.i("metho Login", "productos guardados");
+//                		} catch (IOException e) {
+////                			Log.i("metho Login", "Unable to store productos XD");
+//                			
+//                		}
+//                    
+//                    //Cargando el titulo de la lista
+//                        DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline());
+//                    
+//                }
+//                else
+//                {   
+//                    //Repinta la pantalla antes de que esta esetes
+//                    switchDisplayable(null, getFormLogin());
+//                    switchDisplayable(getProblemas(), getFormLogin());
+//                }   
+////                conexion = null;
+//            
+//            }
+//      
+//        };       
+//        Log.i("llave de usuario", user.getllave());
+//        conexion.EnviarGet(ConexionIpx.AUTENTIFICAZION,"",this.user.getllave(),t);
+//        conexion.start();
             /*
 switchDisplayable (null, getListPrincipal ());//GEN-BEGIN:|1049-entry|1|1050-postAction
 //GEN-END:|1049-entry|1|1050-postAction
@@ -5312,6 +5333,7 @@ okCommand28 = new Command("Informacion POS", Command.OK, 0);//GEN-LINE:|1429-get
 informacion = new Form("Informacion v3.9.2", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
             informacion.addCommand(getBackCommand8());
             informacion.addCommand(getOkCommand29());
+            informacion.addCommand(getOkCommand31());
             informacion.setCommandListener(this);//GEN-END:|1426-getter|1|1426-postInit
  // write post-init user code here
             
@@ -5423,6 +5445,23 @@ okCommand30 = new Command("Actualizar Clientes", Command.OK, 0);//GEN-LINE:|1440
         return okCommand30;
     }
 //</editor-fold>//GEN-END:|1440-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand31 ">//GEN-BEGIN:|1442-getter|0|1442-preInit
+    /**
+     * Returns an initialized instance of okCommand31 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand31() {
+        if (okCommand31 == null) {
+//GEN-END:|1442-getter|0|1442-preInit
+ // write pre-init user code here
+okCommand31 = new Command("Eliminar Backup", Command.OK, 0);//GEN-LINE:|1442-getter|1|1442-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1442-getter|2|
+        return okCommand31;
+    }
+//</editor-fold>//GEN-END:|1442-getter|2|
 
 
 
@@ -5869,6 +5908,19 @@ public TextField getTextNativo()
         Thread tsd = new Thread(){
             public void run()
             {
+                switchDisplayable(null,getFormLoading());
+            }
+        };
+        tsd.start();
+       
+    }
+    public void Cargando(BufferRest bufferRest)
+    {
+        Thread tsd = new Thread(){
+            
+            public void run()
+            {   
+                
                 switchDisplayable(null,getFormLoading());
             }
         };
@@ -7530,6 +7582,75 @@ public TextField getTextNativo()
             contenidoClientes = new StringItem("Respuesta: ",null);
         }
         return contenidoClientes;
+    }
+    public void procesarLogin(String jsonText)
+    {
+        
+//          switchDisplayable(null,getFormLogin());
+//          switchDisplayable(null,getFormActualizar());
+//             getContenidoActulizar().setText("Procesando Informacion");           
+             cuenta = new Cuenta(jsonText);
+//                   cambiarPantalla();
+                   getListPrincipal().setTitle("Usuario:"+getTxtUsuario().getText());
+//                   Log.i("metho Login", rest.getRespuesta());
+                   
+                   //guardando usuario 
+                   
+                   user.setUsuario(getTxtUsuario().getText());
+                   user.setPassword(getTxtPassword().getString());
+                   user.setSesion(true);
+                   user.setIce(cuenta.getIce());
+                   
+                    try {
+                                storage.save( user, "usuario");
+//                                getContenidoActulizar().setText("Usuario Registrado");
+//                                Log.i("metho Login", "usuario guardado "+user.getUsuario());
+                        } catch (IOException e) {
+
+                                
+//                                Log.i("metho Login", "Unable to store user XD");
+                        }
+                    
+                    //guardando sucursal
+                    sucursal.setActivity_pri(cuenta.getSucursal().getActivity_pri());
+                    sucursal.setAddress1(cuenta.getSucursal().getAddress1());
+                    sucursal.setAddress2(cuenta.getSucursal().getAddress2());
+                    sucursal.setDeadline(cuenta.getSucursal().getDeadline());
+                    sucursal.setInvoice_number_counter(cuenta.getSucursal().getInvoice_number_counter());
+                    sucursal.setKey_dosage(cuenta.getSucursal().getKey_dosage());
+                    sucursal.setLaw(cuenta.getSucursal().getLaw());
+                    sucursal.setName(cuenta.getSucursal().getName());
+                    sucursal.setNumber_autho(cuenta.getSucursal().getNumber_autho());
+                    sucursal.setTerceros(cuenta.getSucursal().getTerceros());
+                    
+                     try {
+                            storage.save( sucursal, "sucursal");
+//                            getContenidoActulizar().setText("Sucursal Registrada");
+                            Log.i("metho Login", "sucursales sucursal");
+                        } catch (IOException e) {
+                                Log.i("metho Login", "Unable to store sucursal XD");
+
+                        }
+                    productos.removeAllElements();
+                    
+                    for(int i=0;i<cuenta.getProductos().size();i++)
+                    {
+//                        getContenidoActulizar().setText("Registrando Producto "+i+" de "+cuenta.getProductos().size());
+                        Products pr = (Products) cuenta.getProductos().elementAt(i);
+                        productos.addElement(pr);
+                    }
+                    
+                      try {
+                                storage.save( productos, "productos");
+//                                 Log.i("metho Login", "productos guardados");
+//                                getContenidoActulizar().setText("Informacion Cargada Exitosamente");
+                		} catch (IOException e) {
+//                			Log.i("metho Login", "Unable to store productos XD");
+                			
+                		}
+                    
+                    //Cargando el titulo de la lista
+                        DateUtil.VerificarFecha(cuenta.getSucursal().getDeadline());
     }
     
 }
