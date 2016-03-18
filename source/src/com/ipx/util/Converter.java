@@ -25,6 +25,10 @@ public class Converter {
 //        {
 //            c="0"+c;
 //        }
+         if(vec[1].length()<2)
+         {
+             vec[1]=vec[1]+"0";
+         }
         return Literal(Integer.parseInt(vec[0])).toLowerCase()+ " con "+vec[1]+"/100 Bolivianos";
     }
     
