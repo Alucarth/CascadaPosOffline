@@ -560,7 +560,7 @@ public class IconItem extends StringItem
 			}
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("unable to load image [" + url + "]" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.IconItem", 563, "unable to load image [" + url + "]", e);
 		}		
 	}
 

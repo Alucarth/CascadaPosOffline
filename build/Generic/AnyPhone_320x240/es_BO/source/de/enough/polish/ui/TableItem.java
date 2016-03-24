@@ -1632,7 +1632,7 @@ public class TableItem
 			}
 		}
 		//#debug warn
-		//# System.out.println("did not find selectable cell in " + this);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.TableItem", 1635, "did not find selectable cell in ", this);
 	}
 	
 	/**

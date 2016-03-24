@@ -187,7 +187,7 @@ public class TranslucentSimpleBackground extends Background {
 				//#if polish.vendor == Generic
 					} catch (Exception e) {
 						//#debug error
-						//# System.out.println("problem while rendering RGB array: " + e.toString() + ": " + e.getMessage() );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.backgrounds.TranslucentSimpleBackground", 190, "problem while rendering RGB array: " + e.toString() + ": ", e.getMessage() );
 						e.printStackTrace();
 						this.needsFullBuffer = true;
 						this.lastWidth = width;

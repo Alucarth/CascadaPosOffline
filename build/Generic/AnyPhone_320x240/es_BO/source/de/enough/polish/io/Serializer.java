@@ -470,10 +470,10 @@ public final class Serializer {
 	{
 		byte version = in.readByte();
 		//#if polish.debug.warn
-			//# if (version > VERSION) {
+			if (version > VERSION) {
 				//#debug warn
-				//# System.out.println("Warning: trying to deserialize class that has been serialized with a newer version (" + version + ">" + VERSION + ").");
-			//# }
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.io.Serializer", 475, "Warning: trying to deserialize class that has been serialized with a newer version (" + version + ">" + VERSION + ").");
+			}
 		//#endif
 		boolean isNull = in.readBoolean();
 		if (isNull) {
@@ -499,7 +499,7 @@ public final class Serializer {
 				extern = (Externalizable) Class.forName( className ).newInstance();
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("Unable to instantiate serializable \"" + className + "\"" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.Serializer", 502, "Unable to instantiate serializable \"" + className + "\"", e);
 				throw new IOException( e.toString() );
 			}
 			extern.read( in );
@@ -555,7 +555,7 @@ public final class Serializer {
 						currentClass = Class.forName( className );
 					} catch (ClassNotFoundException e) {
 						//#debug error
-						//# System.out.println("Unable to load Serializable class \"" + className + "\"" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.Serializer", 558, "Unable to load Serializable class \"" + className + "\"", e);
 						throw new IOException( e.toString() );
 					}
 					if (idCounter > classes.length ) {
@@ -575,7 +575,7 @@ public final class Serializer {
 					externalizables[i] = externalizable;
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Unable to instantiate Serializable \"" + currentClass.getName() + "\"" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.io.Serializer", 578, "Unable to instantiate Serializable \"" + currentClass.getName() + "\"", e);
 					throw new IOException( e.toString() );
 				}				
 			}

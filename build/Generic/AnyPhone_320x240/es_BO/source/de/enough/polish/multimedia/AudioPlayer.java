@@ -324,11 +324,11 @@ public class AudioPlayer implements PlayerListener
 		String correctType = getAudioType(type, "file");
 		if (correctType == null) {
 			//#debug warn
-			//# System.out.println("Unable to find correct type for " + type + " with the file protocol");
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.multimedia.AudioPlayer", 327, "Unable to find correct type for " + type, " with the file protocol");
 			correctType = getAudioType(type, null);
 			if (correctType == null) {
 				//#debug warn
-				//# System.out.println("Unable to find correct type for " + type);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.multimedia.AudioPlayer", 331, "Unable to find correct type for ", type);
 				correctType = type;
 			}
 		}
@@ -507,8 +507,8 @@ public class AudioPlayer implements PlayerListener
 		Hashtable mappings = (Hashtable) AUDIO_TYPES.get(type);
 		if (mappings == null) {
 			//#debug warn
-			//# System.out.println("The audio content type " + type
-					//# + " has no known synonyms.");
+//# System.out.println("The audio content type " + type
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.multimedia.AudioPlayer", 510, "The audio content type " + type, " has no known synonyms.");
 			for (int i = 0; i < supportedContentTypes.length; i++) {
 				String contentType = supportedContentTypes[i];
 				if (contentType.equals(type)) {

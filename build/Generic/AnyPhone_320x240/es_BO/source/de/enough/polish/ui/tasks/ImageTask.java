@@ -74,10 +74,10 @@ public class ImageTask extends TimerTask {
 			//#endif
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println( "ImageTask: unable to load image [" + this.url + "]." + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.tasks.ImageTask", 77, "ImageTask: unable to load image [" + this.url + "].", e);
 		} catch (Throwable e) {
 			//#debug fatal
-			//# System.out.println( "ImageTask: unable to set image [" + this.url + "]." + e);
+de.enough.polish.util.Debug.debug("fatal", "de.enough.polish.ui.tasks.ImageTask", 80, "ImageTask: unable to set image [" + this.url + "].", e);
 		}
 
 	}

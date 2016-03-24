@@ -144,7 +144,7 @@ implements Runnable
 			this.initializer.initApp();
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Unable to call initApp()" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.splash2.InitializerSplashScreen", 147, "Unable to call initApp()", e );
 			this.message = "Error: " + e.toString();
 			repaint();
 		}

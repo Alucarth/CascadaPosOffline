@@ -508,9 +508,9 @@ public class Gauge extends Item
 				}
 			} else {
 				//#ifdef polish.debugVerbose
-					//# throw new IllegalArgumentException("Invalid value for indefinite Gauge: " + value );
+					throw new IllegalArgumentException("Invalid value for indefinite Gauge: " + value );
 				//#else
-					throw new IllegalArgumentException();
+					//# throw new IllegalArgumentException();
 				//#endif
 			}
 		} else if (value < 0  ) {
@@ -915,9 +915,9 @@ public class Gauge extends Item
 				updateIndefiniteIndicatorImage();
 			} else {
 				//#if polish.debug.error
-					//# throw new IllegalArgumentException( "invalid lineWidth for gauge: " + availWidth );
+					throw new IllegalArgumentException( "invalid lineWidth for gauge: " + availWidth );
 				//#else
-					throw new IllegalArgumentException();
+					//# throw new IllegalArgumentException();
 				//#endif
 			}
 		} else if (this.image == null && this.mode != MODE_CONTINUOUS){ // this is a definite gauge

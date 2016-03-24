@@ -679,13 +679,13 @@ public class Base64
 	            return 3;
             }catch( Exception e){
             	//#debug error
-                //# System.out.println(""+source[srcOffset]+ ": " + ( DECODABET[ source[ srcOffset     ] ]  ) );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.base64.Base64", 682, ""+source[srcOffset]+ ": " + ( DECODABET[ source[ srcOffset     ] ]  ) );
             	//#debug error
-                //# System.out.println(""+source[srcOffset+1]+  ": " + ( DECODABET[ source[ srcOffset + 1 ] ]  ) );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.base64.Base64", 684, ""+source[srcOffset+1]+  ": " + ( DECODABET[ source[ srcOffset + 1 ] ]  ) );
             	//#debug error
-                //# System.out.println(""+source[srcOffset+2]+  ": " + ( DECODABET[ source[ srcOffset + 2 ] ]  ) );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.base64.Base64", 686, ""+source[srcOffset+2]+  ": " + ( DECODABET[ source[ srcOffset + 2 ] ]  ) );
             	//#debug error
-                //# System.out.println(""+source[srcOffset+3]+  ": " + ( DECODABET[ source[ srcOffset + 3 ] ]  ) );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.base64.Base64", 688, ""+source[srcOffset+3]+  ": " + ( DECODABET[ source[ srcOffset + 3 ] ]  ) );
                 return -1;
             }   // end catch
         }
@@ -744,7 +744,7 @@ public class Base64
             else
             {
             	//#debug error
-                //# System.err.println( "Bad Base64 input character at " + i + ": " + source[i] + "(decimal)" );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.base64.Base64", 747, "Bad Base64 input character at " + i + ": " + source[i], "(decimal)" );
                 return null;
             }   // end else: 
         }   // each input character

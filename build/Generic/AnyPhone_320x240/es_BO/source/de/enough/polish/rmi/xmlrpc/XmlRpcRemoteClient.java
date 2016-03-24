@@ -102,7 +102,7 @@ public class XmlRpcRemoteClient extends RemoteClient
 				} catch (IOException e)
 				{
 					//#debug error
-					//# System.out.println("Unable to serialize " + object +  e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.xmlrpc.XmlRpcRemoteClient", 105, "Unable to serialize " + object, e );
 					throw new RemoteException(e);
 				}
 				methodBuffer.append("</value></param>");
@@ -196,7 +196,7 @@ public class XmlRpcRemoteClient extends RemoteClient
 		} catch (Throwable e) {
 			// create new RemoteException for this (e.g. SecurityException):
 			//#debug error
-			//# System.out.println("Unexpected error during XML RPC call: " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.rmi.xmlrpc.XmlRpcRemoteClient", 199, "Unexpected error during XML RPC call: ", e);
 			throw new RemoteException( e );					
 		} finally {
 			if (in != null) {

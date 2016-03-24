@@ -127,7 +127,7 @@ public class HtmlSelect
 		{
 			// TODO: handle exception
 			//#debug error
-			//# System.out.println("Unable to create choice group" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.html.HtmlSelect", 130, "Unable to create choice group", e);
 			return null;
 		}
 	}

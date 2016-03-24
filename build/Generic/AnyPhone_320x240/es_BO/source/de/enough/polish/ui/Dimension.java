@@ -232,7 +232,7 @@ public class Dimension implements Externalizable
 		this.isPercent = in.readBoolean();
 		if (version != VERSION) {
 			//#debug warn
-			//# System.out.println("Unsupported dimension version " + version);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Dimension", 235, "Unsupported dimension version ", version);
 		}
 	}
 
@@ -264,7 +264,7 @@ public class Dimension implements Externalizable
 				if (c == '.') {
 					if (dotFound) {
 						//#debug warn
-						//# System.out.println("Encountered invalid dimension: " + v );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Dimension", 267, "Encountered invalid dimension: ", v );
 						break;
 					}
 					dotFound = true;
@@ -276,7 +276,7 @@ public class Dimension implements Externalizable
 						break;
 					}
 					//#debug warn
-					//# System.out.println("Encountered invalid dimension: " + v );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Dimension", 279, "Encountered invalid dimension: ", v );
 					break;
 				}
 				if (dotFound) {
@@ -310,7 +310,7 @@ public class Dimension implements Externalizable
 			this.value = Integer.parseInt(v);
 		} catch (NumberFormatException e) {
 			//#debug warn
-			//# System.out.println("Encountered invalid dimension: " + this.valueAsString );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Dimension", 313, "Encountered invalid dimension: ", this.valueAsString );
 			int length = v.length(); 
 			StringBuffer buffer = new StringBuffer(length);
 			for (int i=0; i<length-1; i++) {

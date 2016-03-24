@@ -830,7 +830,7 @@ implements UiElement, Animatable
 		//# System.out.println("calculateContentArea(" + x + ", " + y + ", " + width + ", " + height + ") for " + this);
 		if (width < 1 || height < 1 ) {
 			//#debug info
-			//# System.out.println("invalid content dimension, width=" + width + ", height=" + height);
+de.enough.polish.util.Debug.debug("info", "de.enough.polish.ui.Screen", 833, "invalid content dimension, width=" + width + ", height=", height);
 			return;
 		}
 		
@@ -1487,7 +1487,7 @@ this.previousScreenOverlayBackground = new TranslucentSimpleBackground( 0x960000
 //			}
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("error while calling showNotify" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 1490, "error while calling showNotify", e );
 		}
 
 		// register this screen:
@@ -2133,7 +2133,7 @@ this.previousScreenOverlayBackground = new TranslucentSimpleBackground( 0x960000
 				//#endif
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("animate(currentTime, repaintRegion) threw an exception" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 2136, "animate(currentTime, repaintRegion) threw an exception", e );
 			}
 		}	
 	}
@@ -2186,7 +2186,7 @@ this.previousScreenOverlayBackground = new TranslucentSimpleBackground( 0x960000
 				//# super.setFullScreenMode( true );
 			//#endif
 			//#if polish.debug.error
-			//# try {
+			try {
 			//#endif
 				//#if polish.css.repaint-previous-screen
 					if (this.repaintPreviousScreen && this.previousScreen != null) {
@@ -2383,10 +2383,10 @@ this.previousScreenOverlayBackground = new TranslucentSimpleBackground( 0x960000
 //					g.setColor(0xffff00);
 //					g.drawRect( this.container.relativeX, this.container.relativeY, this.contentWidth, this.contentHeight );
 			//#if polish.debug.error
-			//# } catch (RuntimeException e) {
+			} catch (RuntimeException e) {
 				//#debug error
-				//# System.out.println( "unable to paint screen (" + getClass().getName() + "):" + e );
-			//# }
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 2388, "unable to paint screen (" + getClass().getName() + "):", e );
+			}
 			//#endif
 		}
 
@@ -4728,7 +4728,7 @@ menuText = "Cancelar";
 				this.forwardCommandListener.commandAction(cmd, this );
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("Screen: unable to process command [" + cmd.getLabel() + "]" + e  );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 4731, "Screen: unable to process command [" + cmd.getLabel() + "]", e  );
 			}
 		}
 	}
@@ -4875,7 +4875,7 @@ menuText = "Cancelar";
 			return processed;
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("PointerPressed at " + x + "," + y + " resulted in exception" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 4878, "PointerPressed at " + x + "," + y + " resulted in exception", e );
 			return false;
 		} finally {
 			this.ignoreRepaintRequests = false;
@@ -5551,7 +5551,7 @@ menuText = "Cancelar";
 			this.container.focusChild( -1 );
 		} else {
 			//#debug warn
-			//# System.out.println("Screen: unable to focus item (did not find it in the container or is not activatable): index=" + index + ", item=" + item);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.ui.Screen", 5554, "Screen: unable to focus item (did not find it in the container or is not activatable): index=" + index + ", item=", item);
 		}
 		repaint();
 	}
@@ -5844,7 +5844,7 @@ menuText = "Cancelar";
 				this.itemStateListener.itemStateChanged(item);
 			} catch (Exception e) {
 				//#debug error
-				//# System.out.println("Unable to forward itemStateChanged event for listener " + this.itemStateListener + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Screen", 5847, "Unable to forward itemStateChanged event for listener " + this.itemStateListener, e );
 			}
 		}
 

@@ -334,7 +334,7 @@ implements Runnable
 			}	
 		} catch (Throwable e) {
 			//#debug error
-			//# System.out.println("Unable to paint animation" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ScreenChangeAnimation", 337, "Unable to paint animation", e );
 		}
 	}
 
@@ -449,7 +449,7 @@ implements Runnable
 			}
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Error while handling keyRepeated event" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ScreenChangeAnimation", 452, "Error while handling keyRepeated event", e );
 		}
 		return handled;
 	}
@@ -473,7 +473,7 @@ implements Runnable
 			}
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Error while handling keyReleased event" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ScreenChangeAnimation", 476, "Error while handling keyReleased event", e );
 		}
 		return handled;
 	}
@@ -497,7 +497,7 @@ implements Runnable
 			}
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Error while handling keyPressed event" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ScreenChangeAnimation", 500, "Error while handling keyPressed event", e );
 		}
 		return handled;
 	}
@@ -581,7 +581,7 @@ implements Runnable
 			}
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Unable to animate" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.ScreenChangeAnimation", 584, "Unable to animate", e);
 			Display disp = this.display;
 			Displayable next = this.nextDisplayable;
 			if (disp != null && next != null) {

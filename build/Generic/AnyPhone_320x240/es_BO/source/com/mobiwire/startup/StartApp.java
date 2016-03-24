@@ -44,10 +44,12 @@ import de.enough.polish.util.Arrays;
 import de.enough.polish.util.TableData;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Hashtable;
 import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
+import javax.microedition.io.file.FileConnection;
 import javax.microedition.lcdui.Image;
 import javax.microedition.midlet.MIDlet;
 import net.sf.microlog.core.Logger;
@@ -78,7 +80,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private final int CLIENTES=12;
     private final int PRODNOTFOUND=9;
         public static final String MIDLET_URL = "http://pos.sigcfactu.com.bo/offline/CascadaOfflinePOS.jad";
-     private String version ="3.9.2";
+     private String version ="3.9.5";
     
     private boolean midletPaused = false;
     //variables de comunicacion
@@ -187,6 +189,11 @@ public class StartApp extends MIDlet implements CommandListener {
       
       //variable para imprimir los subtotales
       double sumatotales;
+      //variables de comunicacion
+      BufferRest br;
+       RestProductor restProductor;
+       RestConsumidor restConsumidor;
+      
       
 //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
     private Command okOpciones;
@@ -256,6 +263,8 @@ public class StartApp extends MIDlet implements CommandListener {
     private Command okCommand27;
     private Command okCommand30;
     private Command okCommand31;
+    private Command okCommand32;
+    private Command exitCommand2;
     private Form formFactura;
     private StringItem strNomCli;
     private StringItem strNitCli;
@@ -289,6 +298,7 @@ public class StartApp extends MIDlet implements CommandListener {
     private StringItem strNumClientes;
     private Form form1;
     private TextField textField;
+    private StringItem txt;
     private Form form;
     private TextField txt2;
     private TextField txt1;
@@ -618,25 +628,122 @@ exitMIDlet();//GEN-LINE:|7-commandAction|2|1312-postAction
 } else if (displayable == form1) {
     if (command == okCommand22) {//GEN-END:|7-commandAction|7|1388-preAction
  // write pre-action user code here
-       n=1;
-      new Thread(new Runnable()
-        {
-            public void run()
-            {
-                //creando leyenda y actividad XD
+      
+         textField.setText("Procesando :");
+//        InputStream inputStreamTxt =null;
+//        inputStreamTxt = this.getClass().getResourceAsStream("file:///Teléfono:/archivo.txt");
+//        StringBuffer buf = new StringBuffer();
+//        int c;
+//        try {
+//            while ((c = inputStreamTxt.read()) != -1)
+//            {
+//                char ch = (char)c;
+//                if (ch == '\n') 
+//                { 
+////                    lines.addElement(buf.toString());
+//                       
+//                    textField.setText(textField.getString()+"{"+buf.toString()+"}");
+//                    buf.delete(0,buf.length());
+//                }
+//                else
+//                {
+//                    buf.append(ch);
+//                }
+//                
+//                
+//            }
+//        }catch(IOException e){
+//            textField.setText("error "+e.getMessage());
+//        }
             
-                while(n<100)
+//abriendo archivo
+            
+        InputStream is = null;
+        FileConnection fc = null;
+        StringBuffer buf = new StringBuffer();
+        String str = "";
+        try
+        {
+            fc = (FileConnection)Connector.open("file:///Teléfono:/archivo.txt", Connector.READ_WRITE);
+            is = fc.openInputStream();
+            int c;
+            if(fc.exists())
+            {
+//                is= fc.openInputStream();
+                while((c = is.read()) != -1)
                 {
-                    n=n+1;
-                    gauge.setValue(n);
-                    try {
-                        Thread.sleep(15);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                     char ch = (char)c;
+                    if (ch == '\n') 
+                    { 
+    //                    lines.addElement(buf.toString());
+                        Tokenizer token = new Tokenizer(buf.toString(),"|");
+                        buf.delete(0,buf.length());
+                        
+                        String numAutho=token.nextToken();
+                        String numInvoice=token.nextToken();
+                        String nit=token.nextToken();
+                        String date =token.nextToken();
+                        Tokenizer tk = new Tokenizer(date,"/");
+                        date = tk.nextToken()+tk.nextToken()+tk.nextToken();
+                        
+                        String amount=token.nextToken().replace(',', '.');
+                        String keyDosage=token.nextToken();
+                        String verhoef=token.nextToken();
+                        String cadenap=token.nextToken();
+                        String sumatoria=token.nextToken();
+                        String base64=token.nextToken();
+                        String codigocontrol=token.nextToken();
+                        
+//                        str=str+"{"+buf.toString()+"}";
+                        String codigoGenerado = CodigoDeControl.getCodigoDeControl(nit, numInvoice, date, amount, numAutho, keyDosage);
+                        if(codigocontrol.equals(codigoGenerado))
+                        {
+//                            str =str+"\n "+" si "+codigocontrol+" "+codigoGenerado;
+                        }
+                        else
+                        {
+                            str =str+"\n "+" no "+codigocontrol+" "+codigoGenerado;
+                        }
+                        getTxt().setText(str);
+                        
+                    }
+                    else
+                    {
+                        buf.append(ch);
                     }
                 }
+                str=str+"termino XD"+buf.toString()+"}";
+                 buf.delete(0,buf.length());
+                 getTxt().setText("-> "+str);
+//                int size = (int)fc.fileSize();
+//                is= fc.openInputStream();
+//                
+//                byte bytes[] = new byte[size];
+//                is.read(bytes, 0, size);
+//                str = new String(bytes, 0, size);
             }
-        }).start();
+        }
+        catch (IOException ioe)
+        {
+        Alert error = new Alert("Error", ioe.getMessage(), null, AlertType.INFO);
+        error.setTimeout(1212313123);
+        Display.getDisplay(this).setCurrent(error);
+        }
+        finally
+        {
+            try
+            {
+                if (null != is)
+                    is.close();
+                if (null != fc)
+                    fc.close();
+            }
+            catch (IOException e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+//        getTxt().setText("-> "+str);
 //GEN-LINE:|7-commandAction|8|1388-postAction
  // write post-action user code here
 } else if (command == okCommand23) {//GEN-LINE:|7-commandAction|9|1390-preAction
@@ -659,12 +766,12 @@ exitMIDlet();//GEN-LINE:|7-commandAction|2|1312-postAction
 //            String amount="135";
 //            String keyDosage="A3Fs4s$)2cvD(eY667A5C4A2rsdf53kw9654E2B23s24df35F5";
                 
-            String numAutho="1904008691195";
-            String numInvoice="978256";
-            String nit="0";
-            String date ="20080201";
-            String amount="26006";
-            String keyDosage="pPgiFS%)v}@N4W3aQqqXCEHVS2[aDw_n%3)pFyU%bEB9)YXt%xNBub4@PZ4S9)ct";
+            String numAutho="7904004313753";
+            String numInvoice="826384";
+            String nit="1666982";
+            String date ="20080622";
+            String amount="61102.7";
+            String keyDosage="Ebs[$c2d2NCg5FYj@6nU5y##a5d]eDVz%]xW6bzcd}Kd)\\w\\=c+)dZHneF#bqVL@";
             textField.setText(CodigoDeControl.getCodigoDeControl(nit, numInvoice, date, amount, numAutho, keyDosage));
 //GEN-LINE:|7-commandAction|10|1390-postAction
  // write post-action user code here
@@ -1345,7 +1452,8 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|98|1319-postActio
                 // write pre-action user code here
     
 
-        switchDisplayable(null, getFormLogin());                                            
+        switchDisplayable(null, getFormLogin()); 
+//        switchDisplayable(null, getForm1()); 
         
         if(!user.getUsuario().equals(""))
         {
@@ -1367,9 +1475,8 @@ switchDisplayable(null, getForm());//GEN-LINE:|7-commandAction|98|1319-postActio
         
        
 //            borrarInformacion();
-        /*/
-            
-switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|100|24-postAction
+      /*      
+switchDisplayable (null, getForm1 ());//GEN-BEGIN:|7-commandAction|100|24-postAction
 //GEN-END:|7-commandAction|100|24-postAction
        */
                     
@@ -1382,6 +1489,7 @@ switchDisplayable (null, getFormLogin ());//GEN-BEGIN:|7-commandAction|100|24-po
         // write post-action user code here
 }//GEN-BEGIN:|7-commandAction|102|
 //</editor-fold>//GEN-END:|7-commandAction|102|
+
 
 
 
@@ -1677,7 +1785,7 @@ okLogin = new Command("Aceptar", Command.OK, 0);//GEN-LINE:|801-getter|1|801-pos
 //GEN-END:|797-getter|0|797-preInit
             // write pre-init user code here
             
-            formLogin = new Form("Autentificaci\u00F3n v3.9.2", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
+            formLogin = new Form("Autentificaci\u00F3n v3.9.5", new Item[]{getTxtUsuario(), getTxtPassword(), getImageItem()});//GEN-BEGIN:|797-getter|1|797-postInit
             formLogin.setTicker(getTickerLogin());
             formLogin.addCommand(getOkLogin());
             formLogin.addCommand(getExitCommand());
@@ -1872,16 +1980,42 @@ task2 = new SimpleCancellableTask();//GEN-BEGIN:|1003-getter|1|1003-execute
         //seteando la llave de nuevo
 //        this.llave =getTxtUsuario().getText()+":"+getTxtPassword().getString(); 
         borrarInformacion();
+        if(user!=null)
+        {
+            user.borrar();
+        }
+        
         user.setUsuario(getTxtUsuario().getText());
         user.setPassword(getTxtPassword().getString());
         
-        pantalla = AUTENTIFICACION;
-        BufferRest br = new BufferRest();
-        RestProductor restProductor = new RestProductor(this,br,ConexionIpx.AUTENTIFICAZION,null,user.getllave());
-        restProductor.start();
+          if(!user.getUsuario().equals("")&&!user.getPassword().equals(""))
+        {
+            pantalla = AUTENTIFICACION;
+            if(br!=null )
+            {
+                br=null;
+            }
+            br = new BufferRest();
+            
+            if(restProductor!=null)
+            {
+                restProductor =null;
+            }
+            restProductor = new RestProductor(this,br,ConexionIpx.AUTENTIFICAZION,null,user.getllave());
+            restProductor.start();
+
+            if(restConsumidor!=null)
+            {
+                restConsumidor = null;
+            }
+            restConsumidor = new RestConsumidor(this,br);
+            restConsumidor.start();
+        }
+        else
+        {
+            this.getAlerta("Error ", "veririfque su usuario y contraseña");
+        }
         
-        RestConsumidor restConsumidor = new RestConsumidor(this,br);
-        restConsumidor.start();
 //        Cargando();
 //        if(conexion!=null)
 //        {
@@ -4955,19 +5089,12 @@ okCommand22 = new Command("Ok", Command.OK, 0);//GEN-LINE:|1387-getter|1|1387-po
         if (form1 == null) {
 //GEN-END:|1386-getter|0|1386-preInit
  // write pre-init user code here
-form1 = new Form("form1", new Item[]{textField});//GEN-BEGIN:|1386-getter|1|1386-postInit
+form1 = new Form("form1", new Item[]{textField, getTxt()});//GEN-BEGIN:|1386-getter|1|1386-postInit
             form1.addCommand(getOkCommand22());
             form1.addCommand(getOkCommand23());
             form1.setCommandListener(this);//GEN-END:|1386-getter|1|1386-postInit
  // write post-init user code here
-//            int max = 100;
-//int current = 1;
-//boolean isInteractive = true;
-////#style gaugeItem
-//this.gauge = new Gauge( "Tiempo:", isInteractive, max, current );
 
-//Gauge busyIndicator = new Gauge( null, false, Gauge.INCREMENTAL_IDLE, Gauge.CONTINUOUS_RUNNING );
-form1.append( this.gauge );
             
             
         }//GEN-BEGIN:|1386-getter|2|
@@ -5330,7 +5457,7 @@ okCommand28 = new Command("Informacion POS", Command.OK, 0);//GEN-LINE:|1429-get
         if (informacion == null) {
 //GEN-END:|1426-getter|0|1426-preInit
  // write pre-init user code here
-informacion = new Form("Informacion v3.9.2", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
+informacion = new Form("Informacion v3.9.5", new Item[]{getStringItem1(), getStringItem2(), getStringItem5(), getStringItem6()});//GEN-BEGIN:|1426-getter|1|1426-postInit
             informacion.addCommand(getBackCommand8());
             informacion.addCommand(getOkCommand29());
             informacion.addCommand(getOkCommand31());
@@ -5462,6 +5589,63 @@ okCommand31 = new Command("Eliminar Backup", Command.OK, 0);//GEN-LINE:|1442-get
         return okCommand31;
     }
 //</editor-fold>//GEN-END:|1442-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: okCommand32 ">//GEN-BEGIN:|1447-getter|0|1447-preInit
+    /**
+     * Returns an initialized instance of okCommand32 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getOkCommand32() {
+        if (okCommand32 == null) {
+//GEN-END:|1447-getter|0|1447-preInit
+ // write pre-init user code here
+okCommand32 = new Command("Ok", Command.OK, 0);//GEN-LINE:|1447-getter|1|1447-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1447-getter|2|
+        return okCommand32;
+    }
+//</editor-fold>//GEN-END:|1447-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: exitCommand2 ">//GEN-BEGIN:|1449-getter|0|1449-preInit
+    /**
+     * Returns an initialized instance of exitCommand2 component.
+     *
+     * @return the initialized component instance
+     */
+    public Command getExitCommand2() {
+        if (exitCommand2 == null) {
+//GEN-END:|1449-getter|0|1449-preInit
+ // write pre-init user code here
+exitCommand2 = new Command("Exit", Command.EXIT, 0);//GEN-LINE:|1449-getter|1|1449-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1449-getter|2|
+        return exitCommand2;
+    }
+//</editor-fold>//GEN-END:|1449-getter|2|
+
+//<editor-fold defaultstate="collapsed" desc=" Generated Getter: txt ">//GEN-BEGIN:|1453-getter|0|1453-preInit
+    /**
+     * Returns an initialized instance of txt component.
+     *
+     * @return the initialized component instance
+     */
+    public StringItem getTxt() {
+        if (txt == null) {
+//GEN-END:|1453-getter|0|1453-preInit
+ // write pre-init user code here
+txt = new StringItem("Archivo", null);//GEN-LINE:|1453-getter|1|1453-postInit
+ // write post-init user code here
+}//GEN-BEGIN:|1453-getter|2|
+        return txt;
+    }
+//</editor-fold>//GEN-END:|1453-getter|2|
+
+
+
+
+
+
 
 
 
@@ -7514,6 +7698,13 @@ public TextField getTextNativo()
             }
         });
         return alert;
+    }
+     public void getAlerta(final String titulo,final String mensaje)
+    {   
+        //#style mailAlert
+        Alert error = new Alert(titulo,mensaje , null, AlertType.INFO, de.enough.polish.ui.StyleSheet.mailalertStyle );
+        error.setTimeout(1212313123);
+        Display.getDisplay(this).setCurrent(error);
     }
     private void verificarFecha()
     {

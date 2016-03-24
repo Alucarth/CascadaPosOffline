@@ -1155,7 +1155,7 @@ public class Display
 					}
 				} catch (Exception e) {
 					//#debug error
-					//# System.out.println("Screen: unable to start screen change animation" + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Display", 1158, "Screen: unable to start screen change animation", e );
 				}
 			}
 		//#endif

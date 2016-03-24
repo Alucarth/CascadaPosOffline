@@ -264,9 +264,9 @@ public final class TextUtil {
 	{
 		if (firstLineWidth <= 0 || lineWidth <= 0) {
 			//#debug error
-			//# System.out.println("INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + value + ")");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.TextUtil", 267, "INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + value + ")");
 			//#if polish.debug.error
-			//# try { throw new RuntimeException("INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + value + ")"); } catch (Exception e) { e.printStackTrace(); }	
+			try { throw new RuntimeException("INVALID LINE WIDTH FOR SPLITTING " + firstLineWidth + " / " + lineWidth + " ( for string " + value + ")"); } catch (Exception e) { e.printStackTrace(); }	
 			//#endif
 			int width = font.stringWidth(value);
 			result.addLine(value, width);
@@ -588,7 +588,7 @@ public final class TextUtil {
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			//#debug error
-			//# System.out.println("Unable to add max-lines-appendiz" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.TextUtil", 591, "Unable to add max-lines-appendiz", e);
 			return;
 		}
 	}
@@ -988,7 +988,7 @@ public final class TextUtil {
 			return (char)value;
 		} catch (Exception e) {
 			//#debug error
-			//# System.out.println("Unable to resolve html entity " + name + e );
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.TextUtil", 991, "Unable to resolve html entity " + name, e );
 			return '?';
 		}
 	}
@@ -1021,7 +1021,7 @@ public final class TextUtil {
 							c = (char)Integer.parseInt(entity.toString());
 						} catch (Exception e) {
 							//#debug error
-							//# System.out.println("Unable to parse HTML entity &#" + entity.toString() + "; " + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.TextUtil", 1024, "Unable to parse HTML entity &#" + entity.toString() + "; ", e);
 							c = '?';
 						}
 					} else {

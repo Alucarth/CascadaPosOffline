@@ -901,7 +901,7 @@ implements CommandListener
 	public void commandAction(Command cmd, Displayable thisScreen) {
 		if (this.nextDisplayable == null) {
 			//#debug error
-			//# System.out.println("unable to handle command " + cmd.getLabel() + ": nextDisplayable == null.");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.Alert", 904, "unable to handle command " + cmd.getLabel(), ": nextDisplayable == null.");
 			//throw new IllegalStateException();
 			return;
 		}

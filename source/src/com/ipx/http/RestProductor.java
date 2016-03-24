@@ -36,7 +36,30 @@ public class RestProductor extends Thread
             this.startApp.switchDisplayable(null,startApp.getFormLoading());
             ConectorRest cr = new ConectorRest();
             
-            this.bufferRest.setRespuesta(cr.EnviarGet(ConexionIpx.getURL(consultaHttp), this.llave));
+              String resultado = cr.EnviarGet(ConexionIpx.getURL(consultaHttp), this.llave);
+            switch(cr.getCodigoRespuesta())
+            {
+                case 200: 
+                     this.bufferRest.setRespuesta(resultado);
+                    break;
+                
+                case 401:
+                     this.startApp.switchDisplayable(null,startApp.getFormLogin());
+                     this.startApp.getAlerta("Autentificacion Fallida","Verifique que el Usuario y Password sean CORRECTOS");    
+                    break;
+                
+                case 404:
+                     this.startApp.switchDisplayable(null,startApp.getFormLogin());
+                     this.startApp.getAlerta("Error 404","Se perdio la coneccion con el servidor");    
+                    break;    
+                
+                case 500:
+                     this.startApp.switchDisplayable(null,startApp.getFormLogin());
+                     this.startApp.getAlerta("Error del Servidor ","Conflictos internos con el servidor \n favor de comunicarse con el soporte tecnico");    
+                    break;
+                
+                    
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }

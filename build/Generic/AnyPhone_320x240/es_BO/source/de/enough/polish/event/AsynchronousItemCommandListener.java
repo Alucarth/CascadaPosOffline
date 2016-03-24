@@ -108,7 +108,7 @@ public class AsynchronousItemCommandListener implements Runnable, ItemCommandLis
 					this.parent.commandAction(cmd, item);
 				} catch (Throwable e) {
 					//#debug error
-					//# System.out.println("Unable to process cmd " + cmd.getLabel() + " for item " + item + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.event.AsynchronousItemCommandListener", 111, "Unable to process cmd " + cmd.getLabel() + " for item " + item, e);
 				}
 			} // while there are commands
 		} // while (!this.isStopRequested) 

@@ -281,7 +281,7 @@ public class CssInterpreter {
 						} catch (IllegalArgumentException e) {
 							// ignore invalid setting
 							//#debug warn
-							//# System.out.println("Invalid CSS: " + e.getMessage() );
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.browser.css.CssInterpreter", 284, "Invalid CSS: ", e.getMessage() );
 						} 
 					}
 				}
@@ -329,7 +329,7 @@ public class CssInterpreter {
 					//#endif
 				} catch (IOException e) {
 					//#debug error
-					//# System.out.println("Unable to load background-image " + imageValue + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.browser.css.CssInterpreter", 332, "Unable to load background-image " + imageValue, e);
 				}
 			}
 			int anchor = 0;
@@ -598,7 +598,7 @@ public class CssInterpreter {
 		}
 		if (url == null) {
 			//#debug warn
-			//# System.out.println("Unable to extract URL from " + value);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.browser.css.CssInterpreter", 601, "Unable to extract URL from ", value);
 			url = value;
 		}
 		if (url.length() > 0 && url.charAt(0) != '/' && !url.startsWith("http")) {
@@ -693,7 +693,7 @@ public class CssInterpreter {
 				registerStyles();
 			} catch (IOException e) {
 				//#debug warn
-				//# System.out.println("Unable to interpret styles" + e);
+de.enough.polish.util.Debug.debug("warn", "de.enough.polish.browser.css.CssInterpreter", 696, "Unable to interpret styles", e);
 			}
 		}
 		return this.styles;

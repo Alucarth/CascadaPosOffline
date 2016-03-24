@@ -389,7 +389,7 @@ public final class ZipHelper {
 				// set empty LEAF to data
 				if (pointer<0){
 					//#debug error
-					//# System.out.println("error pointer=-1");
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.zip.ZipHelper", 392, "error pointer=-1");
 				}
 				huffmanTree[pointer*2]=-1;
 				huffmanTree[pointer*2+1]=(short)huffmanData[i];
@@ -410,10 +410,10 @@ public final class ZipHelper {
 //    	//#debug
 //    	System.out.println("deHuffNext(long[], short[])");
     	//#if polish.debug.error
-    	//# if (smallCodeBuffer[1]<15){
+    	if (smallCodeBuffer[1]<15){
     		//#debug error
-    		//# System.out.println("smallCodebuffer is too small");
-    	//# }
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.util.zip.ZipHelper", 415, "smallCodebuffer is too small");
+    	}
     	//#endif
     	
     	short pointer=0;

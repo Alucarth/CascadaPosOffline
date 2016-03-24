@@ -187,7 +187,7 @@ public class BluetoothRemoteScreen implements RemoteScreen, Runnable
 		} catch (Exception e)
 		{
 			//#debug error
-			//# System.out.println("Unable to find or access bluetooth service" + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.remotescreen.BluetoothRemoteScreen", 190, "Unable to find or access bluetooth service", e);
 		} finally
 		{
 			this.isConnected = false;

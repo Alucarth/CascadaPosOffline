@@ -189,7 +189,7 @@ implements Externalizable
 		if (index < 0 || index >= this.size ) {
 			throw new IndexOutOfBoundsException(
 					//#if polish.debug.error
-						//# "the index [" + index + "] is not valid for this list with the size [" + this.size + "]."
+						"the index [" + index + "] is not valid for this list with the size [" + this.size + "]."
 					//#endif
 					);
 		}

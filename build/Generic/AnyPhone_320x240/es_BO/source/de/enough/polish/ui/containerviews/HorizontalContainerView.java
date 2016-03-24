@@ -322,7 +322,7 @@ public class HorizontalContainerView extends ContainerView {
 			return true;
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to load image " + urlRight + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.containerviews.HorizontalContainerView", 325, "Unable to load image " + urlRight, e);
 			return false;
 		}
 	}
@@ -348,7 +348,7 @@ public class HorizontalContainerView extends ContainerView {
 			return true;
 		} catch (IOException e) {
 			//#debug error
-			//# System.out.println("Unable to load image " + urlLeft + e);
+de.enough.polish.util.Debug.debug("error", "de.enough.polish.ui.containerviews.HorizontalContainerView", 351, "Unable to load image " + urlLeft, e);
 			return false;
 		}
 	}

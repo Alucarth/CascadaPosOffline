@@ -65,14 +65,14 @@ public class CodigoDeControl {
 //        System.out.println(Verhoeff.getInvierteNumero(s.substring(s.length()-5, s.length())));
 //        int cincodig = Integer.parseInt(Verhoeff.getInvierteNumero(s.substring(s.length()-5, s.length())));
         int cincodig = Integer.parseInt(digitosVerhoeff);
-        int n =cincodig;
+       
         String c1="",c2="",c3="",c4="",c5="";
         int d=0,p=0;
         int c=0;
         System.out.println("Dosificacion ="+dosificacion+" tamaño="+dosificacion.length());
         VectorDosi vdosi = new VectorDosi(dosificacion);
         
-        char digitos[]=(""+cincodig).toCharArray();
+        char digitos[]=digitosVerhoeff.toCharArray();
         for(int i =0;i<digitos.length;i++)
         {
             d = Integer.parseInt(digitos[i]+"");
